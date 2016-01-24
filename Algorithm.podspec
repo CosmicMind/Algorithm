@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name = 'Algorithm'
-    s.version = '1.0.1'
+    s.version = '1.0.2'
     s.license = 'BSD'
     s.summary = 'A toolset for writing algorithms in Swift.'
     s.homepage = 'http://graphkit.io'
