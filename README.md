@@ -4,6 +4,22 @@
 
 Explore a world of data structures in Swift. Learn how to use data structures to organize, analyze, and manipulate data.
 
+## Requirements
+
+* iOS 8.0+ / Mac OS X 10.9+
+* Xcode 7.2+
+
+## Installation
+
+> **Embedded frameworks require a minimum deployment target of iOS 8 or OS X Mavericks (10.9).**
+> - [Download Algorithm](https://github.com/CosmicMind/Algorithm/archive/master.zip)
+
+Visit the [Installation](https://github.com/CosmicMind/Algorithm/wiki/Installation) page to learn how to install Algorithm using [CocoaPods](http://cocoapods.org) and [Carthage](https://github.com/Carthage/Carthage).
+
+## Changelog
+
+Algorithm is a growing project and will encounter changes throughout its development. It is recommended that the [Changelog](https://github.com/CosmicMind/Algorithm/wiki/Changelog) be reviewed prior to updating versions.
+
 ## A Tour  
 
 * [Probability](#probability)
