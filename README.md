@@ -57,15 +57,15 @@ The above examples are quite simple. They use basic calculations to determine th
 ```swift
 let die: Array<Int> = Array<Int>(arrayLiteral: 1, 2, 3, 4, 5, 6)
 
-let probabilityOfX: Double = purchased.probabilityOf { (number: Int) in
-	if 1 < number && 0 == number % 3 {
+let probabilityOfX: Double = die.probabilityOf { (number: Int) in
+	if 5 < number || 0 == number % 3 {
 		// Do more.
 		return true
 	}
 	return false
 }
 
-if 33.33 < probabilityOfX {
+if 0.33 < probabilityOfX {
 	// Do something.
 }
 ```
