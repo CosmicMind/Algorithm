@@ -9,6 +9,14 @@ Explore a world of data structures in Swift. Learn how to use data structures to
 * iOS 8.0+ / Mac OS X 10.9+
 * Xcode 7.2+
 
+## Communication
+
+- If you **need help**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/algorithm). (Tag 'algorithm')
+- If you'd like to **ask a general question**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/algorithm).
+- If you **found a bug**, _and can provide steps to reliably reproduce it_, open an issue.
+- If you **have a feature request**, open an issue.
+- If you **want to contribute**, submit a pull request.
+
 ## Installation
 
 > **Embedded frameworks require a minimum deployment target of iOS 8 or OS X Mavericks (10.9).**
