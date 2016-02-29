@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name = 'Algorithm'
-    s.version = '1.0.4'
+    s.version = '1.0.5'
     s.license = 'BSD'
     s.summary = 'A toolset for writing algorithms in Swift.'
     s.homepage = 'http://cosmicmind.io'
