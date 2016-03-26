@@ -62,7 +62,8 @@ public class SortedMultiSet<Element : Comparable> : ProbableType, CollectionType
 	*/
 	public var description: String {
 		var output: String = "["
-		for var i: Int = 0, l = count - 1; i <= l; ++i {
+		let l: Int = count - 1
+		for i in 0..<count {
 			output += "\(self[i])"
 			if i != l {
 				output += ", "
@@ -624,7 +625,7 @@ public func ==<Element: Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMul
 	if lhs.count != rhs.count {
 		return false
 	}
-	for var i: Int = lhs.count - 1; 0 <= i; --i {
+	for i in 0..<lhs.count {
 		if lhs[i] != rhs[i] {
 			return false
 		}

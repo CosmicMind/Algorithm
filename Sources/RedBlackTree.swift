@@ -58,7 +58,8 @@ public class RedBlackTree<Key : Comparable, Value> : ProbableType, CollectionTyp
 	*/
 	internal var internalDescription: String {
 		var output: String = "["
-		for var i: Int = 0, l = count - 1; i <= l; ++i {
+		let l: Int = count - 1
+		for i in 0..<count {
 			output += "\(self[i])"
 			if i != l {
 				output += ", "
@@ -765,7 +766,7 @@ public func ==<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedB
 	if lhs.count != rhs.count {
 		return false
 	}
-	for var i: Int = lhs.count - 1; 0 <= i; --i {
+	for i in 0..<lhs.count {
 		if lhs[i].key != rhs[i].key {
 			return false
 		}

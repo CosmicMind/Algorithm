@@ -390,7 +390,7 @@ public func ==<Key : Hashable, Value>(lhs: SortedMultiDictionary<Key, Value>, rh
 	if lhs.count != rhs.count {
 		return false
 	}
-	for var i: Int = lhs.count - 1; 0 <= i; --i {
+	for i in 0..<lhs.count {
 		if lhs[i].key != rhs[i].key {
 			return false
 		}

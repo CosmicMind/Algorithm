@@ -46,7 +46,7 @@ class SortedMultiSetTests: XCTestCase {
 		
 		XCTAssert(0 == s.count, "Test failed, got \(s.count).")
 		
-		for var i: Int = 1000; i > 0; --i {
+		for _ in 0..<1000 {
 			s.insert(1)
 			s.insert(2)
 			s.insert(3)
@@ -57,7 +57,7 @@ class SortedMultiSetTests: XCTestCase {
 		XCTAssert(2 == s[1000], "Test failed.")
 		XCTAssert(3 == s[2000], "Test failed.")
 		
-		for var i: Int = 500; i > 0; --i {
+		for _ in 0..<500 {
 			s.remove(1)
 			s.remove(3)
 		}

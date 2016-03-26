@@ -46,7 +46,7 @@ class RedBlackTreeTests: XCTestCase {
 		
 		XCTAssert(0 == s.count, "Test failed, got \(s.count).")
 		
-		for var i: Int = 1000; 0 < i; --i {
+		for _ in 0..<1000 {
 			s.insert(1, value: 1)
 			s.insert(2, value: 2)
 			s.insert(3, value: 3)
@@ -57,7 +57,7 @@ class RedBlackTreeTests: XCTestCase {
 		XCTAssert(2 == s[1].value, "Test failed.")
 		XCTAssert(3 == s[2].value, "Test failed.")
 		
-		for var i: Int = 500; 0 < i; --i {
+		for _ in 0..<500 {
 			s.removeValueForKeys(1)
 			s.removeValueForKeys(3)
 		}
@@ -77,7 +77,7 @@ class RedBlackTreeTests: XCTestCase {
 		s.insert(2, value: 2)
 		s.insert(3, value: 3)
 		
-		for var i: Int = s.endIndex - 1; i >= s.startIndex; --i {
+		for i in s.startIndex..<s.endIndex {
 			s[i] = (s[i].key, 100)
 			XCTAssert(100 == s[i].value, "Test failed.")
 		}
@@ -113,11 +113,11 @@ class RedBlackTreeTests: XCTestCase {
 		
 		let t3: RedBlackTree<Int, Int> = t1 + t2
 		
-		for var i: Int = t1.count - 1; 0 <= i; --i {
+		for i in 0..<t1.count {
 			XCTAssert(t1[i].value == t3.findValueForKey(t1[i].value!), "Test failed.")
 		}
 		
-		for var i: Int = t2.count - 1; 0 <= i; --i {
+		for i in 0..<t2.count {
 			XCTAssert(t2[i].value == t3.findValueForKey(t2[i].value!), "Test failed.")
 		}
 	}
