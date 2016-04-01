@@ -168,9 +168,11 @@ public class RedBlackTree<Key : Comparable, Value> : ProbableType, CollectionTyp
 	//
 	public func generate() -> RedBlackTree.Generator {
 		var index = startIndex
-		return anyGenerator {
+		return AnyGenerator {
 			if index < self.endIndex {
-				return self[index++]
+				let i: Int = index
+				index += 1
+				return self[i]
 			}
 			return nil
 		}
@@ -219,7 +221,7 @@ public class RedBlackTree<Key : Comparable, Value> : ProbableType, CollectionTyp
 		var c: Int = 0
 		for (k, v) in self {
 			if block(key: k, value: v) {
-				++c
+				c += 1
 			}
 		}
 		return Double(c) / Double(count)
@@ -398,7 +400,7 @@ public class RedBlackTree<Key : Comparable, Value> : ProbableType, CollectionTyp
 
 		while x !== sentinel {
 			y = x
-			++y.order
+			y.order += 1
 			x = key < x.key ? x.left : x.right
 		}
 
@@ -413,7 +415,7 @@ public class RedBlackTree<Key : Comparable, Value> : ProbableType, CollectionTyp
 		}
 
 		insertCleanUp(z)
-		++count
+		count += 1
 		return z
 	}
 
@@ -422,7 +424,8 @@ public class RedBlackTree<Key : Comparable, Value> : ProbableType, CollectionTyp
 		:description:	The clean up procedure needed to maintain the RedBlackTree balance.
 		- returns:	RedBlackNode<Key, Value>
 	*/
-	private func insertCleanUp(var z: RedBlackNode<Key, Value>) {
+	private func insertCleanUp(node: RedBlackNode<Key, Value>) {
+		var z: RedBlackNode<Key, Value> = node
 		while z.parent.isRed {
 			if z.parent === z.parent.parent.left {
 				let y: RedBlackNode<Key, Value> = z.parent.parent.right
@@ -483,10 +486,10 @@ public class RedBlackTree<Key : Comparable, Value> : ProbableType, CollectionTyp
 		if z !== root {
 			var t: RedBlackNode<Key, Value> = z.parent
 			while t !== root {
-				--t.order
+				t.order -= 1
 				t = t.parent
 			}
-			--root.order
+			root.order -= 1
 		}
 
 
@@ -512,7 +515,7 @@ public class RedBlackTree<Key : Comparable, Value> : ProbableType, CollectionTyp
 				y.right.parent = y
 				var t: RedBlackNode<Key, Value> = x.parent
 				while t !== y {
-					--t.order
+					t.order -= 1
 					t = t.parent
 				}
 				y.order = y.left.order + 1
@@ -526,7 +529,7 @@ public class RedBlackTree<Key : Comparable, Value> : ProbableType, CollectionTyp
 		if !isRed {
 			removeCleanUp(x)
 		}
-		--count
+		count -= 1
 		return z
 	}
 
@@ -535,7 +538,8 @@ public class RedBlackTree<Key : Comparable, Value> : ProbableType, CollectionTyp
 		:description:	After a successful removal of a node, the RedBlackTree
 		is rebalanced by this method.
 	*/
-	private func removeCleanUp(var x: RedBlackNode<Key, Value>) {
+	private func removeCleanUp(node: RedBlackNode<Key, Value>) {
+		var x: RedBlackNode<Key, Value> = node
 		while x !== root && !x.isRed {
 			if x === x.parent.left {
 				var y: RedBlackNode<Key, Value> = x.parent.right
@@ -595,7 +599,8 @@ public class RedBlackTree<Key : Comparable, Value> : ProbableType, CollectionTyp
 		:description:	Finds the minimum keyed node.
 		- returns:	RedBlackNode<Key, Value>
 	*/
-	private func minimum(var x: RedBlackNode<Key, Value>) -> RedBlackNode<Key, Value> {
+	private func minimum(node: RedBlackNode<Key, Value>) -> RedBlackNode<Key, Value> {
+		var x: RedBlackNode<Key, Value> = node
 		var y: RedBlackNode<Key, Value> = sentinel
 		while x !== sentinel {
 			y = x
@@ -716,7 +721,7 @@ public class RedBlackTree<Key : Comparable, Value> : ProbableType, CollectionTyp
 	private func internalCount(key: Key, node: RedBlackNode<Key, Value>, inout count: Int) {
 		if sentinel !== node {
 			if key == node.key {
-				++count
+				count += 1
 			}
 			internalCount(key, node: node.left, count: &count)
 			internalCount(key, node: node.right, count: &count)
@@ -742,7 +747,8 @@ public class RedBlackTree<Key : Comparable, Value> : ProbableType, CollectionTyp
 		:description:	Traverses the Tree for the internal order statistic of a key.
 		- returns:	Int
 	*/
-	private func internalOrder(var x: RedBlackNode<Key, Value>) -> Int {
+	private func internalOrder(node: RedBlackNode<Key, Value>) -> Int {
+		var x: RedBlackNode<Key, Value> = node
 		var r: Int = x.left.order + 1
 		while root !== x {
 			if x.parent.right === x {

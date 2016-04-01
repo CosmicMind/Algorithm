@@ -155,9 +155,11 @@ public class SortedMultiSet<Element : Comparable> : ProbableType, CollectionType
 	//	
 	public func generate() -> SortedMultiSet.Generator {
 		var index = startIndex
-		return anyGenerator {
+		return AnyGenerator {
 			if index < self.endIndex {
-				return self[index++]
+				let i: Int = index
+				index += 1
+				return self[i]
 			}
 			return nil
 		}
@@ -202,7 +204,7 @@ public class SortedMultiSet<Element : Comparable> : ProbableType, CollectionType
 		var c: Int = 0
 		for x in self {
 			if block(element: x) {
-				++c
+				c += 1
 			}
 		}
 		return Double(c) / Double(count)
@@ -331,13 +333,13 @@ public class SortedMultiSet<Element : Comparable> : ProbableType, CollectionType
 			let x: Element = self[i]
 			let y: Element = set[j]
 			if x < y {
-				++i
+				i += 1
 			} else if y < x {
-				++j
+				j += 1
 			} else {
 				s.insert(x)
-				++i
-				++j
+				i += 1
+				j += 1
 			}
 		}
 		return s
@@ -361,10 +363,10 @@ public class SortedMultiSet<Element : Comparable> : ProbableType, CollectionType
 					tree.removeInstanceValueForKey(x)
 					count = tree.count
 				} else if y < x {
-					++j
+					j += 1
 				} else {
-					++i
-					++j
+					i += 1
+					j += 1
 				}
 			}
 		}
@@ -386,21 +388,23 @@ public class SortedMultiSet<Element : Comparable> : ProbableType, CollectionType
 			let y: Element = set[j]
 			if x < y {
 				s.insert(x)
-				++i
+				i += 1
 			} else if y < x {
 				s.insert(y)
-				++j
+				j += 1
 			} else {
 				s.insert(x)
-				++i
-				++j
+				i += 1
+				j += 1
 			}
 		}
 		while k > i {
-			s.insert(self[i++])
+			s.insert(self[i])
+			i += 1
 		}
 		while l > j {
-			s.insert(set[j++])
+			s.insert(set[j])
+			j += 1
 		}
 		return s
 	}
@@ -417,17 +421,18 @@ public class SortedMultiSet<Element : Comparable> : ProbableType, CollectionType
 			let x: Element = self[i]
 			let y: Element = set[j]
 			if x < y {
-				++i
+				i += 1
 			} else if y < x {
 				insert(y)
-				++j
+				j += 1
 			} else {
-				++i
-				++j
+				i += 1
+				j += 1
 			}
 		}
 		while l > j {
-			insert(set[j++])
+			insert(set[j])
+			j += 1
 		}
 	}
 	
@@ -447,16 +452,17 @@ public class SortedMultiSet<Element : Comparable> : ProbableType, CollectionType
 			let y: Element = set[j]
 			if x < y {
 				s.insert(x)
-				++i
+				i += 1
 			} else if y < x {
-				++j
+				j += 1
 			} else {
-				++i
-				++j
+				i += 1
+				j += 1
 			}
 		}
 		while k > i {
-			s.insert(self[i++])
+			s.insert(self[i])
+			i += 1
 		}
 		return s
 	}
@@ -473,13 +479,13 @@ public class SortedMultiSet<Element : Comparable> : ProbableType, CollectionType
 			let x: Element = self[i]
 			let y: Element = set[j]
 			if x < y {
-				++i
+				i += 1
 			} else if y < x {
-				++j
+				j += 1
 			} else {
 				tree.removeInstanceValueForKey(x)
 				count = tree.count
-				++j
+				j += 1
 			}
 		}
 	}
@@ -500,20 +506,22 @@ public class SortedMultiSet<Element : Comparable> : ProbableType, CollectionType
 			let y: Element = set[j]
 			if x < y {
 				s.insert(x)
-				++i;
+				i += 1
 			} else if y < x {
 				s.insert(y)
-				++j
+				j += 1
 			} else {
 				i += countOf(x)
 				j += set.countOf(y)
 			}
 		}
 		while k > i {
-			s.insert(self[i++])
+			s.insert(self[i])
+			i += 1
 		}
 		while l > j {
-			s.insert(set[j++])
+			s.insert(set[j])
+			j += 1
 		}
 		return s
 	}
@@ -532,17 +540,18 @@ public class SortedMultiSet<Element : Comparable> : ProbableType, CollectionType
 			let x: Element = self[i]
 			let y: Element = set[j]
 			if x < y {
-				++i
+				i += 1
 			} else if y < x {
 				insert(y)
-				++j
+				j += 1
 			} else {
 				remove(x)
-				++j
+				j += 1
 			}
 		}
 		while l > j {
-			insert(set[j++])
+			insert(set[j])
+			j += 1
 		}
 	}
 	
@@ -558,9 +567,9 @@ public class SortedMultiSet<Element : Comparable> : ProbableType, CollectionType
 			let x: Element = self[i]
 			let y: Element = set[j]
 			if x < y {
-				--j
+				j -= 1
 			} else if y < x {
-				--i
+				i -= 1
 			} else {
 				return false
 			}

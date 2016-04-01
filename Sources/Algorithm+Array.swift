@@ -63,7 +63,7 @@ extension Array : ProbableType {
 		for v in elements {
 			for x in self {
 				if v == x as! Element {
-					++c
+					c += 1
 				}
 			}
 		}
@@ -95,7 +95,7 @@ extension Array : ProbableType {
 		var c: Int = 0
 		for x in self {
 			if block(element: x) {
-				++c
+				c += 1
 			}
 		}
 		return Double(c) / Double(count)

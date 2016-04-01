@@ -87,7 +87,7 @@ class SortedMultiDictionaryTests: XCTestCase {
 			XCTAssert(5 == x.value, "Test failed.")
 		}
 		
-		for (var i: Int = s.endIndex - 1; i >= s.startIndex; --i) {
+		for i in 0..<s.endIndex {
 			s[i] = (s[i].key, 100)
 			XCTAssert(100 == s[i].value, "Test failed.")
 		}

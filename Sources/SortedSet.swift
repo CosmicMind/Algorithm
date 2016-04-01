@@ -155,9 +155,11 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 	//
 	public func generate() -> SortedSet.Generator {
 		var index = startIndex
-		return anyGenerator {
+		return AnyGenerator {
 			if index < self.endIndex {
-				return self[index++]
+				let i: Int = index
+				index += 1
+				return self[i]
 			}
 			return nil
 		}
@@ -202,7 +204,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		var c: Int = 0
 		for x in self {
 			if block(element: x) {
-				++c
+				c += 1
 			}
 		}
 		return Double(c) / Double(count)
@@ -331,13 +333,13 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 			let x: Element = self[i]
 			let y: Element = set[j]
 			if x < y {
-				++i
+				i += 1
 			} else if y < x {
-				++j
+				j += 1
 			} else {
 				s.insert(x)
-				++i
-				++j
+				i += 1
+				j += 1
 			}
 		}
 		return s
@@ -360,10 +362,10 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 				if x < y {
 					remove(x)
 				} else if y < x {
-					++j
+					j += 1
 				} else {
-					++i
-					++j
+					i += 1
+					j += 1
 				}
 			}
 		}
@@ -385,21 +387,23 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 			let y: Element = set[j]
 			if x < y {
 				s.insert(x)
-				++i
+				i += 1
 			} else if y < x {
 				s.insert(y)
-				++j
+				j += 1
 			} else {
 				s.insert(x)
-				++i
-				++j
+				i += 1
+				j += 1
 			}
 		}
 		while k > i {
-			s.insert(self[i++])
+			s.insert(self[i])
+			i += 1
 		}
 		while l > j {
-			s.insert(set[j++])
+			s.insert(set[j])
+			j += 1
 		}
 		return s
 	}
@@ -411,7 +415,8 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 	public func unionInPlace(set: SortedSet<Element>) {
 		var j: Int = set.count
 		while 0 != j {
-			insert(set[--j])
+			j -= 1
+			insert(set[j])
 		}
 	}
 	
@@ -431,16 +436,17 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 			let y: Element = set[j]
 			if x < y {
 				s.insert(x)
-				++i
+				i += 1
 			} else if y < x {
-				++j
+				j += 1
 			} else {
-				++i
-				++j
+				i += 1
+				j += 1
 			}
 		}
 		while k > i {
-			s.insert(self[i++])
+			s.insert(self[i])
+			i += 1
 		}
 		return s
 	}
@@ -457,12 +463,12 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 			let x: Element = self[i]
 			let y: Element = set[j]
 			if x < y {
-				++i
+				i += 1
 			} else if y < x {
-				++j
+				j += 1
 			} else {
 				remove(x)
-				++j
+				j += 1
 			}
 		}
 	}
@@ -483,20 +489,22 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 			let y: Element = set[j]
 			if x < y {
 				s.insert(x)
-				++i
+				i += 1
 			} else if y < x {
 				s.insert(y)
-				++j
+				j += 1
 			} else {
-				++i
-				++j
+				i += 1
+				j += 1
 			}
 		}
 		while k > i {
-			s.insert(self[i++])
+			s.insert(self[i])
+			i += 1
 		}
 		while l > j {
-			s.insert(set[j++])
+			s.insert(set[j])
+			j += 1
 		}
 		return s
 	}
@@ -515,17 +523,18 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 			let x: Element = self[i]
 			let y: Element = set[j]
 			if x < y {
-				++i
+				i += 1
 			} else if y < x {
 				insert(y)
-				++j
+				j += 1
 			} else {
 				remove(x)
-				++j
+				j += 1
 			}
 		}
 		while l > j {
-			insert(set[j++])
+			insert(set[j])
+			j += 1
 		}
 	}
 	
@@ -541,9 +550,9 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 			let x: Element = self[i]
 			let y: Element = set[j]
 			if x < y {
-				--j
+				j -= 1
 			} else if y < x {
-				--i
+				i -= 1
 			} else {
 				return false
 			}

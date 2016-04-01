@@ -172,9 +172,11 @@ public class SortedMultiDictionary<Key : Comparable, Value where Key : Hashable>
 	//
 	public func generate() -> SortedMultiDictionary.Generator {
 		var index = startIndex
-		return anyGenerator {
+		return AnyGenerator {
 			if index < self.endIndex {
-				return self[index++]
+				let i: Int = index
+				index += 1
+				return self[i]
 			}
 			return nil
 		}
