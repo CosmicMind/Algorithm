@@ -2,6 +2,8 @@
 
 ## Welcome to Algorithm
 
+[![Join the chat at https://gitter.im/CosmicMind/Algorithm](https://badges.gitter.im/CosmicMind/Algorithm.svg)](https://gitter.im/CosmicMind/Algorithm?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Explore a world of data structures in Swift. Learn how to use data structures to organize, analyze, and manipulate data.
 
 ## Requirements
