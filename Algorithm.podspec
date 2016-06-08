@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
     s.name = 'Algorithm'
-    s.version = '1.0.7'
-    s.license = 'BSD'
+    s.version = '1.0.8'
+    s.license = 'BSD-3-Clause'
     s.summary = 'A toolset for writing algorithms in Swift.'
     s.homepage = 'http://cosmicmind.io'
     s.social_media_url = 'https://www.facebook.com/graphkit'

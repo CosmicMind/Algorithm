@@ -1,13 +1,15 @@
-![CosmicMind](http://www.cosmicmind.io/CM/CosmicMind.png)
+![CosmicMind](http://www.cosmicmind.io/algorithm/index/images/AlgorithmIcon.png)
 
 ## Welcome to Algorithm
 
-Explore a world of data structures in Swift. Learn how to use data structures to organize, analyze, and manipulate data.
+Algorithm is a collection of data structures that are empowered by a probability toolset.
+
+Algorithm's architecture is designed for beginners and professionals. Its robust API requires no setup and is ready for the simplest and most extensive applications.
 
 ## Requirements
 
 * iOS 8.0+ / Mac OS X 10.9+
-* Xcode 7.2+
+* Xcode 7.3+
 
 ## Communication
 
@@ -31,6 +33,7 @@ Algorithm is a growing project and will encounter changes throughout its develop
 ## A Tour  
 
 * [Probability](#probability)
+* [ExpectedValue](#expectedvalue)
 * [DoublyLinkedList](#doublylinkedlist)
 * [Stack](#stack)
 * [Queue](#queue)
@@ -44,23 +47,20 @@ Algorithm is a growing project and will encounter changes throughout its develop
 <a name="probability"></a>
 ## Probability
 
-Probability is a core feature. Your application may be completely catered to your users' habits and usage. To demonstrate this wonderful feature, let's look at some examples:
+Each data structure within Algorithm is equipped with probability tools.
 
-Determining the probability of rolling a 3 using a die of 6 numbers.
+#### Basic Probability
+
+For example, determining the probability of rolling a 3 using a die of 6 numbers.
 
 ```swift
 let die: Array<Int> = Array<Int>(arrayLiteral: 1, 2, 3, 4, 5, 6)
 print(die.probabilityOf(3)) // Output: 0.166666666666667
 ```
 
-The expected value of rolling a 3 or 6 with 100 trials using a die of 6 numbers.
+#### Conditional Probability
 
-```swift
-let die: Array<Int> = Array<Int>(arrayLiteral: 1, 2, 3, 4, 5, 6)
-print(die.expectedValueOf(100, elements: 3, 6)) // Output: 33.3333333333333
-```
-
-The above examples are quite simple. They use basic calculations to determine the probability of an outcome (X). What if you have a complicated condition? To solve this problem, it is possible to pass in blocks that return a boolean value. Each block may execute any operations it pleases, so long as it returns a "true" or "false". The "true" values contribute to the likelihood of an outcome, "false" results do not. Below is an example to demonstrate this feature.
+For conditional probabilities that require a more complex calculation, use block statements.
 
 ```swift
 let die: Array<Int> = Array<Int>(arrayLiteral: 1, 2, 3, 4, 5, 6)
@@ -76,6 +76,16 @@ let probabilityOfX: Double = die.probabilityOf { (number: Int) in
 if 0.33 < probabilityOfX {
 	// Do something.
 }
+```
+
+<a name="expectedvalue"></a>
+## Expected Value
+
+The expected value of rolling a 3 or 6 with 100 trials using a die of 6 numbers.
+
+```swift
+let die: Array<Int> = Array<Int>(arrayLiteral: 1, 2, 3, 4, 5, 6)
+print(die.expectedValueOf(100, elements: 3, 6)) // Output: 33.3333333333333
 ```
 
 <a name="doublylinkedlist"></a>
