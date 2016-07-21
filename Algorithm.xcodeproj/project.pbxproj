@@ -373,9 +373,11 @@
 				TargetAttributes = {
 					65744C9B1C554BA50011C977 = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 0800;
 					};
 					65744CA51C554BA50011C977 = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 0800;
 					};
 					65744CC51C554E370011C977 = {
 						CreatedOnToolsVersion = 7.2;
@@ -637,6 +639,7 @@
 				PRODUCT_NAME = Algorithm;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -654,6 +657,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "io.cosmicmind.Algorithm-iOS";
 				PRODUCT_NAME = Algorithm;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -666,6 +670,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.cosmicmind.AlgorithmTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -677,6 +682,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.cosmicmind.AlgorithmTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

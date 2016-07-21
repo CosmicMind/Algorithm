@@ -189,6 +189,6 @@ class ProbabilityTests: XCTestCase {
 	}
 
 	func testPerformance() {
-		self.measureBlock() {}
+		self.measure() {}
 	}
 }

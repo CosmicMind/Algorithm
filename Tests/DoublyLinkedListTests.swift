@@ -164,6 +164,6 @@ class DoublyLinkedListTests: XCTestCase {
 	}
 	
 	func testPerformance() {
-		self.measureBlock() {}
+		self.measure() {}
 	}
 }

@@ -124,6 +124,6 @@ class SortedDictionaryTests: XCTestCase {
 	}
 	
 	func testPerformance() {
-		self.measureBlock() {}
+		self.measure() {}
 	}
 }

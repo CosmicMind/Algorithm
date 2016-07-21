@@ -35,7 +35,7 @@ internal protocol ProbableType {
 		- parameter	elements:	Element...	The element values to count.
 		- returns:	Int
 	*/
-	func countOf<Element: Equatable>(elements: Element...) -> Int
+	func countOf<Element: Equatable>(_ elements: Element...) -> Int
 	
 	/**
 		:name:	countOf
@@ -43,7 +43,7 @@ internal protocol ProbableType {
 		- parameter	elements:	Array<Element>	An array of element values to count.
 		- returns:	Int
 	*/
-	func countOf<Element: Equatable>(elements: Array<Element>) -> Int
+	func countOf<Element: Equatable>(_ elements: Array<Element>) -> Int
 	
 	/**
 		:name:	probabilityOf
@@ -51,7 +51,7 @@ internal protocol ProbableType {
 		- parameter	elements:	Element...	The element values to determine the probability of.
 		- returns:	Double
 	*/
-	func probabilityOf<Element: Equatable>(elements: Element...) -> Double
+	func probabilityOf<Element: Equatable>(_ elements: Element...) -> Double
 	
 	/**
 		:name:	probabilityOf
@@ -59,7 +59,7 @@ internal protocol ProbableType {
 		- parameter	elements:	Array<Element>	An array of element values to determine the probability of.
 		- returns:	Double
 	*/
-	func probabilityOf<Element: Equatable>(elements: Array<Element>) -> Double
+	func probabilityOf<Element: Equatable>(_ elements: Array<Element>) -> Double
 	
 	/**
 		:name:	expectedValueOf
@@ -68,7 +68,7 @@ internal protocol ProbableType {
 		- parameter	elements:	Element...	The element values to determine the expected value of.
 		- returns:	Double
 	*/
-	func expectedValueOf<Element: Equatable>(trials: Int, elements: Element...) -> Double
+	func expectedValueOf<Element: Equatable>(_ trials: Int, elements: Element...) -> Double
 	
 	/**
 		:name:	expectedValueOf
@@ -77,5 +77,5 @@ internal protocol ProbableType {
 		- parameter	elements:	Array<Element>	An array of element values to determine the expected value of.
 		- returns:	Double
 	*/
-	func expectedValueOf<Element: Equatable>(trials: Int, elements: Array<Element>) -> Double
+	func expectedValueOf<Element: Equatable>(_ trials: Int, elements: Array<Element>) -> Double
 }

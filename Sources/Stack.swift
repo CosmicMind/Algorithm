@@ -28,8 +28,8 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public class Stack<Element> : CustomStringConvertible, SequenceType {
-	public typealias Generator = AnyGenerator<Element?>
+public class Stack<Element>: CustomStringConvertible, Sequence {
+	public typealias Iterator = AnyIterator<Element?>
 
 	/**
 		:name:	list
@@ -90,15 +90,15 @@ public class Stack<Element> : CustomStringConvertible, SequenceType {
 	//	the next value in the sequence of nodes.
 	//	:returns:	Stack.Generator
 	//
-	public func generate() -> Stack.Generator {
-		return list.generate()
+	public func makeIterator() -> Stack.Iterator {
+		return list.makeIterator()
 	}
 
 	/**
 		:name:	push
 		:description:	Insert a new element at the top of the Stack.
 	*/
-	public func push(element: Element) {
+	public func push(_ element: Element) {
 		list.insertAtFront(element)
 	}
 

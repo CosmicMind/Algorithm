@@ -28,7 +28,7 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-internal class RedBlackNode<Key : Comparable, Value> : Comparable, Equatable, CustomStringConvertible {
+internal class RedBlackNode<Key: Comparable, Value>: Comparable, Equatable, CustomStringConvertible {
 	/**
 		:name:	parent
 		:description:	A reference to the parent node of a given node.

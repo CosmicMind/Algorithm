@@ -28,8 +28,8 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public class Deque<Element> : CustomStringConvertible, SequenceType {
-	public typealias Generator = AnyGenerator<Element?>
+public class Deque<Element>: CustomStringConvertible, Sequence {
+	public typealias Iterator = AnyIterator<Element?>
 
 	/**
 		:name:	list
@@ -99,15 +99,15 @@ public class Deque<Element> : CustomStringConvertible, SequenceType {
 	//	the next value in the sequence of nodes.
 	//	:returns:	Deque.Generator
 	//
-	public func generate() -> Deque.Generator {
-		return list.generate()
+	public func makeIterator() -> Deque.Iterator {
+		return list.makeIterator()
 	}
 
 	/**
 		:name:	insertAtFront
 		:description:	Insert a new element at the front of the Deque.
 	*/
-	public func insertAtFront(element: Element) {
+	public func insertAtFront(_ element: Element) {
 		list.insertAtFront(element)
 	}
 
@@ -125,7 +125,7 @@ public class Deque<Element> : CustomStringConvertible, SequenceType {
 		:name:	insertAtBack
 		:description:	Insert a new element at the back of the Deque.
 	*/
-	public func insertAtBack(element: Element) {
+	public func insertAtBack(_ element: Element) {
 		list.insertAtBack(element)
 	}
 

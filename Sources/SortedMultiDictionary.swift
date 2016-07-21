@@ -28,8 +28,8 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public class SortedMultiDictionary<Key : Comparable, Value where Key : Hashable> : ProbableType, CollectionType, Equatable, CustomStringConvertible {
-	public typealias Generator = AnyGenerator<(key: Key, value: Value?)>
+public class SortedMultiDictionary<Key: Comparable, Value where Key: Hashable>: ProbableType, Collection, Equatable, CustomStringConvertible {
+	public typealias Iterator = AnyIterator<(key: Key, value: Value?)>
 	
 	/**
 	Total number of elements within the RedBlackTree
@@ -170,9 +170,9 @@ public class SortedMultiDictionary<Key : Comparable, Value where Key : Hashable>
 	//	index values [0...n-1].
 	//	:returns:	SortedMultiDictionary.Generator
 	//
-	public func generate() -> SortedMultiDictionary.Generator {
+	public func makeIterator() -> SortedMultiDictionary.Iterator {
 		var index = startIndex
-		return AnyGenerator {
+		return AnyIterator {
 			if index < self.endIndex {
 				let i: Int = index
 				index += 1
@@ -185,49 +185,49 @@ public class SortedMultiDictionary<Key : Comparable, Value where Key : Hashable>
 	/**
 	Conforms to ProbableType protocol.
 	*/
-	public func countOf<T: Equatable>(keys: T...) -> Int {
+	public func countOf<T: Equatable>(_ keys: T...) -> Int {
 		return countOf(keys)
 	}
 	
 	/**
 	Conforms to ProbableType protocol.
 	*/
-	public func countOf<T: Equatable>(keys: Array<T>) -> Int {
+	public func countOf<T: Equatable>(_ keys: Array<T>) -> Int {
 		return tree.countOf(keys)
 	}
 	
 	/**
 	The probability of elements.
 	*/
-	public func probabilityOf<T: Equatable>(elements: T...) -> Double {
+	public func probabilityOf<T: Equatable>(_ elements: T...) -> Double {
 		return probabilityOf(elements)
 	}
 	
 	/**
 	The probability of elements.
 	*/
-	public func probabilityOf<T: Equatable>(elements: Array<T>) -> Double {
+	public func probabilityOf<T: Equatable>(_ elements: Array<T>) -> Double {
 		return tree.probabilityOf(elements)
 	}
 	
 	/**
 	The probability of elements.
 	*/
-	public func probabilityOf(block: (key: Key, value: Value?) -> Bool) -> Double {
+	public func probabilityOf(_ block: (key: Key, value: Value?) -> Bool) -> Double {
 		return tree.probabilityOf(block)
 	}
 	
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValueOf<T: Equatable>(trials: Int, elements: T...) -> Double {
+	public func expectedValueOf<T: Equatable>(_ trials: Int, elements: T...) -> Double {
 		return expectedValueOf(trials, elements: elements)
 	}
 	
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValueOf<T: Equatable>(trials: Int, elements: Array<T>) -> Double {
+	public func expectedValueOf<T: Equatable>(_ trials: Int, elements: Array<T>) -> Double {
 		return tree.expectedValueOf(trials, elements: elements)
 	}
 	
@@ -271,7 +271,7 @@ public class SortedMultiDictionary<Key : Comparable, Value where Key : Hashable>
 		:description:	Returns the Index of a given member, or -1 if the member is not present in the set.
 		- returns:	Int
 	*/
-	public func indexOf(key: Key) -> Int {
+	public func indexOf(_ key: Key) -> Int {
 		return tree.indexOf(key)
 	}
 	
@@ -280,7 +280,7 @@ public class SortedMultiDictionary<Key : Comparable, Value where Key : Hashable>
 		:description:	Insert a key / value pair.
 		- returns:	Bool
 	*/
-	public func insert(key: Key, value: Value?) -> Bool {
+	public func insert(_ key: Key, value: Value?) -> Bool {
 		let result: Bool = tree.insert(key, value: value)
 		count = tree.count
 		return result
@@ -291,7 +291,7 @@ public class SortedMultiDictionary<Key : Comparable, Value where Key : Hashable>
 		:description:	Inserts a list of (Key, Value?) pairs.
 		- parameter	elements:	(Key, Value?)...	Elements to insert.
 	*/
-	public func insert(elements: (Key, Value?)...) {
+	public func insert(_ elements: (Key, Value?)...) {
 		insert(elements)
 	}
 	
@@ -300,7 +300,7 @@ public class SortedMultiDictionary<Key : Comparable, Value where Key : Hashable>
 		:description:	Inserts an array of (Key, Value?) pairs.
 		- parameter	elements:	Array<(Key, Value?)>	Elements to insert.
 	*/
-	public func insert(elements: Array<(Key, Value?)>) {
+	public func insert(_ elements: Array<(Key, Value?)>) {
 		tree.insert(elements)
 		count = tree.count
 	}
@@ -310,7 +310,7 @@ public class SortedMultiDictionary<Key : Comparable, Value where Key : Hashable>
 		:description:	Removes key / value pairs based on the key value given.
 		- returns:	SortedMultiDictionary<Key, Value>?
 	*/
-	public func removeValueForKeys(keys: Key...) {
+	public func removeValueForKeys(_ keys: Key...) {
 		removeValueForKeys(keys)
 	}
 	
@@ -318,7 +318,7 @@ public class SortedMultiDictionary<Key : Comparable, Value where Key : Hashable>
 		:name:	removeValueForKeys
 		:description:	Removes key / value pairs based on the key value given.
 	*/
-	public func removeValueForKeys(keys: Array<Key>) {
+	public func removeValueForKeys(_ keys: Array<Key>) {
 		tree.removeValueForKeys(keys)
 		count = tree.count
 	}
@@ -337,7 +337,7 @@ public class SortedMultiDictionary<Key : Comparable, Value where Key : Hashable>
 		:description:	Updates a node for the given key value.
 		All keys matching the given key value will be updated.
 	*/
-	public func updateValue(value: Value?, forKey: Key) {
+	public func updateValue(_ value: Value?, forKey: Key) {
 		tree.updateValue(value, forKey: forKey)
 	}
 	
@@ -347,7 +347,7 @@ public class SortedMultiDictionary<Key : Comparable, Value where Key : Hashable>
 		- parameter	key:	Key	The key to find.
 		- returns:	Value?
 	*/
-	public func findValueForKey(key: Key) -> Value? {
+	public func findValueForKey(_ key: Key) -> Value? {
 		return tree.findValueForKey(key)
 	}
 	
@@ -356,7 +356,7 @@ public class SortedMultiDictionary<Key : Comparable, Value where Key : Hashable>
 		:description:	Accepts a list of keys and returns a subset
 		SortedMultiDictionary with the given values if they exist.
 	*/
-	public func search(keys: Key...) -> SortedMultiDictionary<Key, Value> {
+	public func search(_ keys: Key...) -> SortedMultiDictionary<Key, Value> {
 		return search(keys)
 	}
 	
@@ -365,7 +365,7 @@ public class SortedMultiDictionary<Key : Comparable, Value where Key : Hashable>
 		:description:	Accepts an array of keys and returns a subset
 		SortedMultiDictionary with the given values if they exist.
 	*/
-	public func search(keys: Array<Key>) -> SortedMultiDictionary<Key, Value> {
+	public func search(_ keys: Array<Key>) -> SortedMultiDictionary<Key, Value> {
 		var dict: SortedMultiDictionary<Key, Value> = SortedMultiDictionary<Key, Value>()
 		for key: Key in keys {
 			traverse(key, node: tree.root, dict: &dict)
@@ -377,7 +377,7 @@ public class SortedMultiDictionary<Key : Comparable, Value where Key : Hashable>
 		:name:	traverse
 		:description:	Traverses the SortedMultiDictionary, looking for a key match.
 	*/
-	internal func traverse(key: Key, node: RedBlackNode<Key, Value>, inout dict: SortedMultiDictionary<Key, Value>) {
+	internal func traverse(_ key: Key, node: RedBlackNode<Key, Value>, dict: inout SortedMultiDictionary<Key, Value>) {
 		if tree.sentinel !== node {
 			if key == node.key {
 				dict.insert((key, node.value))

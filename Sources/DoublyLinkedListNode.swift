@@ -28,7 +28,7 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-internal class DoublyLinkedListNode<Element> : CustomStringConvertible {
+internal class DoublyLinkedListNode<Element>: CustomStringConvertible {
 	/**
 		:name:	next
 		:description:	Points to the successor element in the DoublyLinkedList.

@@ -28,8 +28,8 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public class Queue<Element> : CustomStringConvertible, SequenceType {
-	public typealias Generator = AnyGenerator<Element?>
+public class Queue<Element>: CustomStringConvertible, Sequence {
+	public typealias Iterator = AnyIterator<Element?>
 
 	/**
 		:name:	list
@@ -89,15 +89,15 @@ public class Queue<Element> : CustomStringConvertible, SequenceType {
 	//	the next value in the sequence of nodes.
 	//	:returns:	Queue.Generator
 	//
-	public func generate() -> Queue.Generator {
-		return list.generate()
+	public func makeIterator() -> Queue.Iterator {
+		return list.makeIterator()
 	}
 
 	/**
 		:name:	enqueue
 		:description:	Insert a new element at the back of the Queue.
 	*/
-	public func enqueue(element: Element) {
+	public func enqueue(_ element: Element) {
 		list.insertAtBack(element)
 	}
 

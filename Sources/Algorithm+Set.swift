@@ -28,71 +28,92 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-extension Set : ProbableType {
-	/**
-	The instance count of elements.
-	*/
-	public func countOf<Element: Equatable>(elements: Element...) -> Int {
-		return countOf(elements)
-	}
-
-	/**
-	The instance count of elements.
-	*/
-	public func countOf<Element: Equatable>(elements: Array<Element>) -> Int {
-		var c: Int = 0
-		for v in elements {
-			for x in self {
-				if v == x as! Element {
-					c += 1
-				}
-			}
-		}
-		return c
-	}
-
-	/**
-	The probability of elements.
-	*/
-	public func probabilityOf<Element: Equatable>(elements: Element...) -> Double {
-		return probabilityOf(elements)
-	}
-
-	/**
-	The probability of elements.
-	*/
-	public func probabilityOf<Element: Equatable>(elements: Array<Element>) -> Double {
-		return 0 == count ? 0 : Double(countOf(elements)) / Double(count)
-	}
-
-	/**
-	The probability of elements.
-	*/
-	public func probabilityOf(block: (element: Element) -> Bool) -> Double {
-		if 0 == count {
-			return 0
-		}
-
-		var c: Int = 0
-		for x in self {
-			if block(element: x) {
-				c += 1
-			}
-		}
-		return Double(c) / Double(count)
-	}
-
-	/**
-	The expected value of elements.
-	*/
-	public func expectedValueOf<Element: Equatable>(trials: Int, elements: Element...) -> Double {
-		return expectedValueOf(trials, elements: elements)
-	}
-
-	/**
-	The expected value of elements.
-	*/
-	public func expectedValueOf<Element: Equatable>(trials: Int, elements: Array<Element>) -> Double {
-		return Double(trials) * probabilityOf(elements)
-	}
+extension Set: ProbableType {
+    /**
+     The total count for the given Elements.
+     - Parameter of elements: A list of Elements.
+     - Returns: An Int.
+     */
+    public func count<Element: Equatable>(of elements: Element...) -> Int {
+        return count(of: elements)
+    }
+    
+    /**
+     The total count for the given Elements.
+     - Parameter of elements: An Array of Elements.
+     - Returns: An Int.
+     */
+    public func count<Element: Equatable>(of elements: [Element]) -> Int {
+        var c: Int = 0
+        for v in elements {
+            for x in self {
+                if v == x as! Element {
+                    c += 1
+                }
+            }
+        }
+        return c
+    }
+    
+    /**
+     The probability of getting the given Elements.
+     - Parameter of elements: A list of Elements.
+     - Returns: A Double.
+     */
+    public func probability<Element: Equatable>(of elements: Element...) -> Double {
+        return probability(of: elements)
+    }
+    
+    /**
+     The probability of getting the given Elements.
+     - Parameter of elements: An Array of Elements.
+     - Returns: A Double.
+     */
+    public func probability<Element: Equatable>(of elements: [Element]) -> Double {
+        guard 0 < count else {
+            return 0
+        }
+        
+        return Double(count(of: elements)) / Double(count)
+    }
+    
+    /**
+     A probability method that uses a block to determine the member state of a condition.
+     - Parameter of elements: A list of Elements.
+     - Returns: A Double.
+     */
+    public func probability(of block: (element: Element) -> Bool) -> Double {
+        guard 0 < count else {
+            return 0
+        }
+        
+        var c: Int = 0
+        for x in self {
+            if block(element: x) {
+                c += 1
+            }
+        }
+        
+        return Double(c) / Double(count)
+    }
+    
+    /**
+     Calculates the expected value of elements based on a given number of trials.
+     - Parameter trials: Number of trials.
+     - Parameter elements: A list of Elements.
+     - Returns: A Double.
+     */
+    public func expectedValue<Element: Equatable>(trials: Int, elements: Element...) -> Double {
+        return expectedValue(trials: trials, elements: elements)
+    }
+    
+    /**
+     Calculates the expected value of elements based on a given number of trials.
+     - Parameter trials: Number of trials.
+     - Parameter elements: An Array of Elements.
+     - Returns: A Double.
+     */
+    public func expectedValue<Element: Equatable>(trials: Int, elements: [Element]) -> Double {
+        return Double(trials) * probability(of: elements)
+    }
 }

@@ -28,8 +28,8 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public class DoublyLinkedList<Element> : CustomStringConvertible, SequenceType {
-	public typealias Generator = AnyGenerator<Element?>
+public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
+	public typealias Iterator = AnyIterator<Element?>
 
 	/**
 		:name:	head
@@ -186,9 +186,9 @@ public class DoublyLinkedList<Element> : CustomStringConvertible, SequenceType {
 	//	the next value in the sequence of nodes.
 	//	:returns:	DoublyLinkedList.Generator
 	//
-	public func generate() -> DoublyLinkedList.Generator {
+	public func makeIterator() -> DoublyLinkedList.Iterator {
 		cursorToFront()
-		return AnyGenerator {
+		return AnyIterator {
 			if !self.isCursorAtBack {
 				let element: Element? = self.cursor
 				self.next
@@ -213,7 +213,7 @@ public class DoublyLinkedList<Element> : CustomStringConvertible, SequenceType {
 		:description:	Insert a new element at the front
 		of the DoublyLinkedList.
 	*/
-	public func insertAtFront(element: Element) {
+	public func insertAtFront(_ element: Element) {
 		var z: DoublyLinkedListNode<Element>
 		if 0 == count {
 			z = DoublyLinkedListNode<Element>(next: nil, previous: nil,  element: element)
@@ -256,7 +256,7 @@ public class DoublyLinkedList<Element> : CustomStringConvertible, SequenceType {
 		:description:	Insert a new element at the back
 		of the DoublyLinkedList.
 	*/
-	public func insertAtBack(element: Element) {
+	public func insertAtBack(_ element: Element) {
 		var z: DoublyLinkedListNode<Element>
 		if 0 == count {
 			z = DoublyLinkedListNode<Element>(next: nil, previous: nil,  element: element)
@@ -314,7 +314,7 @@ public class DoublyLinkedList<Element> : CustomStringConvertible, SequenceType {
 		:name:	insertBeforeCursor
 		:description:	Insert a new element before the cursor position.
 	*/
-	public func insertBeforeCursor(element: Element) {
+	public func insertBeforeCursor(_ element: Element) {
 		if nil === current || head === current {
 			insertAtFront(element)
 		} else {
@@ -329,7 +329,7 @@ public class DoublyLinkedList<Element> : CustomStringConvertible, SequenceType {
 		:name:	insertAfterCursor
 		:description:	Insert a new element after the cursor position.
 	*/
-	public func insertAfterCursor(element: Element) {
+	public func insertAfterCursor(_ element: Element) {
 		if nil === current || tail === current {
 			insertAtBack(element)
 		} else {

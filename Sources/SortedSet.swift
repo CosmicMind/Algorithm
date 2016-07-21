@@ -28,8 +28,8 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Comparable, Equatable, CustomStringConvertible {
-	public typealias Generator = AnyGenerator<Element>
+public class SortedSet<Element: Comparable>: ProbableType, Collection, Comparable, Equatable, CustomStringConvertible {
+	public typealias Iterator = AnyIterator<Element>
 	
 	/**
 	Total number of elements within the RedBlackTree
@@ -153,9 +153,9 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 	//	index values [0...n-1].
 	//	:returns:	SortedSet.Generator
 	//
-	public func generate() -> SortedSet.Generator {
+	public func makeIterator() -> SortedSet.Iterator {
 		var index = startIndex
-		return AnyGenerator {
+		return AnyIterator {
 			if index < self.endIndex {
 				let i: Int = index
 				index += 1
@@ -168,35 +168,35 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 	/**
 	Conforms to ProbableType protocol.
 	*/
-	public func countOf<T: Equatable>(keys: T...) -> Int {
+	public func countOf<T: Equatable>(_ keys: T...) -> Int {
 		return countOf(keys)
 	}
 	
 	/**
 	Conforms to ProbableType protocol.
 	*/
-	public func countOf<T: Equatable>(keys: Array<T>) -> Int {
+	public func countOf<T: Equatable>(_ keys: Array<T>) -> Int {
 		return tree.countOf(keys)
 	}
 	
 	/**
 	The probability of elements.
 	*/
-	public func probabilityOf<T: Equatable>(elements: T...) -> Double {
+	public func probabilityOf<T: Equatable>(_ elements: T...) -> Double {
 		return probabilityOf(elements)
 	}
 	
 	/**
 	The probability of elements.
 	*/
-	public func probabilityOf<T: Equatable>(elements: Array<T>) -> Double {
+	public func probabilityOf<T: Equatable>(_ elements: Array<T>) -> Double {
 		return tree.probabilityOf(elements)
 	}
 	
 	/**
 	The probability of elements.
 	*/
-	public func probabilityOf(block: (element: Element) -> Bool) -> Double {
+	public func probabilityOf(_ block: (element: Element) -> Bool) -> Double {
 		if 0 == count {
 			return 0
 		}
@@ -213,14 +213,14 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValueOf<T: Equatable>(trials: Int, elements: T...) -> Double {
+	public func expectedValueOf<T: Equatable>(_ trials: Int, elements: T...) -> Double {
 		return expectedValueOf(trials, elements: elements)
 	}
 	
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValueOf<T: Equatable>(trials: Int, elements: Array<T>) -> Double {
+	public func expectedValueOf<T: Equatable>(_ trials: Int, elements: Array<T>) -> Double {
 		return tree.expectedValueOf(trials, elements: elements)
 	}
 
@@ -241,7 +241,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		:description:	Returns the Index of a given member, or -1 if the member is not present in the set.
 		- returns:	Int
 	*/
-	public func indexOf(element: Element) -> Int {
+	public func indexOf(_ element: Element) -> Int {
 		return tree.indexOf(element)
 	}
 	
@@ -251,7 +251,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		 in the set.
 		- returns:	Bool
 	*/
-	public func contains(elements: Element...) -> Bool {
+	public func contains(_ elements: Element...) -> Bool {
 		return contains(elements)
 	}
 	
@@ -261,7 +261,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		 in the set.
 		- returns:	Bool
 	*/
-	public func contains(elements: Array<Element>) -> Bool {
+	public func contains(_ elements: Array<Element>) -> Bool {
 		if 0 == elements.count {
 			return false
 		}
@@ -277,7 +277,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		:name:	insert
 		:description:	Inserts new elements into the SortedSet.
 	*/
-	public func insert(elements: Element...) {
+	public func insert(_ elements: Element...) {
 		insert(elements)
 	}
 
@@ -285,7 +285,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		:name:	insert
 		:description:	Inserts new elements into the SortedSet.
 	*/
-	public func insert(elements: Array<Element>) {
+	public func insert(_ elements: Array<Element>) {
 		for x in elements {
 			tree.insert(x, value: x)
 		}
@@ -296,7 +296,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		:name:	remove
 		:description:	Removes elements from the SortedSet.
 	*/
-	public func remove(elements: Element...) {
+	public func remove(_ elements: Element...) {
 		remove(elements)
 	}
 
@@ -304,7 +304,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		:name:	remove
 		:description:	Removes elements from the SortedSet.
 	*/
-	public func remove(elements: Array<Element>) {
+	public func remove(_ elements: Array<Element>) {
 		tree.removeValueForKeys(elements)
 		count = tree.count
 	}
@@ -323,7 +323,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		:description:	Return a new set with elements common to this set and a finite sequence of Sets.
 		- returns:	SortedSet<Element>
 	*/
-	public func intersect(set: SortedSet<Element>) -> SortedSet<Element> {
+	public func intersect(_ set: SortedSet<Element>) -> SortedSet<Element> {
 		let s: SortedSet<Element> = SortedSet<Element>()
 		var i: Int = 0
 		var j: Int = 0
@@ -349,7 +349,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		:name:	intersectInPlace
 		:description:	Insert elements of a finite sequence of Sets.
 	*/
-	public func intersectInPlace(set: SortedSet<Element>) {
+	public func intersectInPlace(_ set: SortedSet<Element>) {
 		let l = set.count
 		if 0 == l {
 			removeAll()
@@ -376,7 +376,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		:description:	Return a new Set with items in both this set and a finite sequence of Sets.
 		- returns:	SortedSet<Element>
 	*/
-	public func union(set: SortedSet<Element>) -> SortedSet<Element> {
+	public func union(_ set: SortedSet<Element>) -> SortedSet<Element> {
 		let s: SortedSet<Element> = SortedSet<Element>()
 		var i: Int = 0
 		var j: Int = 0
@@ -412,7 +412,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		:name:	unionInPlace
 		:description:	Return a new Set with items in both this set and a finite sequence of Sets.
 	*/
-	public func unionInPlace(set: SortedSet<Element>) {
+	public func unionInPlace(_ set: SortedSet<Element>) {
 		var j: Int = set.count
 		while 0 != j {
 			j -= 1
@@ -425,7 +425,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		:description:	Return a new set with elements in this set that do not occur in a finite sequence of Sets.
 		- returns:	SortedSet<Element>
 	*/
-	public func subtract(set: SortedSet<Element>) -> SortedSet<Element> {
+	public func subtract(_ set: SortedSet<Element>) -> SortedSet<Element> {
 		let s: SortedSet<Element> = SortedSet<Element>()
 		var i: Int = 0
 		var j: Int = 0
@@ -455,7 +455,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		:name:	subtractInPlace
 		:description:	Remove all elements in the set that occur in a finite sequence of Sets.
 	*/
-	public func subtractInPlace(set: SortedSet<Element>) {
+	public func subtractInPlace(_ set: SortedSet<Element>) {
 		var i: Int = 0
 		var j: Int = 0
 		let l: Int = set.count
@@ -478,7 +478,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		:description:	Return a new set with elements that are either in the set or a finite sequence but do not occur in both.
 		- returns:	SortedSet<Element>
 	*/
-	public func exclusiveOr(set: SortedSet<Element>) -> SortedSet<Element> {
+	public func exclusiveOr(_ set: SortedSet<Element>) -> SortedSet<Element> {
 		let s: SortedSet<Element> = SortedSet<Element>()
 		var i: Int = 0
 		var j: Int = 0
@@ -515,7 +515,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		common element, otherwise add it to the set. Repeated elements of the sequence will be
 		ignored.
 	*/
-	public func exclusiveOrInPlace(set: SortedSet<Element>) {
+	public func exclusiveOrInPlace(_ set: SortedSet<Element>) {
 		var i: Int = 0
 		var j: Int = 0
 		let l: Int = set.count
@@ -543,7 +543,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		:description:	Returns true if no elements in the set are in a finite sequence of Sets.
 		- returns:	Bool
 	*/
-	public func isDisjointWith(set: SortedSet<Element>) -> Bool {
+	public func isDisjointWith(_ set: SortedSet<Element>) -> Bool {
 		var i: Int = count - 1
 		var j: Int = set.count - 1
 		while 0 <= i && 0 <= j {
@@ -565,7 +565,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		:description:	Returns true if the set is a subset of a finite sequence as a Set.
 		- returns:	Bool
 	*/
-	public func isSubsetOf(set: SortedSet<Element>) -> Bool {
+	public func isSubsetOf(_ set: SortedSet<Element>) -> Bool {
 		if count > set.count {
 			return false
 		}
@@ -582,7 +582,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		:description:	Returns true if the set is a subset of a finite sequence as a Set but not equal.
 		- returns:	Bool
 	*/
-	public func isStrictSubsetOf(set: SortedSet<Element>) -> Bool {
+	public func isStrictSubsetOf(_ set: SortedSet<Element>) -> Bool {
 		return count < set.count && isSubsetOf(set)
 	}
 
@@ -591,7 +591,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		:description:	Returns true if the set is a superset of a finite sequence as a Set.
 		- returns:	Bool
 	*/
-	public func isSupersetOf(set: SortedSet<Element>) -> Bool {
+	public func isSupersetOf(_ set: SortedSet<Element>) -> Bool {
 		if count < set.count {
 			return false
 		}
@@ -608,7 +608,7 @@ public class SortedSet<Element : Comparable> : ProbableType, CollectionType, Com
 		:description:	Returns true if the set is a superset of a finite sequence as a Set but not equal.
 		- returns:	Bool
 	*/
-	public func isStrictSupersetOf(set: SortedSet<Element>) -> Bool {
+	public func isStrictSupersetOf(_ set: SortedSet<Element>) -> Bool {
 		return count > set.count && isSupersetOf(set)
 	}
 }
