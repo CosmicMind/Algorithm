@@ -274,7 +274,7 @@ class SortedSetTests: XCTestCase {
 		print(setE.contains(setA.first!)) // true
 		
 		// Probability.
-		print(setE.probabilityOf(setA.first!, setA.last!)) // 0.333333333333333
+        print(setE.probability(of: setA.first!, setA.last!)) // 0.333333333333333
 	}
 	
 	func testPerformance() {

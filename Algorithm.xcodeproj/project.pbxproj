@@ -115,7 +115,7 @@
 		65744CB91C554DDC0011C977 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65744CBE1C554DED0011C977 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65744CC61C554E370011C977 /* Algorithm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Algorithm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		65744CCF1C554E380011C977 /* Algorithm OSX Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Algorithm OSX Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		65744CCF1C554E380011C977 /* Algorithm macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Algorithm macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65744CDD1C554EDA0011C977 /* Algorithm+Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Algorithm+Array.swift"; sourceTree = "<group>"; };
 		65744CDE1C554EDA0011C977 /* Algorithm+Set.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Algorithm+Set.swift"; sourceTree = "<group>"; };
 		65744CDF1C554EDA0011C977 /* Deque.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deque.swift; sourceTree = "<group>"; };
@@ -192,7 +192,7 @@
 				65744C9C1C554BA50011C977 /* Algorithm.framework */,
 				65744CA61C554BA50011C977 /* Algorithm iOS Tests.xctest */,
 				65744CC61C554E370011C977 /* Algorithm.framework */,
-				65744CCF1C554E380011C977 /* Algorithm OSX Tests.xctest */,
+				65744CCF1C554E380011C977 /* Algorithm macOS Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -325,9 +325,9 @@
 			productReference = 65744CA61C554BA50011C977 /* Algorithm iOS Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		65744CC51C554E370011C977 /* Algorithm OSX */ = {
+		65744CC51C554E370011C977 /* Algorithm macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 65744CD71C554E380011C977 /* Build configuration list for PBXNativeTarget "Algorithm OSX" */;
+			buildConfigurationList = 65744CD71C554E380011C977 /* Build configuration list for PBXNativeTarget "Algorithm macOS" */;
 			buildPhases = (
 				65744CC11C554E370011C977 /* Sources */,
 				65744CC21C554E370011C977 /* Frameworks */,
@@ -338,14 +338,14 @@
 			);
 			dependencies = (
 			);
-			name = "Algorithm OSX";
+			name = "Algorithm macOS";
 			productName = "Algorithm OSX";
 			productReference = 65744CC61C554E370011C977 /* Algorithm.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		65744CCE1C554E380011C977 /* Algorithm OSX Tests */ = {
+		65744CCE1C554E380011C977 /* Algorithm macOS Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 65744CDA1C554E380011C977 /* Build configuration list for PBXNativeTarget "Algorithm OSX Tests" */;
+			buildConfigurationList = 65744CDA1C554E380011C977 /* Build configuration list for PBXNativeTarget "Algorithm macOS Tests" */;
 			buildPhases = (
 				65744CCB1C554E380011C977 /* Sources */,
 				65744CCC1C554E380011C977 /* Frameworks */,
@@ -356,9 +356,9 @@
 			dependencies = (
 				65744CD21C554E380011C977 /* PBXTargetDependency */,
 			);
-			name = "Algorithm OSX Tests";
+			name = "Algorithm macOS Tests";
 			productName = "Algorithm OSXTests";
-			productReference = 65744CCF1C554E380011C977 /* Algorithm OSX Tests.xctest */;
+			productReference = 65744CCF1C554E380011C977 /* Algorithm macOS Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -368,7 +368,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "CosmicMind, Inc.";
 				TargetAttributes = {
 					65744C9B1C554BA50011C977 = {
@@ -400,9 +400,9 @@
 			projectRoot = "";
 			targets = (
 				65744C9B1C554BA50011C977 /* Algorithm iOS */,
-				65744CC51C554E370011C977 /* Algorithm OSX */,
+				65744CC51C554E370011C977 /* Algorithm macOS */,
 				65744CA51C554BA50011C977 /* Algorithm iOS Tests */,
-				65744CCE1C554E380011C977 /* Algorithm OSX Tests */,
+				65744CCE1C554E380011C977 /* Algorithm macOS Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -527,7 +527,7 @@
 		};
 		65744CD21C554E380011C977 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 65744CC51C554E370011C977 /* Algorithm OSX */;
+			target = 65744CC51C554E370011C977 /* Algorithm macOS */;
 			targetProxy = 65744CD11C554E380011C977 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -546,8 +546,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -596,8 +598,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -618,6 +622,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -630,6 +635,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -649,6 +655,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -692,7 +699,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -714,7 +721,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -792,7 +799,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		65744CD71C554E380011C977 /* Build configuration list for PBXNativeTarget "Algorithm OSX" */ = {
+		65744CD71C554E380011C977 /* Build configuration list for PBXNativeTarget "Algorithm macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				65744CD81C554E380011C977 /* Debug */,
@@ -801,7 +808,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		65744CDA1C554E380011C977 /* Build configuration list for PBXNativeTarget "Algorithm OSX Tests" */ = {
+		65744CDA1C554E380011C977 /* Build configuration list for PBXNativeTarget "Algorithm macOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				65744CDB1C554E380011C977 /* Debug */,

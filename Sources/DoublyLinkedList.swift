@@ -191,7 +191,7 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 		return AnyIterator {
 			if !self.isCursorAtBack {
 				let element: Element? = self.cursor
-				self.next
+				_ = self.next
 				return element
 			}
 			return nil
@@ -204,7 +204,7 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 	*/
 	public func removeAll() {
 		while !isEmpty {
-			removeAtFront()
+			_ = removeAtFront()
 		}
 	}
 

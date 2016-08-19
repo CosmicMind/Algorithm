@@ -29,6 +29,15 @@
 */
 
 public class SortedMultiSet<Element: Comparable>: ProbableType, Collection, Comparable, Equatable, CustomStringConvertible {
+    /// Returns the position immediately after the given index.
+    ///
+    /// - Parameter i: A valid index of the collection. `i` must be less than
+    ///   `endIndex`.
+    /// - Returns: The index value immediately after `i`.
+    public func index(after i: Int) -> Int {
+        return i < endIndex ? i + 1 : 0
+    }
+
 	public typealias Iterator = AnyIterator<Element>
 	
 	/**
@@ -168,42 +177,42 @@ public class SortedMultiSet<Element: Comparable>: ProbableType, Collection, Comp
 	/**
 	Conforms to ProbableType protocol.
 	*/
-	public func countOf<T: Equatable>(_ keys: T...) -> Int {
-		return countOf(keys)
+	public func count<T: Equatable>(of keys: T...) -> Int {
+        return count(of: keys)
 	}
 	
 	/**
 	Conforms to ProbableType protocol.
 	*/
-	public func countOf<T: Equatable>(_ keys: Array<T>) -> Int {
-		return tree.countOf(keys)
+	public func count<T: Equatable>(of keys: Array<T>) -> Int {
+        return tree.count(of: keys)
 	}
 	
 	/**
 	The probability of elements.
 	*/
-	public func probabilityOf<T: Equatable>(_ elements: T...) -> Double {
-		return probabilityOf(elements)
+	public func probability<T: Equatable>(of elements: T...) -> Double {
+        return probability(of: elements)
 	}
 	
 	/**
 	The probability of elements.
 	*/
-	public func probabilityOf<T: Equatable>(_ elements: Array<T>) -> Double {
-		return tree.probabilityOf(elements)
+	public func probability<T: Equatable>(of elements: Array<T>) -> Double {
+        return tree.probability(of: elements)
 	}
 	
 	/**
 	The probability of elements.
 	*/
-	public func probabilityOf(_ block: (element: Element) -> Bool) -> Double {
+	public func probability(_ block: (Element) -> Bool) -> Double {
 		if 0 == count {
 			return 0
 		}
 		
 		var c: Int = 0
 		for x in self {
-			if block(element: x) {
+			if block(x) {
 				c += 1
 			}
 		}
@@ -213,15 +222,15 @@ public class SortedMultiSet<Element: Comparable>: ProbableType, Collection, Comp
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValueOf<T: Equatable>(_ trials: Int, elements: T...) -> Double {
-		return expectedValueOf(trials, elements: elements)
+	public func expectedValue<T: Equatable>(trials: Int, elements: T...) -> Double {
+        return expectedValue(trials: trials, elements: elements)
 	}
 	
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValueOf<T: Equatable>(_ trials: Int, elements: Array<T>) -> Double {
-		return tree.expectedValueOf(trials, elements: elements)
+	public func expectedValue<T: Equatable>(trials: Int, elements: Array<T>) -> Double {
+        return tree.expectedValue(trials: trials, elements: elements)
 	}
 	
 	/**
@@ -287,7 +296,7 @@ public class SortedMultiSet<Element: Comparable>: ProbableType, Collection, Comp
 	*/
 	public func insert(_ elements: Array<Element>) {
 		for x in elements {
-			tree.insert(x, value: x)
+			_ = tree.insert(x, value: x)
 		}
 		count = tree.count
 	}
@@ -360,7 +369,7 @@ public class SortedMultiSet<Element: Comparable>: ProbableType, Collection, Comp
 				let x: Element = self[i]
 				let y: Element = set[j]
 				if x < y {
-					tree.removeInstanceValueForKey(x)
+					_ = tree.removeInstanceValueForKey(x)
 					count = tree.count
 				} else if y < x {
 					j += 1
@@ -483,7 +492,7 @@ public class SortedMultiSet<Element: Comparable>: ProbableType, Collection, Comp
 			} else if y < x {
 				j += 1
 			} else {
-				tree.removeInstanceValueForKey(x)
+				_ = tree.removeInstanceValueForKey(x)
 				count = tree.count
 				j += 1
 			}
@@ -511,8 +520,8 @@ public class SortedMultiSet<Element: Comparable>: ProbableType, Collection, Comp
 				s.insert(y)
 				j += 1
 			} else {
-				i += countOf(x)
-				j += set.countOf(y)
+                i += count(of: x)
+                j += set.count(of: y)
 			}
 		}
 		while k > i {
@@ -631,7 +640,7 @@ public class SortedMultiSet<Element: Comparable>: ProbableType, Collection, Comp
 }
 
 public func ==<Element: Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
-	if lhs.count != rhs.count {
+    if lhs.count != rhs.count {
 		return false
 	}
 	for i in 0..<lhs.count {

@@ -29,6 +29,15 @@
 */
 
 public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, CustomStringConvertible {
+    /// Returns the position immediately after the given index.
+    ///
+    /// - Parameter i: A valid index of the collection. `i` must be less than
+    ///   `endIndex`.
+    /// - Returns: The index value immediately after `i`.
+    public func index(after i: Int) -> Int {
+        return i < endIndex ? i + 1 : 0
+    }
+
 	public typealias Iterator = AnyIterator<(key: Key, value: Value?)>
 	
 	/**
@@ -181,14 +190,14 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 	/**
 	Conforms to ProbableType protocol.
 	*/
-	public func countOf<T: Equatable>(_ keys: T...) -> Int {
-		return countOf(keys)
+	public func count<T: Equatable>(of keys: T...) -> Int {
+        return count(of: keys)
 	}
 
 	/**
 	Conforms to ProbableType protocol.
 	*/
-	public func countOf<T: Equatable>(_ keys: Array<T>) -> Int {
+	public func count<T: Equatable>(of keys: Array<T>) -> Int {
 		var c: Int = 0
 		for key in keys {
 			internalCount(key as! Key, node: root, count: &c)
@@ -199,28 +208,28 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 	/**
 	The probability of elements.
 	*/
-	public func probabilityOf<T: Equatable>(_ elements: T...) -> Double {
-		return probabilityOf(elements)
+	public func probability<T: Equatable>(of elements: T...) -> Double {
+        return probability(of: elements)
 	}
 	
 	/**
 	The probability of elements.
 	*/
-	public func probabilityOf<T: Equatable>(_ elements: Array<T>) -> Double {
-		return 0 == count ? 0 : Double(countOf(elements)) / Double(count)
+	public func probability<T: Equatable>(of elements: Array<T>) -> Double {
+        return 0 == count ? 0 : Double(count(of: elements)) / Double(count)
 	}
 	
 	/**
 	The probability of elements.
 	*/
-	public func probabilityOf(_ block: (key: Key, value: Value?) -> Bool) -> Double {
+	public func probability(_ block: (Key, Value?) -> Bool) -> Double {
 		if 0 == count {
 			return 0
 		}
 		
 		var c: Int = 0
 		for (k, v) in self {
-			if block(key: k, value: v) {
+			if block(k, v) {
 				c += 1
 			}
 		}
@@ -230,15 +239,15 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValueOf<T: Equatable>(_ trials: Int, elements: T...) -> Double {
-		return expectedValueOf(trials, elements: elements)
+	public func expectedValue<T: Equatable>(trials: Int, elements: T...) -> Double {
+        return expectedValue(trials: trials, elements: elements)
 	}
 	
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValueOf<T: Equatable>(_ trials: Int, elements: Array<T>) -> Double {
-		return Double(trials) * probabilityOf(elements)
+	public func expectedValue<T: Equatable>(trials: Int, elements: Array<T>) -> Double {
+        return Double(trials) * probability(of: elements)
 	}
 
 	/**
@@ -266,7 +275,7 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 	*/
 	public func insert(_ nodes: Array<(Key, Value?)>) {
 		for (k, v) in nodes {
-			insert(k, value: v)
+			_ = insert(k, value: v)
 		}
 	}
 
@@ -313,7 +322,7 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 	*/
 	public func removeAll() {
 		while sentinel !== root {
-			internalRemoveValueForKey(root.key)
+			_ = internalRemoveValueForKey(root.key)
 		}
 	}
 
@@ -368,7 +377,7 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 		}
 		set(value) {
 			if sentinel === internalFindNodeForKey(key) {
-				internalInsert(key, value: value)
+				_ = internalInsert(key, value: value)
 			} else {
 				updateValue(value, forKey: key)
 			}
@@ -769,7 +778,7 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 }
 
 public func ==<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) -> Bool {
-	if lhs.count != rhs.count {
+    if lhs.count != rhs.count {
 		return false
 	}
 	for i in 0..<lhs.count {
@@ -787,14 +796,14 @@ public func !=<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedB
 public func +<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) -> RedBlackTree<Key, Value> {
 	let t: RedBlackTree<Key, Value> = lhs
 	for (k, v) in rhs {
-		t.insert(k, value: v)
+		_ = t.insert(k, value: v)
 	}
 	return t
 }
 
 public func +=<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) {
 	for (k, v) in rhs {
-		lhs.insert(k, value: v)
+		_ = lhs.insert(k, value: v)
 	}
 }
 

@@ -37,13 +37,13 @@ extension Array where Element: Equatable {
 	}
 
 	mutating func remove(objects: Element...) {
-		removeObjects(objects)
+		remove(objects: objects)
 	}
 
 	mutating func remove(objects: [Element]) {
-		for x in objects {
-			removeObject(x)
-		}
+        for x in objects {
+            _ = remove(object: x)
+        }
 	}
 }
 
@@ -101,14 +101,14 @@ extension Array: ProbableType {
      - Parameter of elements: A list of Elements.
      - Returns: A Double.
      */
-    public func probability(of block: (element: Element) -> Bool) -> Double {
+    public func probability(of block: (Element) -> Bool) -> Double {
         guard 0 < count else {
             return 0
         }
 
 		var c: Int = 0
 		for x in self {
-			if block(element: x) {
+			if block(x) {
 				c += 1
 			}
 		}

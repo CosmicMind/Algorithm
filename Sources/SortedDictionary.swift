@@ -28,7 +28,16 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public class SortedDictionary<Key: Comparable, Value where Key: Hashable>: ProbableType, Collection, Equatable, CustomStringConvertible {
+public class SortedDictionary<Key: Comparable, Value>: ProbableType, Collection, Equatable, CustomStringConvertible where Key: Hashable {
+    /// Returns the position immediately after the given index.
+    ///
+    /// - Parameter i: A valid index of the collection. `i` must be less than
+    ///   `endIndex`.
+    /// - Returns: The index value immediately after `i`.
+    public func index(after i: Int) -> Int {
+        return i < endIndex ? i + 1 : 0
+    }
+
 	public typealias Iterator = AnyIterator<(key: Key, value: Value?)>
 	
 	/**
@@ -187,50 +196,50 @@ public class SortedDictionary<Key: Comparable, Value where Key: Hashable>: Proba
 	/**
 	Conforms to ProbableType protocol.
 	*/
-	public func countOf<T: Equatable>(_ keys: T...) -> Int {
-		return countOf(keys)
+	public func count<T: Equatable>(of keys: T...) -> Int {
+        return count(of: keys)
 	}
 	
 	/**
 	Conforms to ProbableType protocol.
 	*/
-	public func countOf<T: Equatable>(_ keys: Array<T>) -> Int {
-		return tree.countOf(keys)
+	public func count<T: Equatable>(of keys: Array<T>) -> Int {
+        return tree.count(of: keys)
 	}
 	
 	/**
 	The probability of elements.
 	*/
-	public func probabilityOf<T: Equatable>(_ elements: T...) -> Double {
-		return probabilityOf(elements)
+	public func probability<T: Equatable>(of elements: T...) -> Double {
+        return probability(of: elements)
 	}
 	
 	/**
 	The probability of elements.
 	*/
-	public func probabilityOf<T: Equatable>(_ elements: Array<T>) -> Double {
-		return tree.probabilityOf(elements)
+	public func probability<T: Equatable>(of elements: Array<T>) -> Double {
+        return tree.probability(of: elements)
 	}
 	
 	/**
 	The probability of elements.
 	*/
-	public func probabilityOf(_ block: (key: Key, value: Value?) -> Bool) -> Double {
-		return tree.probabilityOf(block)
+	public func probability(_ block: (Key, Value?) -> Bool) -> Double {
+        return tree.probability(block)
 	}
 	
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValueOf<T: Equatable>(_ trials: Int, elements: T...) -> Double {
-		return expectedValueOf(trials, elements: elements)
+	public func expectedValue<T: Equatable>(trials: Int, elements: T...) -> Double {
+        return expectedValue(trials: trials, elements: elements)
 	}
 	
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValueOf<T: Equatable>(_ trials: Int, elements: Array<T>) -> Double {
-		return tree.expectedValueOf(trials, elements: elements)
+	public func expectedValue<T: Equatable>(trials: Int, elements: Array<T>) -> Double {
+        return tree.expectedValue(trials: trials, elements: elements)
 	}
 	
 	/**
@@ -389,7 +398,7 @@ public class SortedDictionary<Key: Comparable, Value where Key: Hashable>: Proba
 }
 
 public func ==<Key : Comparable, Value>(lhs: SortedDictionary<Key, Value>, rhs: SortedDictionary<Key, Value>) -> Bool {
-	if lhs.count != rhs.count {
+    if lhs.count != rhs.count {
 		return false
 	}
 	for i in 0..<lhs.count {
@@ -407,14 +416,14 @@ public func !=<Key : Comparable, Value>(lhs: SortedDictionary<Key, Value>, rhs: 
 public func +<Key : Comparable, Value>(lhs: SortedDictionary<Key, Value>, rhs: SortedDictionary<Key, Value>) -> SortedDictionary<Key, Value> {
 	let t: SortedDictionary<Key, Value> = lhs
 	for (k, v) in rhs {
-		t.insert(k, value: v)
+		_ = t.insert(k, value: v)
 	}
 	return t
 }
 
 public func +=<Key : Comparable, Value>(lhs: SortedDictionary<Key, Value>, rhs: SortedDictionary<Key, Value>) {
 	for (k, v) in rhs {
-		lhs.insert(k, value: v)
+		_ = lhs.insert(k, value: v)
 	}
 }
 

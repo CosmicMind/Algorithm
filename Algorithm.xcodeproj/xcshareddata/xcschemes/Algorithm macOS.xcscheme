@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "65744CC51C554E370011C977"
                BuildableName = "Algorithm.framework"
-               BlueprintName = "Algorithm OSX"
+               BlueprintName = "Algorithm macOS"
                ReferencedContainer = "container:Algorithm.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,8 +33,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "65744CCE1C554E380011C977"
-               BuildableName = "Algorithm OSX Tests.xctest"
-               BlueprintName = "Algorithm OSX Tests"
+               BuildableName = "Algorithm macOS Tests.xctest"
+               BlueprintName = "Algorithm macOS Tests"
                ReferencedContainer = "container:Algorithm.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -44,7 +44,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "65744CC51C554E370011C977"
             BuildableName = "Algorithm.framework"
-            BlueprintName = "Algorithm OSX"
+            BlueprintName = "Algorithm macOS"
             ReferencedContainer = "container:Algorithm.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -66,7 +66,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "65744CC51C554E370011C977"
             BuildableName = "Algorithm.framework"
-            BlueprintName = "Algorithm OSX"
+            BlueprintName = "Algorithm macOS"
             ReferencedContainer = "container:Algorithm.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -84,7 +84,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "65744CC51C554E370011C977"
             BuildableName = "Algorithm.framework"
-            BlueprintName = "Algorithm OSX"
+            BlueprintName = "Algorithm macOS"
             ReferencedContainer = "container:Algorithm.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

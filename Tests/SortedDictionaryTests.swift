@@ -82,7 +82,7 @@ class SortedDictionaryTests: XCTestCase {
 		let subs: SortedDictionary<Int, Int> = s.search(3)
 		XCTAssert(1 == subs.count, "Test failed.")
 		
-		let generator: SortedDictionary<Int, Int>.Generator = subs.generate()
+		let generator: SortedDictionary<Int, Int>.Generator = subs.makeIterator()
 		while let x = generator.next() {
 			XCTAssert(5 == x.value, "Test failed.")
 		}
@@ -98,13 +98,13 @@ class SortedDictionaryTests: XCTestCase {
 	
 	func testIndexOf() {
 		let d1: SortedDictionary<Int, Int> = SortedDictionary<Int, Int>()
-		d1.insert(1, value: 1)
-		d1.insert(2, value: 2)
-		d1.insert(3, value: 3)
-		d1.insert(4, value: 4)
-		d1.insert(5, value: 5)
-		d1.insert(5, value: 5)
-		d1.insert(6, value: 6)
+		_ = d1.insert(1, value: 1)
+		_ = d1.insert(2, value: 2)
+		_ = d1.insert(3, value: 3)
+		_ = d1.insert(4, value: 4)
+		_ = d1.insert(5, value: 5)
+		_ = d1.insert(5, value: 5)
+		_ = d1.insert(6, value: 6)
 		
 		XCTAssert(0 == d1.indexOf(1), "Test failed.")
 		XCTAssert(5 == d1.indexOf(6), "Test failed.")
