@@ -255,6 +255,7 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 		:description:	Insert a key / value pair.
 		- returns:	Bool
 	*/
+    @discardableResult
 	public func insert(_ key: Key, value: Value?) -> Bool {
 		return sentinel !== internalInsert(key, value: value)
 	}
@@ -275,7 +276,7 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 	*/
 	public func insert(_ nodes: Array<(Key, Value?)>) {
 		for (k, v) in nodes {
-			_ = insert(k, value: v)
+            insert(k, value: v)
 		}
 	}
 

@@ -29,20 +29,23 @@
  */
 
 extension Array where Element: Equatable {
-	mutating func remove(object: Element) -> Element? {
+	@discardableResult
+    mutating func remove(object: Element) -> Element? {
 		if let v: Int = index(of: object) {
 			return remove(at: v)
 		}
 		return nil
 	}
 
+    @discardableResult
 	mutating func remove(objects: Element...) {
 		remove(objects: objects)
 	}
 
+    @discardableResult
 	mutating func remove(objects: [Element]) {
         for x in objects {
-            _ = remove(object: x)
+            remove(object: x)
         }
 	}
 }

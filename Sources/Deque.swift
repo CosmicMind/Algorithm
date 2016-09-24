@@ -117,7 +117,7 @@ public class Deque<Element>: CustomStringConvertible, Sequence {
 		and remove it.
 		- returns:	Element?
 	*/
-	public func removeAtFront() -> Element? {
+    public func removeAtFront() -> Element? {
 		return list.removeAtFront()
 	}
 
