@@ -125,7 +125,7 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 		to that node.
 		- returns:	Element?
 	*/
-	public var next: Element? {
+    public var next: Element? {
 		current = current?.next
 		return current?.element
 	}
@@ -237,6 +237,7 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 		and return the element at the poistion.
 		- returns:	Element?
 	*/
+    @discardableResult
 	public func removeAtFront() -> Element? {
 		if 0 == count {
 			return nil
@@ -280,6 +281,7 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 		and return the element at the poistion.
 		- returns:	Element?
 	*/
+    @discardableResult
 	public func removeAtBack() -> Element? {
 		if 0 == count {
 			return nil
@@ -345,6 +347,7 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 		:description:	Removes the element at the cursor position.
 		- returns:	Element?
 	*/
+    @discardableResult
 	public func removeAtCursor() -> Element? {
 		if 1 >= count {
 			return removeAtFront()
