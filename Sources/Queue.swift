@@ -29,7 +29,7 @@
 */
 
 public class Queue<Element>: CustomStringConvertible, Sequence {
-	public typealias Iterator = AnyIterator<Element?>
+	public typealias Iterator = AnyIterator<Element>
 
 	/**
 		:name:	list
@@ -121,18 +121,18 @@ public class Queue<Element>: CustomStringConvertible, Sequence {
 }
 
 public func +<Element>(lhs: Queue<Element>, rhs: Queue<Element>) -> Queue<Element> {
-	let q: Queue<Element> = Queue<Element>()
+	let q = Queue<Element>()
 	for x in lhs {
-		q.enqueue(x!)
+		q.enqueue(x)
 	}
 	for x in rhs {
-		q.enqueue(x!)
+		q.enqueue(x)
 	}
 	return q
 }
 
 public func +=<Element>(lhs: Queue<Element>, rhs: Queue<Element>) {
 	for x in rhs {
-		lhs.enqueue(x!)
+		lhs.enqueue(x)
 	}
 }

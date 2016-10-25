@@ -29,7 +29,7 @@
 */
 
 public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
-	public typealias Iterator = AnyIterator<Element?>
+	public typealias Iterator = AnyIterator<Element>
 
 	/**
 		:name:	head
@@ -68,7 +68,7 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 	internal var internalDescription: String {
 		var output: String = "("
 		var c: Int = 0
-		var x: DoublyLinkedListNode<Element>? = head
+		var x = head
 		while nil !== x {
 			output += "\(x)"
 			c += 1
@@ -286,12 +286,12 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 		if 0 == count {
 			return nil
 		}
-		let element: Element? = tail!.element
+		let element = tail?.element
 		count -= 1
 		if 0 == count {
 			reset()
 		} else {
-			tail = tail!.previous
+			tail = tail?.previous
 		}
 		return element
 	}
@@ -320,7 +320,7 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 		if nil === current || head === current {
 			insertAtFront(element)
 		} else {
-			let z: DoublyLinkedListNode<Element> = DoublyLinkedListNode<Element>(next: current, previous: current!.previous,  element: element)
+			let z = DoublyLinkedListNode<Element>(next: current, previous: current!.previous,  element: element)
 			current!.previous?.next = z
 			current!.previous = z
 			count += 1
@@ -335,7 +335,7 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 		if nil === current || tail === current {
 			insertAtBack(element)
 		} else {
-			let z: DoublyLinkedListNode<Element> = DoublyLinkedListNode<Element>(next: current!.next, previous: current,  element: element)
+			let z = DoublyLinkedListNode<Element>(next: current!.next, previous: current,  element: element)
 			current!.next?.previous = z
 			current!.next = z
 			count += 1
@@ -352,17 +352,17 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 		if 1 >= count {
 			return removeAtFront()
 		} else {
-			let element: Element? = current!.element
-			current!.previous?.next = current!.next
-			current!.next?.previous = current!.previous
+			let element = current?.element
+			current?.previous?.next = current?.next
+			current?.next?.previous = current?.previous
 			if tail === current {
-				current = tail!.previous
+				current = tail?.previous
 				tail = current
 			} else if head === current {
-				current = head!.next
+				current = head?.next
 				head = current
 			} else {
-				current = current!.next
+				current = current?.next
 			}
 			count -= 1
 			return element
@@ -381,18 +381,18 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 }
 
 public func +<Element>(lhs: DoublyLinkedList<Element>, rhs: DoublyLinkedList<Element>) -> DoublyLinkedList<Element> {
-	let l: DoublyLinkedList<Element> = DoublyLinkedList<Element>()
+	let l = DoublyLinkedList<Element>()
 	for x in lhs {
-		l.insertAtBack(x!)
+		l.insertAtBack(x)
 	}
 	for x in rhs {
-		l.insertAtBack(x!)
+		l.insertAtBack(x)
 	}
 	return l
 }
 
 public func +=<Element>(lhs: DoublyLinkedList<Element>, rhs: DoublyLinkedList<Element>) {
 	for x in rhs {
-		lhs.insertAtBack(x!)
+		lhs.insertAtBack(x)
 	}
 }

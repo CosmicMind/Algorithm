@@ -45,9 +45,9 @@ extension Set: ProbableType {
      */
     public func count<Element: Equatable>(of elements: [Element]) -> Int {
         var c: Int = 0
-        for v in elements {
+        for e in elements {
             for x in self {
-                if v == x as! Element {
+                if e == x as? Element {
                     c += 1
                 }
             }
@@ -70,11 +70,7 @@ extension Set: ProbableType {
      - Returns: A Double.
      */
     public func probability<Element: Equatable>(of elements: [Element]) -> Double {
-        guard 0 < count else {
-            return 0
-        }
-        
-        return Double(count(of: elements)) / Double(count)
+        return 0 < count ? Double(count(of: elements)) / Double(count) : 0
     }
     
     /**
@@ -82,14 +78,14 @@ extension Set: ProbableType {
      - Parameter of elements: A list of Elements.
      - Returns: A Double.
      */
-    public func probability(of block: (Element) -> Bool) -> Double {
+    public func probability(of block: @escaping (Element) -> Bool) -> Double {
         guard 0 < count else {
             return 0
         }
         
         var c: Int = 0
-        for x in self {
-            if block(x) {
+        for e in self {
+            if block(e) {
                 c += 1
             }
         }

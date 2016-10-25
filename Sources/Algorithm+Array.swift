@@ -29,23 +29,39 @@
  */
 
 extension Array where Element: Equatable {
-	@discardableResult
+	/**
+     Removes a given Element from an Array if it exists.
+     - Parameter object: An Element.
+     - Returns: An optional Element if the removed
+     element exists.
+     */
+    @discardableResult
     mutating func remove(object: Element) -> Element? {
-		if let v: Int = index(of: object) {
-			return remove(at: v)
-		}
-		return nil
+        guard let v = index(of: object) else {
+            return nil
+        }
+        return remove(at: v)
 	}
 
+    /**
+     Removes a list of given Elements from an Array if
+     they exists.
+     - Parameter objects: A list of Elements.
+     */
     @discardableResult
 	mutating func remove(objects: Element...) {
 		remove(objects: objects)
 	}
 
+    /**
+     Removes an Array of given Elements from an Array if
+     they exists.
+     - Parameter objects: An Array of Elements.
+     */
     @discardableResult
 	mutating func remove(objects: [Element]) {
-        for x in objects {
-            remove(object: x)
+        objects.forEach {
+            self.remove(object: $0)
         }
 	}
 }
@@ -67,13 +83,13 @@ extension Array: ProbableType {
      */
     public func count<Element: Equatable>(of elements: [Element]) -> Int {
 		var c: Int = 0
-		for v in elements {
-			for x in self {
-				if v == x as! Element {
-					c += 1
-				}
-			}
-		}
+        for e in elements {
+            for x in self {
+                if e == x as? Element {
+                    c += 1
+                }
+            }
+        }
 		return c
 	}
 
@@ -92,11 +108,7 @@ extension Array: ProbableType {
      - Returns: A Double.
      */
     public func probability<Element: Equatable>(of elements: [Element]) -> Double {
-        guard 0 < count else {
-            return 0
-        }
-        
-        return Double(count(of: elements)) / Double(count)
+        return 0 < count ? Double(count(of: elements)) / Double(count) : 0
 	}
 
     /**
@@ -104,17 +116,17 @@ extension Array: ProbableType {
      - Parameter of elements: A list of Elements.
      - Returns: A Double.
      */
-    public func probability(of block: (Element) -> Bool) -> Double {
+    public func probability(of block: @escaping (Element) -> Bool) -> Double {
         guard 0 < count else {
             return 0
         }
 
-		var c: Int = 0
-		for x in self {
-			if block(x) {
-				c += 1
-			}
-		}
+        var c: Int = 0
+        for e in self {
+            if block(e) {
+                c += 1
+            }
+        }
         
 		return Double(c) / Double(count)
 	}

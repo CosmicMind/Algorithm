@@ -29,112 +29,81 @@
 */
 
 public class Stack<Element>: CustomStringConvertible, Sequence {
-	public typealias Iterator = AnyIterator<Element?>
+	public typealias Iterator = AnyIterator<Element>
 
-	/**
-		:name:	list
-		:description:	Underlying data structure.
-		- returns:	DoublyLinkedList<Element>
-	*/
-	private var list: DoublyLinkedList<Element>
+	/// Underlying data structure.
+    private var list: DoublyLinkedList<Element>
 
-	/**
-		:name:	count
-		:description:	Total number of items in the Stack.
-		- returns:	Int
-	*/
+	/// Total number of items in the Stack.
 	public var count: Int {
 		return list.count
 	}
 
-	/**
-		:name:	top
-		:description:	Get the latest element at the top
-		of the Stack and do not remove
-		it.
-		- returns:	Element?
-	*/
+	/// Get the latest element at the top of the Stack and do not remove it.
 	public var top: Element? {
 		return list.front
 	}
 
-	/**
-		:name:	isEmpty
-		:description:	A boolean of whether the Stack is empty.
-		- returns:	Bool
-	*/
+	/// A boolean of whether the Stack is empty.
 	public var isEmpty: Bool {
 		return list.isEmpty
 	}
 
-	/**
-		:name:	description
-		:description:	Conforms to the Printable Protocol.
-		- returns:	String
-	*/
+	/// Conforms to the Printable Protocol.
 	public var description: String {
 		return "Stack" + list.internalDescription
 	}
 
-	/**
-		:name:	init
-		:description:	Constructor.
-	*/
+    /// Initializer.
 	public init() {
 		list = DoublyLinkedList<Element>()
 	}
 
-	//
-	//	:name:	generate
-	//	:description:	Conforms to the SequenceType Protocol. Returns
-	//	the next value in the sequence of nodes.
-	//	:returns:	Stack.Generator
-	//
+	/**
+     Conforms to the SequenceType Protocol. Returns the next value in the 
+     sequence of nodes.
+     - Returns:	Stack.Generator
+     */
 	public func makeIterator() -> Stack.Iterator {
 		return list.makeIterator()
 	}
 
 	/**
-		:name:	push
-		:description:	Insert a new element at the top of the Stack.
-	*/
+     Insert a new element at the top of the Stack.
+     - Parameter _ element: An Element type.
+     */
 	public func push(_ element: Element) {
 		list.insertAtFront(element)
 	}
 
 	/**
-		:name:	pop
-		:description:	Get the latest element at the top of
-		the Stack and remove it from the
-		Stack.
-		- returns:	Element?
-	*/
+     Get the latest element at the top of the Stack and remove it from 
+     the Stack.
+     - Returns:	Element?
+     */
 	public func pop() -> Element? {
 		return list.removeAtFront()
 	}
 
-	/**
-		:name:	removeAll
-		:description:	Remove all elements from the Stack.
-	*/
+	/// Remove all elements from the Stack.
 	public func removeAll() {
 		list.removeAll()
 	}
 }
 
 public func +<Element>(lhs: Stack<Element>, rhs: Stack<Element>) -> Stack<Element> {
-	let s: Stack<Element> = Stack<Element>()
+	let s = Stack<Element>()
 	for x in lhs {
-		s.push(x!)
+		s.push(x)
 	}
 	for x in rhs {
-		s.push(x!)
+		s.push(x)
 	}
 	return s
 }
 
 public func +=<Element>(lhs: Stack<Element>, rhs: Stack<Element>) {
 	for x in rhs {
-		lhs.push(x!)
+		lhs.push(x)
 	}
 }

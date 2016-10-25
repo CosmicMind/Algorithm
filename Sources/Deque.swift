@@ -28,8 +28,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-public class Deque<Element>: CustomStringConvertible, Sequence {
-	public typealias Iterator = AnyIterator<Element?>
+public struct Deque<Element>: CustomStringConvertible, Sequence {
+	public typealias Iterator = AnyIterator<Element>
 
 	/**
 		:name:	list
@@ -107,7 +107,7 @@ public class Deque<Element>: CustomStringConvertible, Sequence {
 		:name:	insertAtFront
 		:description:	Insert a new element at the front of the Deque.
 	*/
-	public func insertAtFront(_ element: Element) {
+	mutating public func insert(atFront element: Element) {
 		list.insertAtFront(element)
 	}
 
@@ -117,7 +117,7 @@ public class Deque<Element>: CustomStringConvertible, Sequence {
 		and remove it.
 		- returns:	Element?
 	*/
-    public func removeAtFront() -> Element? {
+    mutating public func removeAtFront() -> Element? {
 		return list.removeAtFront()
 	}
 
@@ -125,7 +125,7 @@ public class Deque<Element>: CustomStringConvertible, Sequence {
 		:name:	insertAtBack
 		:description:	Insert a new element at the back of the Deque.
 	*/
-	public func insertAtBack(_ element: Element) {
+	mutating public func insert(atBack element: Element) {
 		list.insertAtBack(element)
 	}
 
@@ -135,7 +135,7 @@ public class Deque<Element>: CustomStringConvertible, Sequence {
 		and remove it.
 		- returns:	Element?
 	*/
-	public func removeAtBack() -> Element? {
+	mutating public func removeAtBack() -> Element? {
 		return list.removeAtBack()
 	}
 
@@ -149,18 +149,18 @@ public class Deque<Element>: CustomStringConvertible, Sequence {
 }
 
 public func +<Element>(lhs: Deque<Element>, rhs: Deque<Element>) -> Deque<Element> {
-	let d: Deque<Element> = Deque<Element>()
+	var d = Deque<Element>()
 	for x in lhs {
-		d.insertAtBack(x!)
+        d.insert(atBack: x)
 	}
 	for x in rhs {
-		d.insertAtBack(x!)
+        d.insert(atBack: x)
 	}
 	return d
 }
 
-public func +=<Element>(lhs: Deque<Element>, rhs: Deque<Element>) {
+public func +=<Element>(lhs: inout Deque<Element>, rhs: Deque<Element>) {
 	for x in rhs {
-		lhs.insertAtBack(x!)
+        lhs.insert(atBack: x)
 	}
 }

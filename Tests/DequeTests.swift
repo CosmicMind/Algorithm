@@ -42,20 +42,20 @@ class DequeTests: XCTestCase {
 	}
 	
 	func testInt() {
-		let d: Deque<Int> = Deque<Int>()
+		var d = Deque<Int>()
 		
-		d.insertAtFront(1)
-		d.insertAtFront(2)
-		d.insertAtFront(3)
+        d.insert(atFront: 1)
+        d.insert(atFront: 2)
+        d.insert(atFront: 3)
 		
 		XCTAssert(3 == d.count, "Count incorrect, got \(d.count).")
 		
 		XCTAssert(3 == d.front, "Front incorrect, got \(d.front)")
 		XCTAssert(1 == d.back, "Back incorrect, got \(d.back)")
 		
-		d.insertAtBack(5)
-		d.insertAtBack(6)
-		d.insertAtBack(7)
+        d.insert(atBack: 5)
+		d.insert(atBack: 6)
+		d.insert(atBack: 7)
 		
 		XCTAssert(6 == d.count, "Count incorrect, got \(d.count).")
 		
@@ -70,37 +70,33 @@ class DequeTests: XCTestCase {
 		XCTAssert(6 == d.removeAtBack() && 1 == d.count && 5 == d.back, "RemoveAtBack incorrect")
 		XCTAssert(5 == d.removeAtBack() && 0 == d.count && nil == d.back, "RemoveAtBack incorrect")
 		
-		d.insertAtFront(1)
-		d.insertAtFront(2)
-		d.insertAtFront(3)
-		d.removeAll()
+        d.insert(atFront: 1)
+        d.insert(atFront: 2)
+        d.insert(atFront: 3)
+        d.removeAll()
 		
 		XCTAssert(0 == d.count, "Count incorrect, got \(d.count).")
 	}
 	
 	func testConcat() {
-		let d1: Deque<Int> = Deque<Int>()
-		d1.insertAtBack(1)
-		d1.insertAtBack(2)
-		d1.insertAtBack(3)
+		var d1 = Deque<Int>()
+        d1.insert(atBack: 1)
+        d1.insert(atBack: 2)
+        d1.insert(atBack: 3)
+        
+		var d2 = Deque<Int>()
+        d2.insert(atBack: 5)
+        d2.insert(atBack: 6)
+        d2.insert(atBack: 7)
+        
+		var d3 = d1 + d2
 		
-		let d2: Deque<Int> = Deque<Int>()
-		d2.insertAtBack(4)
-		d2.insertAtBack(5)
-		d2.insertAtBack(6)
-		
-		let d3: Deque<Int> = d1 + d2
-		
-		for x in d1 {
-			XCTAssert(x == d3.removeAtFront(), "Concat incorrect.")
+        for x in d1 {
+			XCTAssertEqual(x, d3.removeAtFront(), "Concat incorrect.")
 		}
 		
 		for x in d2 {
-			XCTAssert(x == d3.removeAtFront(), "Concat incorrect.")
+			XCTAssertEqual(x, d3.removeAtFront(), "Concat incorrect.")
 		}
-	}
-	
-	func testPerformance() {
-		self.measure() {}
 	}
 }
