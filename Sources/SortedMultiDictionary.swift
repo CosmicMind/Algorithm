@@ -28,7 +28,7 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public class SortedMultiDictionary<Key: Comparable, Value>: ProbableType, Collection, Equatable, CustomStringConvertible where Key: Hashable {
+public class SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection, Equatable, CustomStringConvertible where Key: Hashable {
     /// Returns the position immediately after the given index.
     ///
     /// - Parameter i: A valid index of the collection. `i` must be less than
@@ -192,14 +192,14 @@ public class SortedMultiDictionary<Key: Comparable, Value>: ProbableType, Collec
 	}
 	
 	/**
-	Conforms to ProbableType protocol.
+	Conforms to Probable protocol.
 	*/
 	public func count<T: Equatable>(of keys: T...) -> Int {
         return count(of: keys)
 	}
 	
 	/**
-	Conforms to ProbableType protocol.
+	Conforms to Probable protocol.
 	*/
 	public func count<T: Equatable>(of keys: Array<T>) -> Int {
         return tree.count(of: keys)
@@ -229,15 +229,15 @@ public class SortedMultiDictionary<Key: Comparable, Value>: ProbableType, Collec
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValue<T: Equatable>(trials: Int, elements: T...) -> Double {
-        return expectedValue(trials: trials, elements: elements)
+	public func expectedValue<T: Equatable>(of trials: Int, for elements: T...) -> Double {
+        return expectedValue(of: trials, for: elements)
 	}
 	
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValue<T: Equatable>(trials: Int, elements: Array<T>) -> Double {
-        return tree.expectedValue(trials: trials, elements: elements)
+	public func expectedValue<T: Equatable>(of trials: Int, for elements: Array<T>) -> Double {
+        return tree.expectedValue(of: trials, for: elements)
 	}
 	
 	/**

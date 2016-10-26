@@ -28,54 +28,48 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-internal protocol ProbableType {
+internal protocol Probable {
 	/**
-		:name:	count
-		:description:	The instance count of elements.
-		- parameter	of elements:	Element...	The element values to count.
-		- returns:	Int
-	*/
+     The instance count of elements.
+     - Parameter of elements: A list of Elements
+     - Returns:	An Int.
+     */
 	func count<Element: Equatable>(of elements: Element...) -> Int
 	
-	/**
-		:name:	count
-		:description:	The instance count of elements.
-		- parameter	of elements:	Array<Element>	An array of element values to count.
-		- returns:	Int
-	*/
-	func count<Element: Equatable>(of elements: Array<Element>) -> Int
+    /**
+     The instance count of elements.
+     - Parameter of elements: An Array of Elements.
+     - Returns:	An Int.
+     */
+    func count<Element: Equatable>(of elements: [Element]) -> Int
 	
 	/**
-		:name:	probability
-		:description:	The probability of elements.
-		- parameter	of elements:	Element...	The element values to determine the probability of.
-		- returns:	Double
-	*/
+     The probability of elements.
+     - Parameter of elements: A list of Elements.
+     - Returns:	A Double.
+     */
 	func probability<Element: Equatable>(of elements: Element...) -> Double
 	
-	/**
-		:name:	probability
-		:description:	The probability of elements.
-		- parameter	elements:	Array<Element>	An array of element values to determine the probability of.
-		- returns:	Double
-	*/
-	func probability<Element: Equatable>(of elements: Array<Element>) -> Double
+    /**
+     The probability of elements.
+     - Parameter of elements: An Array of Elements.
+     - Returns:	A Double.
+     */
+    func probability<Element: Equatable>(of elements: [Element]) -> Double
 	
 	/**
-		:name:	expectedValue
-		:description:	The expected value of elements.
-		- parameter	trials:	Int	The number of trials to execute.
-		- parameter	elements:	Element...	The element values to determine the expected value of.
-		- returns:	Double
-	*/
-	func expectedValue<Element: Equatable>(trials: Int, elements: Element...) -> Double
+     The expected value of elements based on a number of trials.
+     - Parameter of trials: An Int.
+     - Parameter for elements: A list of Elements.
+     - Returns: A Double.
+     */
+	func expectedValue<Element: Equatable>(of trials: Int, for elements: Element...) -> Double
 	
-	/**
-		:name:	expectedValue
-		:description:	The expected value of elements.
-		- parameter	trials:	Int	The number of trials to execute.
-		- parameter	elements:	Array<Element>	An array of element values to determine the expected value of.
-		- returns:	Double
-	*/
-	func expectedValue<Element: Equatable>(trials: Int, elements: Array<Element>) -> Double
+    /**
+     The expected value of elements based on a number of trials.
+     - Parameter of trials: An Int.
+     - Parameter for elements: An Array of Elements.
+     - Returns: A Double.
+     */
+    func expectedValue<Element: Equatable>(of trials: Int, for elements: [Element]) -> Double
 }

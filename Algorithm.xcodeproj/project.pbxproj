@@ -22,8 +22,8 @@
 		65744CF51C554EDA0011C977 /* DoublyLinkedListNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65744CE11C554EDA0011C977 /* DoublyLinkedListNode.swift */; };
 		65744CF61C554EDA0011C977 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 65744CE21C554EDA0011C977 /* LICENSE */; };
 		65744CF71C554EDA0011C977 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 65744CE21C554EDA0011C977 /* LICENSE */; };
-		65744CF81C554EDA0011C977 /* ProbableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65744CE31C554EDA0011C977 /* ProbableType.swift */; };
-		65744CF91C554EDA0011C977 /* ProbableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65744CE31C554EDA0011C977 /* ProbableType.swift */; };
+		65744CF81C554EDA0011C977 /* Probable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65744CE31C554EDA0011C977 /* Probable.swift */; };
+		65744CF91C554EDA0011C977 /* Probable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65744CE31C554EDA0011C977 /* Probable.swift */; };
 		65744CFA1C554EDA0011C977 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65744CE41C554EDA0011C977 /* Queue.swift */; };
 		65744CFB1C554EDA0011C977 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65744CE41C554EDA0011C977 /* Queue.swift */; };
 		65744CFC1C554EDA0011C977 /* RedBlackNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65744CE51C554EDA0011C977 /* RedBlackNode.swift */; };
@@ -65,7 +65,7 @@
 		65744D2A1C554F2E0011C977 /* Deque.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CDF1C554EDA0011C977 /* Deque.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		65744D2B1C554F2E0011C977 /* DoublyLinkedList.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CE01C554EDA0011C977 /* DoublyLinkedList.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		65744D2C1C554F2E0011C977 /* DoublyLinkedListNode.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CE11C554EDA0011C977 /* DoublyLinkedListNode.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		65744D2D1C554F2E0011C977 /* ProbableType.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CE31C554EDA0011C977 /* ProbableType.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		65744D2D1C554F2E0011C977 /* Probable.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CE31C554EDA0011C977 /* Probable.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		65744D2E1C554F2E0011C977 /* Queue.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CE41C554EDA0011C977 /* Queue.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		65744D2F1C554F2E0011C977 /* RedBlackNode.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CE51C554EDA0011C977 /* RedBlackNode.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		65744D301C554F2E0011C977 /* RedBlackTree.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CE61C554EDA0011C977 /* RedBlackTree.swift */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -80,7 +80,7 @@
 		65744D391C554F400011C977 /* Deque.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CDF1C554EDA0011C977 /* Deque.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		65744D3A1C554F410011C977 /* DoublyLinkedList.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CE01C554EDA0011C977 /* DoublyLinkedList.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		65744D3B1C554F410011C977 /* DoublyLinkedListNode.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CE11C554EDA0011C977 /* DoublyLinkedListNode.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		65744D3C1C554F410011C977 /* ProbableType.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CE31C554EDA0011C977 /* ProbableType.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		65744D3C1C554F410011C977 /* Probable.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CE31C554EDA0011C977 /* Probable.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		65744D3D1C554F410011C977 /* Queue.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CE41C554EDA0011C977 /* Queue.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		65744D3E1C554F410011C977 /* RedBlackNode.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CE51C554EDA0011C977 /* RedBlackNode.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		65744D3F1C554F410011C977 /* RedBlackTree.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CE61C554EDA0011C977 /* RedBlackTree.swift */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -122,7 +122,7 @@
 		65744CE01C554EDA0011C977 /* DoublyLinkedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoublyLinkedList.swift; sourceTree = "<group>"; };
 		65744CE11C554EDA0011C977 /* DoublyLinkedListNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoublyLinkedListNode.swift; sourceTree = "<group>"; };
 		65744CE21C554EDA0011C977 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		65744CE31C554EDA0011C977 /* ProbableType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProbableType.swift; sourceTree = "<group>"; };
+		65744CE31C554EDA0011C977 /* Probable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Probable.swift; sourceTree = "<group>"; };
 		65744CE41C554EDA0011C977 /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		65744CE51C554EDA0011C977 /* RedBlackNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedBlackNode.swift; sourceTree = "<group>"; };
 		65744CE61C554EDA0011C977 /* RedBlackTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedBlackTree.swift; sourceTree = "<group>"; };
@@ -208,7 +208,7 @@
 				65744CDF1C554EDA0011C977 /* Deque.swift */,
 				65744CE01C554EDA0011C977 /* DoublyLinkedList.swift */,
 				65744CE11C554EDA0011C977 /* DoublyLinkedListNode.swift */,
-				65744CE31C554EDA0011C977 /* ProbableType.swift */,
+				65744CE31C554EDA0011C977 /* Probable.swift */,
 				65744CE41C554EDA0011C977 /* Queue.swift */,
 				65744CE51C554EDA0011C977 /* RedBlackNode.swift */,
 				65744CE61C554EDA0011C977 /* RedBlackTree.swift */,
@@ -251,7 +251,7 @@
 				65744D2A1C554F2E0011C977 /* Deque.swift in Headers */,
 				65744D2B1C554F2E0011C977 /* DoublyLinkedList.swift in Headers */,
 				65744D2C1C554F2E0011C977 /* DoublyLinkedListNode.swift in Headers */,
-				65744D2D1C554F2E0011C977 /* ProbableType.swift in Headers */,
+				65744D2D1C554F2E0011C977 /* Probable.swift in Headers */,
 				65744D2E1C554F2E0011C977 /* Queue.swift in Headers */,
 				65744D2F1C554F2E0011C977 /* RedBlackNode.swift in Headers */,
 				65744D301C554F2E0011C977 /* RedBlackTree.swift in Headers */,
@@ -274,7 +274,7 @@
 				65744D391C554F400011C977 /* Deque.swift in Headers */,
 				65744D3A1C554F410011C977 /* DoublyLinkedList.swift in Headers */,
 				65744D3B1C554F410011C977 /* DoublyLinkedListNode.swift in Headers */,
-				65744D3C1C554F410011C977 /* ProbableType.swift in Headers */,
+				65744D3C1C554F410011C977 /* Probable.swift in Headers */,
 				65744D3D1C554F410011C977 /* Queue.swift in Headers */,
 				65744D3E1C554F410011C977 /* RedBlackNode.swift in Headers */,
 				65744D3F1C554F410011C977 /* RedBlackTree.swift in Headers */,
@@ -456,7 +456,7 @@
 				65744CF41C554EDA0011C977 /* DoublyLinkedListNode.swift in Sources */,
 				65744CFE1C554EDA0011C977 /* RedBlackTree.swift in Sources */,
 				65744CF01C554EDA0011C977 /* Deque.swift in Sources */,
-				65744CF81C554EDA0011C977 /* ProbableType.swift in Sources */,
+				65744CF81C554EDA0011C977 /* Probable.swift in Sources */,
 				65744CF21C554EDA0011C977 /* DoublyLinkedList.swift in Sources */,
 				65744D041C554EDA0011C977 /* SortedMultiSet.swift in Sources */,
 			);
@@ -494,7 +494,7 @@
 				65744CF51C554EDA0011C977 /* DoublyLinkedListNode.swift in Sources */,
 				65744CFF1C554EDA0011C977 /* RedBlackTree.swift in Sources */,
 				65744CF11C554EDA0011C977 /* Deque.swift in Sources */,
-				65744CF91C554EDA0011C977 /* ProbableType.swift in Sources */,
+				65744CF91C554EDA0011C977 /* Probable.swift in Sources */,
 				65744CF31C554EDA0011C977 /* DoublyLinkedList.swift in Sources */,
 				65744D051C554EDA0011C977 /* SortedMultiSet.swift in Sources */,
 			);

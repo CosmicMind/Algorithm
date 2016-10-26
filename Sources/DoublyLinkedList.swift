@@ -28,43 +28,38 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
+public struct DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 	public typealias Iterator = AnyIterator<Element>
 
 	/**
-		:name:	head
-		:description:	First node in the list.
-		- returns:	DoublyLinkedListNode<Element>?
-	*/
+     First node in the list.
+     - Returns: An optional DoublyLinkedListNode<Element>.
+     */
 	private var head: DoublyLinkedListNode<Element>?
 
 	/**
-		:name:	tail
-		:description:	Last node in list.
-		- returns:	DoublyLinkedListNode<Element>?
-	*/
+     Last node in list.
+     - Returns: An optional DoublyLinkedListNode<Element>.
+     */
 	private var tail: DoublyLinkedListNode<Element>?
 
 	/**
-		:name:	current
-		:description:	Current cursor position when iterating.
-		- returns:	DoublyLinkedListNode<Element>?
-	*/
+     Current cursor position when iterating.
+     - Returns: An optional DoublyLinkedListNode<Element>.
+     */
 	private var current: DoublyLinkedListNode<Element>?
 
 	/**
-		:name:	count
-		:description:	Number of nodes in DoublyLinkedList.
-		- returns:	Int
-	*/
+     Number of nodes in DoublyLinkedList.
+     - Returns:	An Int.
+     */
 	public private(set) var count: Int
 
 	/**
-		:name:	internalDescription
-		:description:	Returns a String with only the node data for all
-		nodes in the DoublyLinkedList.
-		- returns:	String
-	*/
+     Returns a String with only the node data for all nodes 
+     in the DoublyLinkedList.
+     - Returns:	A String.
+     */
 	internal var internalDescription: String {
 		var output: String = "("
 		var c: Int = 0
@@ -82,111 +77,101 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 	}
 
 	/**
-		:name:	description
-		:description:	Conforms to Printable Protocol.
-		- returns:	String
-	*/
+     Conforms to Printable Protocol.
+     - Returns: A String.
+     */
 	public var description: String {
 		return "DoublyLinkedList" + internalDescription
 	}
 
 	/**
-		:name:	front
-		:description:	Retrieves the data at first node of the DoublyLinkedList.
-		- returns:	Element?
-	*/
+     Retrieves the data at first node of the DoublyLinkedList.
+     - Returns:	An optional Element.
+     */
 	public var front: Element? {
 		return head?.element
 	}
 
 	/**
-		:name:	back
-		:description:	Retrieves the element at the back node of teh DoublyLinkedList.
-		- returns:	Element?
+     Retrieves the element at the back node of teh DoublyLinkedList.
+     - Returns: An optional Element.
 	*/
 	public var back: Element? {
 		return tail?.element
 	}
 
 	/**
-		:name:	cursor
-		:description:	Retrieves the element at the current iterator position
-		in the DoublyLinkedList.
-		- returns:	Element?
-	*/
+     Retrieves the element at the current iterator position
+     in the DoublyLinkedList.
+     - Returns:	An optional Element.
+     */
 	public var cursor: Element? {
 		return current?.element
 	}
 
 	/**
-		:name:	next
-		:description:	Retrieves the element at the poistion after the
-		current cursor poistion. Also moves the cursor
-		to that node.
-		- returns:	Element?
-	*/
+     Retrieves the element at the poistion after the
+     current cursor poistion. Also moves the cursor
+     to that node.
+     - Returns:	An optional Element.
+     */
     public var next: Element? {
 		current = current?.next
 		return current?.element
 	}
 
 	/**
-		:name:	previous
-		:description:	Retrieves the element at the poistion before the
-		current cursor poistion. Also moves the cursor
-		to that node.
-		- returns:	Element?
-	*/
+     Retrieves the element at the poistion before the
+     current cursor poistion. Also moves the cursor
+     to that node.
+     - Returns:	An optional Element.
+     */
 	public var previous: Element? {
 		current = current?.previous
 		return current?.element
 	}
 
 	/**
-		:name:	isEmpty
-		:description:	A boolean of whether the DoublyLinkedList is empty.
-		- returns:	Bool
-	*/
+     A boolean of whether the DoublyLinkedList is empty.
+     - Returns: A boolean indicating if the DoubleLinkedList is
+     empty or not, true if yes, false otherwise.
+     */
 	public var isEmpty: Bool {
 		return 0 == count
 	}
 
 	/**
-		:name:	isCursorAtBack
-		:description:	A boolean of whether the cursor has reached
-		the back of the DoublyLinkedList.
-		- returns:	Bool
-	*/
+     A boolean of whether the cursor has reached the back of the 
+     DoublyLinkedList.
+     - Returns: A boolean indicating if the cursor is pointing at 
+     the back Element, true if yes, false otherwise.
+     */
 	public var isCursorAtBack: Bool {
-		return nil === current
+		return nil == cursor
 	}
 
-	/**
-		:name:	isCursorAtFront
-		:description:	A boolean of whether the cursor has reached
-		the front of the DoublyLinkedList.
-		- returns:	Bool
-	*/
-	public var isCursorAtFront: Bool {
-		return nil === current
+    /**
+     A boolean of whether the cursor has reached the front of the
+     DoublyLinkedList.
+     - Returns: A boolean indicating if the cursor is pointing at
+     the front Element, true if yes, false otherwise.
+     */
+    public var isCursorAtFront: Bool {
+		return nil == cursor
 	}
 
-	/**
-		:name:	init
-		:description:	Constructor.
-	*/
+    /// An initializer.
 	public init() {
 		count = 0
 		reset()
 	}
 
-	//		
-	//	:name:	generate
-	//	:description:	Conforms to the SequenceType Protocol. Returns
-	//	the next value in the sequence of nodes.
-	//	:returns:	DoublyLinkedList.Generator
-	//
-	public func makeIterator() -> DoublyLinkedList.Iterator {
+    /**
+     Conforms to the SequenceType Protocol. Returns the next value
+     in the sequence of nodes.
+     - Returns: A DoublyLinkedList.Iterator.
+     */
+    public func makeIterator() -> DoublyLinkedList.Iterator {
 		cursorToFront()
 		return AnyIterator {
 			if !self.isCursorAtBack {
@@ -198,22 +183,18 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 		}
 	}
 
-	/**
-		:name:	removeAll
-		:description:	Removes all nodes from the DoublyLinkedList.
-	*/
-	public func removeAll() {
+    /// Removes all nodes from the DoublyLinkedList.
+    mutating public func removeAll() {
 		while !isEmpty {
 			_ = removeAtFront()
 		}
 	}
 
 	/**
-		:name:	insertAtFront
-		:description:	Insert a new element at the front
-		of the DoublyLinkedList.
-	*/
-	public func insertAtFront(_ element: Element) {
+     Inserts a new Element at the front of the DoublyLinkedList.
+     - Parameter atFront: An Element.
+     */
+	mutating public func insert(atFront element: Element) {
 		var z: DoublyLinkedListNode<Element>
 		if 0 == count {
 			z = DoublyLinkedListNode<Element>(next: nil, previous: nil,  element: element)
@@ -232,13 +213,11 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 	}
 
 	/**
-		:name:	removeAtFront
-		:description:	Remove the element at the front of the DoublyLinkedList
-		and return the element at the poistion.
-		- returns:	Element?
-	*/
+     Removes the element at the front position.
+     - Returns: An optional Element.
+     */
     @discardableResult
-	public func removeAtFront() -> Element? {
+	mutating public func removeAtFront() -> Element? {
 		if 0 == count {
 			return nil
 		}
@@ -252,12 +231,11 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 		return element
 	}
 
-	/**
-		:name:	insertAtBack
-		:description:	Insert a new element at the back
-		of the DoublyLinkedList.
-	*/
-	public func insertAtBack(_ element: Element) {
+    /**
+     Inserts a new Element at the back of the DoublyLinkedList.
+     - Parameter atBack: An Element.
+     */
+    mutating public func insert(atBack element: Element) {
 		var z: DoublyLinkedListNode<Element>
 		if 0 == count {
 			z = DoublyLinkedListNode<Element>(next: nil, previous: nil,  element: element)
@@ -275,14 +253,12 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 		}
 	}
 
-	/**
-		:name:	removeAtBack
-		:description:	Remove the element at the back of the DoublyLinkedList
-		and return the element at the poistion.
-		- returns:	Element?
-	*/
+    /**
+     Removes the element at the back position.
+     - Returns: An optional Element.
+     */
     @discardableResult
-	public func removeAtBack() -> Element? {
+	mutating public func removeAtBack() -> Element? {
 		if 0 == count {
 			return nil
 		}
@@ -296,29 +272,23 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 		return element
 	}
 
-	/**
-		:name:	cursorToFront
-		:description:	Move the cursor to the front of the DoublyLinkedList.
-	*/
-	public func cursorToFront() {
+	/// Move the cursor to the front of the DoublyLinkedList.
+	mutating public func cursorToFront() {
 		current = head
 	}
 
-	/**
-		:name:	cursorToBack
-		:description:	Move the cursor to the back of the DoublyLinkedList.
-	*/
-	public func cursorToBack() {
+	/// Move the cursor to the back of the DoublyLinkedList.
+	mutating public func cursorToBack() {
 		current = tail
 	}
 
 	/**
-		:name:	insertBeforeCursor
-		:description:	Insert a new element before the cursor position.
-	*/
-	public func insertBeforeCursor(_ element: Element) {
-		if nil === current || head === current {
-			insertAtFront(element)
+     Inserts a new Element before the cursor position.
+     - Parameter beforeCursor element: An Element.
+     */
+	mutating public func insert(beforeCursor element: Element) {
+		if nil == current || head === current {
+            insert(atFront: element)
 		} else {
 			let z = DoublyLinkedListNode<Element>(next: current, previous: current!.previous,  element: element)
 			current!.previous?.next = z
@@ -327,13 +297,13 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 		}
 	}
 
-	/**
-		:name:	insertAfterCursor
-		:description:	Insert a new element after the cursor position.
-	*/
-	public func insertAfterCursor(_ element: Element) {
-		if nil === current || tail === current {
-			insertAtBack(element)
+    /**
+     Inserts a new Element after the cursor position.
+     - Parameter afterCursor element: An Element.
+     */
+    mutating public func insert(afterCursor element: Element) {
+		if nil == current || tail === current {
+            insert(atBack: element)
 		} else {
 			let z = DoublyLinkedListNode<Element>(next: current!.next, previous: current,  element: element)
 			current!.next?.previous = z
@@ -343,12 +313,11 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 	}
 
 	/**
-		:name:	removeAtCursor
-		:description:	Removes the element at the cursor position.
-		- returns:	Element?
-	*/
+     Removes the element at the cursor position.
+     - Returns: An optional Element.
+     */
     @discardableResult
-	public func removeAtCursor() -> Element? {
+	mutating public func removeAtCursor() -> Element? {
 		if 1 >= count {
 			return removeAtFront()
 		} else {
@@ -370,10 +339,10 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 	}
 
 	/**
-		:name:	reset
-		:description:	Reinitializes pointers to sentinel value.
-	*/
-	private func reset() {
+     Removes all elements and resets the head, tail, and cursor 
+     to the sentinel value.
+     */
+	mutating private func reset() {
 		head = nil
 		tail = nil
 		current = nil
@@ -381,18 +350,18 @@ public class DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 }
 
 public func +<Element>(lhs: DoublyLinkedList<Element>, rhs: DoublyLinkedList<Element>) -> DoublyLinkedList<Element> {
-	let l = DoublyLinkedList<Element>()
+	var l = DoublyLinkedList<Element>()
 	for x in lhs {
-		l.insertAtBack(x)
+        l.insert(atBack: x)
 	}
 	for x in rhs {
-		l.insertAtBack(x)
+        l.insert(atBack: x)
 	}
 	return l
 }
 
-public func +=<Element>(lhs: DoublyLinkedList<Element>, rhs: DoublyLinkedList<Element>) {
+public func +=<Element>(lhs: inout DoublyLinkedList<Element>, rhs: DoublyLinkedList<Element>) {
 	for x in rhs {
-		lhs.insertAtBack(x)
+        lhs.insert(atBack: x)
 	}
 }

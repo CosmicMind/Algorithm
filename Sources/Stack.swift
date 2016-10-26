@@ -73,7 +73,7 @@ public class Stack<Element>: CustomStringConvertible, Sequence {
      - Parameter _ element: An Element type.
      */
 	public func push(_ element: Element) {
-		list.insertAtFront(element)
+        list.insert(atFront: element)
 	}
 
 	/**

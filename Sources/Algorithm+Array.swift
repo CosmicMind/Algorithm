@@ -66,7 +66,7 @@ extension Array where Element: Equatable {
 	}
 }
 
-extension Array: ProbableType {
+extension Array: Probable {
 	/**
      The total count for the given Elements.
      - Parameter of elements: A list of Elements.
@@ -137,8 +137,8 @@ extension Array: ProbableType {
      - Parameter elements: A list of Elements.
      - Returns: A Double.
      */
-    public func expectedValue<Element: Equatable>(trials: Int, elements: Element...) -> Double {
-        return expectedValue(trials: trials, elements: elements)
+    public func expectedValue<Element: Equatable>(of trials: Int, for elements: Element...) -> Double {
+        return expectedValue(of: trials, for: elements)
 	}
 
     /**
@@ -147,7 +147,7 @@ extension Array: ProbableType {
      - Parameter elements: An Array of Elements.
      - Returns: A Double.
      */
-    public func expectedValue<Element: Equatable>(trials: Int, elements: [Element]) -> Double {
+    public func expectedValue<Element: Equatable>(of trials: Int, for elements: [Element]) -> Double {
         return Double(trials) * probability(of: elements)
 	}
 }

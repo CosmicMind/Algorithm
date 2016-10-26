@@ -98,7 +98,7 @@ public class Queue<Element>: CustomStringConvertible, Sequence {
 		:description:	Insert a new element at the back of the Queue.
 	*/
 	public func enqueue(_ element: Element) {
-		list.insertAtBack(element)
+        list.insert(atBack: element)
 	}
 
 	/**

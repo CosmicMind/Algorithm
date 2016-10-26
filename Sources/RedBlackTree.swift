@@ -28,7 +28,7 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, CustomStringConvertible {
+public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomStringConvertible {
     /// Returns the position immediately after the given index.
     ///
     /// - Parameter i: A valid index of the collection. `i` must be less than
@@ -188,14 +188,14 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 	}
 
 	/**
-	Conforms to ProbableType protocol.
+	Conforms to Probable protocol.
 	*/
 	public func count<T: Equatable>(of keys: T...) -> Int {
         return count(of: keys)
 	}
 
 	/**
-	Conforms to ProbableType protocol.
+	Conforms to Probable protocol.
 	*/
 	public func count<T: Equatable>(of keys: Array<T>) -> Int {
 		var c: Int = 0
@@ -239,14 +239,14 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValue<T: Equatable>(trials: Int, elements: T...) -> Double {
-        return expectedValue(trials: trials, elements: elements)
+	public func expectedValue<T: Equatable>(of trials: Int, for elements: T...) -> Double {
+        return expectedValue(of: trials, for: elements)
 	}
 	
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValue<T: Equatable>(trials: Int, elements: Array<T>) -> Double {
+	public func expectedValue<T: Equatable>(of trials: Int, for elements: Array<T>) -> Double {
         return Double(trials) * probability(of: elements)
 	}
 
@@ -377,7 +377,7 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 			return internalFindNodeForKey(key).value
 		}
 		set(value) {
-			if sentinel === internalFindNodeForKey(key) {
+			if sentinel == internalFindNodeForKey(key) {
 				_ = internalInsert(key, value: value)
 			} else {
 				updateValue(value, forKey: key)
@@ -392,7 +392,7 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 	*/
 	public func indexOf(_ key: Key) -> Int {
 		let x: RedBlackNode<Key, Value> = internalFindNodeForKey(key)
-		return sentinel === x ? -1 : internalOrder(x) - 1
+		return sentinel == x ? -1 : internalOrder(x) - 1
 	}
 	
 	/**
@@ -416,7 +416,7 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 
 		let z: RedBlackNode<Key, Value> = RedBlackNode<Key, Value>(parent: y, sentinel: sentinel, key: key, value: value)
 
-		if y === sentinel {
+		if y == sentinel {
 			root = z
 		} else if key < y.key {
 			y.left = z
@@ -437,7 +437,7 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 	private func insertCleanUp(_ node: RedBlackNode<Key, Value>) {
 		var z: RedBlackNode<Key, Value> = node
 		while z.parent.isRed {
-			if z.parent === z.parent.parent.left {
+			if z.parent == z.parent.parent.left {
 				let y: RedBlackNode<Key, Value> = z.parent.parent.right
 				// violation 1, parent child relationship re to isRed
 				if y.isRed {
@@ -447,7 +447,7 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 					z = z.parent.parent
 				} else {
 					// case 2, parent is isRed, uncle is black
-					if z === z.parent.right {
+					if z == z.parent.right {
 						z = z.parent
 						leftRotate(z)
 					}
@@ -467,7 +467,7 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 					z = z.parent.parent
 				} else {
 					// case 2, parent is isRed, uncle is black
-					if z === z.parent.left {
+					if z == z.parent.left {
 						z = z.parent
 						rightRotate(z)
 					}
@@ -489,7 +489,7 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 	*/
 	private func internalRemoveValueForKey(_ key: Key) -> RedBlackNode<Key, Value> {
 		let z: RedBlackNode<Key, Value> = internalFindNodeForKey(key)
-		if z === sentinel {
+		if z == sentinel {
 			return sentinel
 		}
 
@@ -507,17 +507,17 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 		var y: RedBlackNode<Key, Value> = z
 		var isRed: Bool = y.isRed
 
-		if z.left === sentinel {
+		if z.left == sentinel {
 			x = z.right
 			transplant(z, v: z.right)
-		} else if z.right === sentinel {
+		} else if z.right == sentinel {
 			x = z.left
 			transplant(z, v: z.left)
 		} else {
 			y = minimum(z.right)
 			isRed = y.isRed
 			x = y.right
-			if y.parent === z {
+			if y.parent == z {
 				x.parent = y
 			} else {
 				transplant(y, v: y.right)
@@ -551,7 +551,7 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 	private func removeCleanUp(_ node: RedBlackNode<Key, Value>) {
 		var x: RedBlackNode<Key, Value> = node
 		while x !== root && !x.isRed {
-			if x === x.parent.left {
+			if x == x.parent.left {
 				var y: RedBlackNode<Key, Value> = x.parent.right
 				if y.isRed {
 					y.isRed = false
@@ -624,9 +624,9 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 		:description:	Swaps two subTrees in the tree.
 	*/
 	private func transplant(_ u: RedBlackNode<Key, Value>, v: RedBlackNode<Key, Value>) {
-		if u.parent === sentinel {
+		if u.parent == sentinel {
 			root = v
-		} else if u === u.parent.left {
+		} else if u == u.parent.left {
 			u.parent.left = v
 		} else {
 			u.parent.right = v
@@ -649,9 +649,9 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 
 		y.parent = x.parent
 
-		if sentinel === x.parent {
+		if sentinel == x.parent {
 			root = y
-		} else if x === x.parent.left {
+		} else if x == x.parent.left {
 			x.parent.left = y
 		} else {
 			x.parent.right = y
@@ -678,9 +678,9 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 
 		x.parent = y.parent
 
-		if sentinel === y.parent {
+		if sentinel == y.parent {
 			root = x
-		} else if y === y.parent.right {
+		} else if y == y.parent.right {
 			y.parent.right = x
 		} else {
 			y.parent.left = x
@@ -761,7 +761,7 @@ public class RedBlackTree<Key: Comparable, Value>: ProbableType, Collection, Cus
 		var x: RedBlackNode<Key, Value> = node
 		var r: Int = x.left.order + 1
 		while root !== x {
-			if x.parent.right === x {
+			if x.parent.right == x {
 				r += x.parent.left.order + 1
 			}
 			x = x.parent

@@ -93,13 +93,12 @@ public struct Deque<Element>: CustomStringConvertible, Sequence {
 		list = DoublyLinkedList<Element>()
 	}
 
-	//
-	//	:name:	generate
-	//	:description:	Conforms to the SequenceType Protocol. Returns
-	//	the next value in the sequence of nodes.
-	//	:returns:	Deque.Generator
-	//
-	public func makeIterator() -> Deque.Iterator {
+	/**
+     Conforms to the SequenceType Protocol. Returns the next value 
+     in the sequence of nodes.
+	 - Returns: A Deque.Iterator.
+     */
+    public func makeIterator() -> Deque.Iterator {
 		return list.makeIterator()
 	}
 
@@ -108,7 +107,7 @@ public struct Deque<Element>: CustomStringConvertible, Sequence {
 		:description:	Insert a new element at the front of the Deque.
 	*/
 	mutating public func insert(atFront element: Element) {
-		list.insertAtFront(element)
+        list.insert(atFront: element)
 	}
 
 	/**
@@ -126,7 +125,7 @@ public struct Deque<Element>: CustomStringConvertible, Sequence {
 		:description:	Insert a new element at the back of the Deque.
 	*/
 	mutating public func insert(atBack element: Element) {
-		list.insertAtBack(element)
+        list.insert(atBack: element)
 	}
 
 	/**
@@ -143,7 +142,7 @@ public struct Deque<Element>: CustomStringConvertible, Sequence {
 		:name:	removeAll
 		:description:	Remove all elements from the Deque.
 	*/
-	public func removeAll() {
+	mutating public func removeAll() {
 		list.removeAll()
 	}
 }
