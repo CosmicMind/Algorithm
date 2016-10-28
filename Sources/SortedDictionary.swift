@@ -43,7 +43,7 @@ public class SortedDictionary<Key: Comparable, Value>: Probable, Collection, Equ
 	/**
 	Total number of elements within the RedBlackTree
 	*/
-	public internal(set) var count: Int = 0
+	public internal(set) var count = 0
 	
 	/**
 		:name:	tree
@@ -70,7 +70,7 @@ public class SortedDictionary<Key: Comparable, Value>: Probable, Collection, Equ
 		- returns:	String
 	*/
 	public var description: String {
-		return tree.internalDescription
+		return tree.description
 	}
 	
 	/**
@@ -125,10 +125,10 @@ public class SortedDictionary<Key: Comparable, Value>: Probable, Collection, Equ
 		:description:	Returns an array of the key values in order.
 		- returns:	SortedDictionary.SortedKey
 	*/
-	public var keys: SortedSet<Key> {
-		let s: SortedSet<Key> = SortedSet<Key>()
+	public var keys: [Key] {
+		var s = [Key]()
 		for x in self {
-			s.insert(x.key)
+			s.append(x.key)
 		}
 		return s
 	}
@@ -139,8 +139,8 @@ public class SortedDictionary<Key: Comparable, Value>: Probable, Collection, Equ
 		on the key ordering.
 		- returns:	SortedDictionary.SortedValue
 	*/
-	public var values: Array<Value> {
-		var s: Array<Value> = Array<Value>()
+	public var values: [Value] {
+		var s = [Value]()
 		for x in self {
 			s.append(x.value!)
 		}
@@ -183,7 +183,7 @@ public class SortedDictionary<Key: Comparable, Value>: Probable, Collection, Equ
 	//
 	public func makeIterator() -> SortedDictionary.Iterator {
 		var index = startIndex
-		return AnyIterator {
+		return AnyIterator { [unowned self] in
 			if index < self.endIndex {
 				let i: Int = index
 				index += 1
@@ -203,7 +203,7 @@ public class SortedDictionary<Key: Comparable, Value>: Probable, Collection, Equ
 	/**
 	Conforms to Probable protocol.
 	*/
-	public func count<T: Equatable>(of keys: Array<T>) -> Int {
+	public func count<T: Equatable>(of keys: [T]) -> Int {
         return tree.count(of: keys)
 	}
 	
@@ -217,7 +217,7 @@ public class SortedDictionary<Key: Comparable, Value>: Probable, Collection, Equ
 	/**
 	The probability of elements.
 	*/
-	public func probability<T: Equatable>(of elements: Array<T>) -> Double {
+	public func probability<T: Equatable>(of elements: [T]) -> Double {
         return tree.probability(of: elements)
 	}
 	
@@ -231,15 +231,15 @@ public class SortedDictionary<Key: Comparable, Value>: Probable, Collection, Equ
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValue<T: Equatable>(of trials: Int, for elements: T...) -> Double {
-        return expectedValue(of: trials, for: elements)
+	public func expectedValue<T: Equatable>(trials: Int, for elements: T...) -> Double {
+        return expectedValue(trials: trials, for: elements)
 	}
 	
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValue<T: Equatable>(of trials: Int, for elements: Array<T>) -> Double {
-        return tree.expectedValue(of: trials, for: elements)
+	public func expectedValue<T: Equatable>(trials: Int, for elements: [T]) -> Double {
+        return tree.expectedValue(trials: trials, for: elements)
 	}
 	
 	/**

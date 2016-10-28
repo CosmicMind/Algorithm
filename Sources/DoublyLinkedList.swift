@@ -29,7 +29,7 @@
 */
 
 public struct DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
-	public typealias Iterator = AnyIterator<Element>
+    public typealias Iterator = AnyIterator<Element>
 
 	/**
      First node in the list.
@@ -56,32 +56,23 @@ public struct DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 	public private(set) var count: Int
 
 	/**
-     Returns a String with only the node data for all nodes 
-     in the DoublyLinkedList.
-     - Returns:	A String.
-     */
-	internal var internalDescription: String {
-		var output: String = "("
-		var c: Int = 0
-		var x = head
-		while nil !== x {
-			output += "\(x)"
-			c += 1
-			if c != count {
-				output += ", "
-			}
-			x = x!.next
-		}
-		output += ")"
-		return output
-	}
-
-	/**
      Conforms to Printable Protocol.
      - Returns: A String.
      */
 	public var description: String {
-		return "DoublyLinkedList" + internalDescription
+        var output: String = "("
+        var c = 0
+        var x = head
+        while nil !== x {
+            output += "\(x)"
+            c += 1
+            if c != count {
+                output += ", "
+            }
+            x = x!.next
+        }
+        output += ")"
+        return output
 	}
 
 	/**
@@ -106,28 +97,6 @@ public struct DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
      - Returns:	An optional Element.
      */
 	public var cursor: Element? {
-		return current?.element
-	}
-
-	/**
-     Retrieves the element at the poistion after the
-     current cursor poistion. Also moves the cursor
-     to that node.
-     - Returns:	An optional Element.
-     */
-    public var next: Element? {
-		current = current?.next
-		return current?.element
-	}
-
-	/**
-     Retrieves the element at the poistion before the
-     current cursor poistion. Also moves the cursor
-     to that node.
-     - Returns:	An optional Element.
-     */
-	public var previous: Element? {
-		current = current?.previous
 		return current?.element
 	}
 
@@ -165,6 +134,30 @@ public struct DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
 		count = 0
 		reset()
 	}
+    
+    /**
+     Retrieves the element at the poistion after the
+     current cursor poistion. Also moves the cursor
+     to that node.
+     - Returns:	An optional Element.
+     */
+    @discardableResult
+    mutating public func next() -> Element? {
+        current = current?.next
+        return current?.element
+    }
+    
+    /**
+     Retrieves the element at the poistion before the
+     current cursor poistion. Also moves the cursor
+     to that node.
+     - Returns:	An optional Element.
+     */
+    @discardableResult
+    mutating public func previous() -> Element? {
+        current = current?.previous
+        return current?.element
+    }
 
     /**
      Conforms to the SequenceType Protocol. Returns the next value
@@ -172,14 +165,13 @@ public struct DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
      - Returns: A DoublyLinkedList.Iterator.
      */
     public func makeIterator() -> DoublyLinkedList.Iterator {
-		cursorToFront()
-		return AnyIterator {
-			if !self.isCursorAtBack {
-				let element: Element? = self.cursor
-				_ = self.next
-				return element
-			}
-			return nil
+        var it = head
+        return AnyIterator {
+            guard let e = it?.element else {
+                return nil
+            }
+            it = it?.next
+            return e
 		}
 	}
 

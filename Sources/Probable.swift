@@ -59,17 +59,17 @@ internal protocol Probable {
 	
 	/**
      The expected value of elements based on a number of trials.
-     - Parameter of trials: An Int.
+     - Parameter trials: An Int.
      - Parameter for elements: A list of Elements.
      - Returns: A Double.
      */
-	func expectedValue<Element: Equatable>(of trials: Int, for elements: Element...) -> Double
+	func expectedValue<Element: Equatable>(trials: Int, for elements: Element...) -> Double
 	
     /**
      The expected value of elements based on a number of trials.
-     - Parameter of trials: An Int.
+     - Parameter trials: An Int.
      - Parameter for elements: An Array of Elements.
      - Returns: A Double.
      */
-    func expectedValue<Element: Equatable>(of trials: Int, for elements: [Element]) -> Double
+    func expectedValue<Element: Equatable>(trials: Int, for elements: [Element]) -> Double
 }

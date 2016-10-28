@@ -51,7 +51,7 @@ public class Stack<Element>: CustomStringConvertible, Sequence {
 
 	/// Conforms to the Printable Protocol.
 	public var description: String {
-		return "Stack" + list.internalDescription
+		return list.description
 	}
 
     /// Initializer.

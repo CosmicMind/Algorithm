@@ -28,7 +28,7 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomStringConvertible {
+public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomStringConvertible {
     /// Returns the position immediately after the given index.
     ///
     /// - Parameter i: A valid index of the collection. `i` must be less than
@@ -43,7 +43,7 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 	/**
 	Total number of elements within the RedBlackTree
 	*/
-	public internal(set) var count: Int = 0
+	public internal(set) var count = 0
 	
 	/**
 		:name:	sentinel
@@ -58,24 +58,6 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		- returns:	RedBlackNode<Key, Value>
 	*/
 	internal private(set) var root: RedBlackNode<Key, Value>
-
-	/**
-		:name:	internalDescription
-		:description:	Returns a String with only the node data for all
-		nodes in the Tree.
-		- returns:	String
-	*/
-	internal var internalDescription: String {
-		var output: String = "["
-		let l: Int = count - 1
-		for i in 0..<count {
-			output += "\(self[i])"
-			if i != l {
-				output += ", "
-			}
-		}
-		return output + "]"
-	}
 
 	/**
 		:name:	isUniquelyKeyed
@@ -93,7 +75,15 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		- returns:	String
 	*/
 	public var description: String {
-		return internalDescription
+        var output: String = "["
+        let l: Int = count - 1
+        for i in 0..<count {
+            output += "\(self[i])"
+            if i != l {
+                output += ", "
+            }
+        }
+        return output + "]"
 	}
 
 	/**
@@ -176,15 +166,15 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 	//	:returns:	RedBlackTree.Generator
 	//
 	public func makeIterator() -> RedBlackTree.Iterator {
-		var index = startIndex
-		return AnyIterator {
-			if index < self.endIndex {
-				let i: Int = index
-				index += 1
-				return self[i]
-			}
-			return nil
-		}
+        var index = startIndex
+        return AnyIterator {
+            if index < self.endIndex {
+                let i: Int = index
+                index += 1
+                return self[i]
+            }
+            return nil
+        }
 	}
 
 	/**
@@ -197,8 +187,8 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 	/**
 	Conforms to Probable protocol.
 	*/
-	public func count<T: Equatable>(of keys: Array<T>) -> Int {
-		var c: Int = 0
+	public func count<T: Equatable>(of keys: [T]) -> Int {
+		var c = 0
 		for key in keys {
 			internalCount(key as! Key, node: root, count: &c)
 		}
@@ -215,7 +205,7 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 	/**
 	The probability of elements.
 	*/
-	public func probability<T: Equatable>(of elements: Array<T>) -> Double {
+	public func probability<T: Equatable>(of elements: [T]) -> Double {
         return 0 == count ? 0 : Double(count(of: elements)) / Double(count)
 	}
 	
@@ -227,7 +217,7 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 			return 0
 		}
 		
-		var c: Int = 0
+		var c = 0
 		for (k, v) in self {
 			if block(k, v) {
 				c += 1
@@ -239,14 +229,14 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValue<T: Equatable>(of trials: Int, for elements: T...) -> Double {
-        return expectedValue(of: trials, for: elements)
+	public func expectedValue<T: Equatable>(trials: Int, for elements: T...) -> Double {
+        return expectedValue(trials: trials, for: elements)
 	}
 	
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValue<T: Equatable>(of trials: Int, for elements: Array<T>) -> Double {
+	public func expectedValue<T: Equatable>(trials: Int, for elements: [T]) -> Double {
         return Double(trials) * probability(of: elements)
 	}
 
@@ -256,7 +246,7 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		- returns:	Bool
 	*/
     @discardableResult
-	public func insert(_ key: Key, value: Value?) -> Bool {
+	mutating public func insert(_ key: Key, value: Value?) -> Bool {
 		return sentinel !== internalInsert(key, value: value)
 	}
 	
@@ -265,7 +255,7 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		:description:	Inserts a list of (Key, Value?) pairs.
 		- parameter	nodes:	(Key, Value?)...	Elements to insert.
 	*/
-	public func insert(_ nodes: (Key, Value?)...) {
+	mutating public func insert(_ nodes: (Key, Value?)...) {
 		insert(nodes)
 	}
 	
@@ -274,7 +264,7 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		:description:	Inserts an array of (Key, Value?) pairs.
 		- parameter	nodes:	Array<(Key, Value?)>	Elements to insert.
 	*/
-	public func insert(_ nodes: Array<(Key, Value?)>) {
+	mutating public func insert(_ nodes: Array<(Key, Value?)>) {
 		for (k, v) in nodes {
             insert(k, value: v)
 		}
@@ -287,7 +277,7 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		the given key value will be removed.
 		- returns:	RedBlackTree<Key, Value>?
 	*/
-	public func removeValueForKeys(_ keys: Key...) {
+	mutating public func removeValueForKeys(_ keys: Key...) {
 		return removeValueForKeys(keys)
 	}
 	
@@ -298,9 +288,9 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		the given key will be removed.
 		- returns:	RedBlackTree<Key, Value>?
 	*/
-	public func removeValueForKeys(_ keys: Array<Key>) {
+	mutating public func removeValueForKeys(_ keys: Array<Key>) {
 		for x in keys {
-			var z: RedBlackNode<Key, Value> = internalRemoveValueForKey(x)
+			var z = internalRemoveValueForKey(x)
 			while sentinel !== z {
 				z = internalRemoveValueForKey(x)
 			}
@@ -313,7 +303,8 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		important when using non-unique keys.
 		- returns:	Value?
 	*/
-	public func removeInstanceValueForKey(_ key: Key) -> Value? {
+    @discardableResult
+	mutating public func removeInstanceValueForKey(_ key: Key) -> Value? {
 		return internalRemoveValueForKey(key).value
 	}
 	
@@ -321,9 +312,9 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		:name:	removeAll
 		:description:	Remove all nodes from the tree.
 	*/
-	public func removeAll() {
+	mutating public func removeAll() {
 		while sentinel !== root {
-			_ = internalRemoveValueForKey(root.key)
+			internalRemoveValueForKey(root.key)
 		}
 	}
 
@@ -333,7 +324,7 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		If the tree allows non-unique keys, then all keys matching
 		the given key value will be updated.
 	*/
-	public func updateValue(_ value: Value?, forKey: Key) {
+	mutating public func updateValue(_ value: Value?, forKey: Key) {
 		internalUpdateValue(value, forKey: forKey, node: root)
 	}
 
@@ -357,7 +348,7 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 	*/
 	public subscript(index: Int) -> (key: Key, value: Value?) {
 		get {
-			let x: RedBlackNode<Key, Value> = internalSelect(root, order: index + 1)
+			let x = internalSelect(root, order: index + 1)
 			return (x.key, x.value)
 		}
 		set(element) {
@@ -391,7 +382,7 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		- returns:	Int
 	*/
 	public func indexOf(_ key: Key) -> Int {
-		let x: RedBlackNode<Key, Value> = internalFindNodeForKey(key)
+		let x = internalFindNodeForKey(key)
 		return sentinel == x ? -1 : internalOrder(x) - 1
 	}
 	
@@ -400,13 +391,13 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		:description:	Insert a new node with the given key and value.
 		- returns:	RedBlackNode<Key, Value>
 	*/
-	private func internalInsert(_ key: Key, value: Value?) -> RedBlackNode<Key, Value> {
+	mutating private func internalInsert(_ key: Key, value: Value?) -> RedBlackNode<Key, Value> {
 		if isUniquelyKeyed && sentinel !== internalFindNodeForKey(key) {
 			return sentinel;
 		}
 
-		var y: RedBlackNode<Key, Value> = sentinel
-		var x: RedBlackNode<Key, Value> = root
+		var y = sentinel
+		var x = root
 
 		while x !== sentinel {
 			y = x
@@ -414,7 +405,7 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 			x = key < x.key ? x.left : x.right
 		}
 
-		let z: RedBlackNode<Key, Value> = RedBlackNode<Key, Value>(parent: y, sentinel: sentinel, key: key, value: value)
+		let z = RedBlackNode<Key, Value>(parent: y, sentinel: sentinel, key: key, value: value)
 
 		if y == sentinel {
 			root = z
@@ -434,11 +425,11 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		:description:	The clean up procedure needed to maintain the RedBlackTree balance.
 		- returns:	RedBlackNode<Key, Value>
 	*/
-	private func insertCleanUp(_ node: RedBlackNode<Key, Value>) {
-		var z: RedBlackNode<Key, Value> = node
+	mutating private func insertCleanUp(_ node: RedBlackNode<Key, Value>) {
+		var z = node
 		while z.parent.isRed {
 			if z.parent == z.parent.parent.left {
-				let y: RedBlackNode<Key, Value> = z.parent.parent.right
+				let y = z.parent.parent.right!
 				// violation 1, parent child relationship re to isRed
 				if y.isRed {
 					z.parent.isRed = false
@@ -458,7 +449,7 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 				}
 			} else {
 				// symetric
-				let y: RedBlackNode<Key, Value> = z.parent.parent.left
+				let y = z.parent.parent.left!
 				// violation 1, parent child relationship re to isRed
 				if y.isRed {
 					z.parent.isRed = false
@@ -487,14 +478,15 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		node. If the value does not exist, the sentinel is returned.
 		- returns:	RedBlackNode<Key, Value>
 	*/
-	private func internalRemoveValueForKey(_ key: Key) -> RedBlackNode<Key, Value> {
-		let z: RedBlackNode<Key, Value> = internalFindNodeForKey(key)
+    @discardableResult
+	mutating private func internalRemoveValueForKey(_ key: Key) -> RedBlackNode<Key, Value> {
+		let z = internalFindNodeForKey(key)
 		if z == sentinel {
 			return sentinel
 		}
 
 		if z !== root {
-			var t: RedBlackNode<Key, Value> = z.parent
+			var t = z.parent!
 			while t !== root {
 				t.order -= 1
 				t = t.parent
@@ -502,9 +494,8 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 			root.order -= 1
 		}
 
-
 		var x: RedBlackNode<Key, Value>!
-		var y: RedBlackNode<Key, Value> = z
+		var y = z
 		var isRed: Bool = y.isRed
 
 		if z.left == sentinel {
@@ -523,7 +514,7 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 				transplant(y, v: y.right)
 				y.right = z.right
 				y.right.parent = y
-				var t: RedBlackNode<Key, Value> = x.parent
+				var t = x.parent!
 				while t !== y {
 					t.order -= 1
 					t = t.parent
@@ -548,11 +539,11 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		:description:	After a successful removal of a node, the RedBlackTree
 		is rebalanced by this method.
 	*/
-	private func removeCleanUp(_ node: RedBlackNode<Key, Value>) {
-		var x: RedBlackNode<Key, Value> = node
+	mutating private func removeCleanUp(_ node: RedBlackNode<Key, Value>) {
+		var x = node
 		while x !== root && !x.isRed {
 			if x == x.parent.left {
-				var y: RedBlackNode<Key, Value> = x.parent.right
+				var y = x.parent.right!
 				if y.isRed {
 					y.isRed = false
 					x.parent.isRed = true
@@ -576,7 +567,7 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 					x = root
 				}
 			} else { // symetric left and right
-				var y: RedBlackNode<Key, Value> = x.parent.left
+				var y = x.parent.left!
 				if y.isRed {
 					y.isRed = false
 					x.parent.isRed = true
@@ -610,8 +601,8 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		- returns:	RedBlackNode<Key, Value>
 	*/
 	private func minimum(_ node: RedBlackNode<Key, Value>) -> RedBlackNode<Key, Value> {
-		var x: RedBlackNode<Key, Value> = node
-		var y: RedBlackNode<Key, Value> = sentinel
+		var x = node
+		var y = sentinel
 		while x !== sentinel {
 			y = x
 			x = x.left
@@ -623,7 +614,7 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		:name:	transplant
 		:description:	Swaps two subTrees in the tree.
 	*/
-	private func transplant(_ u: RedBlackNode<Key, Value>, v: RedBlackNode<Key, Value>) {
+	mutating private func transplant(_ u: RedBlackNode<Key, Value>, v: RedBlackNode<Key, Value>) {
 		if u.parent == sentinel {
 			root = v
 		} else if u == u.parent.left {
@@ -639,8 +630,8 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		:description:	Rotates the nodes to satisfy the RedBlackTree
 		balance property.
 	*/
-	private func leftRotate(_ x: RedBlackNode<Key, Value>) {
-		let y: RedBlackNode<Key, Value> = x.right
+	mutating private func leftRotate(_ x: RedBlackNode<Key, Value>) {
+		let y = x.right!
 
 		x.right = y.left
 		if sentinel !== y.left {
@@ -668,8 +659,8 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		:description:	Rotates the nodes to satisfy the RedBlackTree
 		balance property.
 	*/
-	private func rightRotate(_ y: RedBlackNode<Key, Value>) {
-		let x: RedBlackNode<Key, Value> = y.left
+	mutating private func rightRotate(_ y: RedBlackNode<Key, Value>) {
+		let x = y.left!
 
 		y.left = x.right
 		if sentinel !== x.right {
@@ -698,7 +689,7 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		- returns:	RedBlackNode<Key, Value>
 	*/
 	private func internalFindNodeForKey(_ key: Key) -> RedBlackNode<Key, Value> {
-		var z: RedBlackNode<Key, Value> = root
+		var z = root
 		while z !== sentinel {
 			if key == z.key {
 				return z
@@ -715,7 +706,7 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 	*/
 	private func internalSelect(_ x: RedBlackNode<Key, Value>, order: Int) -> RedBlackNode<Key, Value> {
 		validateOrder(order)
-		let r: Int = x.left.order + 1
+		let r = x.left.order + 1
 		if order == r {
 			return x
 		} else if order < r {
@@ -758,7 +749,7 @@ public class RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomS
 		- returns:	Int
 	*/
 	private func internalOrder(_ node: RedBlackNode<Key, Value>) -> Int {
-		var x: RedBlackNode<Key, Value> = node
+		var x = node
 		var r: Int = x.left.order + 1
 		while root !== x {
 			if x.parent.right == x {
@@ -795,28 +786,28 @@ public func !=<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedB
 }
 
 public func +<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) -> RedBlackTree<Key, Value> {
-	let t: RedBlackTree<Key, Value> = lhs
+	var t = lhs
 	for (k, v) in rhs {
-		_ = t.insert(k, value: v)
+		t.insert(k, value: v)
 	}
 	return t
 }
 
-public func +=<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) {
+public func +=<Key : Comparable, Value>(lhs: inout RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) {
 	for (k, v) in rhs {
-		_ = lhs.insert(k, value: v)
+		lhs.insert(k, value: v)
 	}
 }
 
 public func -<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) -> RedBlackTree<Key, Value> {
-	let t: RedBlackTree<Key, Value> = rhs
+	var t = rhs
 	for (k, _) in rhs {
 		t.removeValueForKeys(k)
 	}
 	return t
 }
 
-public func -=<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) {
+public func -=<Key : Comparable, Value>(lhs: inout RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) {
 	for (k, _) in rhs {
 		lhs.removeValueForKeys(k)
 	}

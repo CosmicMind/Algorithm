@@ -42,30 +42,30 @@ class DoublyLinkedListTests: XCTestCase {
 	}
 	
 	func testInt() {
-		let l: DoublyLinkedList<Int> = DoublyLinkedList<Int>()
+		var l = DoublyLinkedList<Int>()
 		
-		l.insertAtFront(1)
-		l.insertAtFront(2)
-		l.insertAtFront(3)
+		l.insert(atFront: 1)
+		l.insert(atFront: 2)
+		l.insert(atFront: 3)
 		
 		XCTAssert(3 == l.count, "Count incorrect, got \(l.count).")
 		
 		XCTAssert(3 == l.front, "Front incorrect, got \(l.front)")
 		XCTAssert(1 == l.back, "Back incorrect, got \(l.back)")
 		
-		l.insertAtBack(5)
-		l.insertAtBack(6)
-		l.insertAtBack(7)
+		l.insert(atBack: 5)
+		l.insert(atBack: 6)
+		l.insert(atBack: 7)
 		
 		l.cursorToFront()
 		while !l.isCursorAtBack {
-			_ = l.next
-		}
+            l.next()
+        }
 
 		l.cursorToBack()
 		while !l.isCursorAtFront {
-			_ = l.previous
-		}
+            l.previous()
+        }
 
 		XCTAssert(6 == l.count, "Count incorrect, got \(l.count).")
 		
@@ -74,19 +74,19 @@ class DoublyLinkedListTests: XCTestCase {
 
 		l.cursorToFront()
 		XCTAssert(3 == l.front && l.front == l.cursor, "Current incorrect, got \(l.cursor)")
-		XCTAssert(2 == l.next, "Test failed, got \(l.cursor)")
-		XCTAssert(1 == l.next, "Test failed, got \(l.cursor)")
-		XCTAssert(5 == l.next, "Test failed, got \(l.cursor)")
-		XCTAssert(6 == l.next, "Test failed, got \(l.cursor)")
-		XCTAssert(7 == l.next, "Test failed, got \(l.cursor)")
+		XCTAssert(2 == l.next(), "Test failed, got \(l.cursor)")
+		XCTAssert(1 == l.next(), "Test failed, got \(l.cursor)")
+		XCTAssert(5 == l.next(), "Test failed, got \(l.cursor)")
+		XCTAssert(6 == l.next(), "Test failed, got \(l.cursor)")
+		XCTAssert(7 == l.next(), "Test failed, got \(l.cursor)")
 
 		l.cursorToBack()
 		XCTAssert(7 == l.back && l.back == l.cursor, "Current incorrect, got \(l.cursor)")
-		XCTAssert(6 == l.previous, "Test failed, got \(l.cursor)")
-		XCTAssert(5 == l.previous, "Test failed, got \(l.cursor)")
-		XCTAssert(1 == l.previous, "Test failed, got \(l.cursor)")
-		XCTAssert(2 == l.previous, "Test failed, got \(l.cursor)")
-		XCTAssert(3 == l.previous, "Test failed, got \(l.cursor)")
+		XCTAssert(6 == l.previous(), "Test failed, got \(l.cursor)")
+		XCTAssert(5 == l.previous(), "Test failed, got \(l.cursor)")
+		XCTAssert(1 == l.previous(), "Test failed, got \(l.cursor)")
+		XCTAssert(2 == l.previous(), "Test failed, got \(l.cursor)")
+		XCTAssert(3 == l.previous(), "Test failed, got \(l.cursor)")
 
 		l.cursorToFront()
 		XCTAssert(3 == l.removeAtFront() && 5 == l.count, "Test failed.")
@@ -101,28 +101,28 @@ class DoublyLinkedListTests: XCTestCase {
 		l.removeAll()
 		l.cursorToFront()
 		XCTAssert(nil == l.cursor && 0 == l.count, "Test failed, got \(l.cursor)")
-		l.insertBeforeCursor(1)
+        l.insert(beforeCursor: 1)
 		XCTAssert(1 == l.cursor && 1 == l.count, "Test failed, got \(l.cursor)")
 		
 		l.removeAll()
 		l.cursorToBack()
 		XCTAssert(nil == l.cursor && 0 == l.count, "Test failed, got \(l.cursor)")
-		l.insertAfterCursor(1)
+		l.insert(afterCursor: 1)
 		XCTAssert(1 == l.cursor && 1 == l.count, "Test failed, got \(l.cursor)")
 		
 		l.removeAll()
-		l.insertAtBack(1)
+		l.insert(atBack: 1)
 		XCTAssert(1 == l.cursor && 1 == l.count, "Test failed, got \(l.cursor)")
-		l.insertAfterCursor(2)
-		l.insertAfterCursor(6)
-		_ = l.next
+		l.insert(afterCursor: 2)
+		l.insert(afterCursor: 6)
+		l.next()
         XCTAssert(6 == l.cursor && 3 == l.count, "Test failed, got \(l.cursor)")
-		l.insertBeforeCursor(3)
-		l.insertBeforeCursor(5)
-		_ = l.previous
+		l.insert(beforeCursor: 3)
+		l.insert(beforeCursor: 5)
+		l.previous()
         XCTAssert(5 == l.cursor && 5 == l.count, "Test failed, got \(l.cursor)")
-		l.insertAtBack(4)
-		_ = l.previous
+		l.insert(atBack: 4)
+		l.previous()
 		l.removeAtCursor()
         XCTAssert(5 == l.cursor && 5 == l.count, "Test failed, got \(l.cursor)")
 		l.removeAtCursor()
@@ -130,29 +130,29 @@ class DoublyLinkedListTests: XCTestCase {
 		l.removeAtCursor()
 		XCTAssert(2 == l.cursor && 3 == l.count, "Test failed, got \(l.cursor)")
 		l.removeAtCursor()
-		XCTAssert(1 == l.previous && 2 == l.count, "Test failed, got \(l.cursor)")
+		XCTAssert(1 == l.previous() && 2 == l.count, "Test failed, got \(l.cursor)")
 		l.removeAtCursor()
 		XCTAssert(l.front == l.cursor && l.back == l.cursor && 1 == l.count, "Test failed, got \(l.cursor)")
 		l.removeAtCursor()
 		XCTAssert(nil == l.cursor && 0 == l.count, "Test failed, got \(l.cursor)")
 		
-		l.insertAtFront(1)
-		l.insertAtBack(2)
-		l.insertAtFront(3)
+		l.insert(atFront: 1)
+		l.insert(atBack: 2)
+		l.insert(atFront: 3)
 	}
 	
 	func testConcat() {
-		let l1: DoublyLinkedList<Int> = DoublyLinkedList<Int>()
-		l1.insertAtFront(3)
-		l1.insertAtFront(2)
-		l1.insertAtFront(1)
+		var l1 = DoublyLinkedList<Int>()
+		l1.insert(atFront: 3)
+		l1.insert(atFront: 2)
+		l1.insert(atFront: 1)
 		
-		let l2: DoublyLinkedList<Int> = DoublyLinkedList<Int>()
-		l2.insertAtBack(4)
-		l2.insertAtBack(5)
-		l2.insertAtBack(6)
+		var l2 = DoublyLinkedList<Int>()
+		l2.insert(atBack: 4)
+		l2.insert(atBack: 5)
+		l2.insert(atBack: 6)
 		
-		let l3: DoublyLinkedList<Int> = l1 + l2
+		var l3 = l1 + l2
 		
 		for x in l1 {
 			XCTAssert(x == l3.removeAtFront(), "Concat incorrect.")

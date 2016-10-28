@@ -72,7 +72,7 @@ public class Queue<Element>: CustomStringConvertible, Sequence {
 		- returns:	String
 	*/
 	public var description: String {
-		return "Queue" + list.internalDescription
+		return list.description
 	}
 
 	/**

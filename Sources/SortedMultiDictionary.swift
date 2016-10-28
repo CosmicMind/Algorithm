@@ -28,12 +28,13 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public class SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection, Equatable, CustomStringConvertible where Key: Hashable {
-    /// Returns the position immediately after the given index.
-    ///
-    /// - Parameter i: A valid index of the collection. `i` must be less than
-    ///   `endIndex`.
-    /// - Returns: The index value immediately after `i`.
+public struct SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection, Equatable, CustomStringConvertible where Key: Hashable {
+    /**
+     Returns the position immediately after the given index.
+     - Parameter i: A valid index of the collection. `i` must be less than
+     `endIndex`.
+     - Returns: The index value immediately after `i`.
+     */
     public func index(after i: Int) -> Int {
         return i < endIndex ? i + 1 : 0
     }
@@ -43,7 +44,7 @@ public class SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection
 	/**
 	Total number of elements within the RedBlackTree
 	*/
-	public internal(set) var count: Int = 0
+	public internal(set) var count = 0
 
 	/**
 		:name:	tree
@@ -70,7 +71,7 @@ public class SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection
 		- returns:	String
 	*/
 	public var description: String {
-		return tree.internalDescription
+		return tree.description
 	}
 	
 	/**
@@ -137,8 +138,8 @@ public class SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection
 		:description:	Returns an array of the values that are ordered based
 		on the key ordering.
 	*/
-	public var values: Array<Value> {
-		var s: Array<Value> = Array<Value>()
+	public var values: [Value] {
+		var s: [Value] = [Value]()
 		for x in self {
 			s.append(x.value!)
 		}
@@ -158,7 +159,7 @@ public class SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection
 		:description:	Constructor.
 		- parameter	elements:	(Key, Value?)...	Initiates with a given list of elements.
 	*/
-	public convenience init(elements: (Key, Value?)...) {
+	public init(elements: (Key, Value?)...) {
 		self.init(elements: elements)
 	}
 	
@@ -167,7 +168,7 @@ public class SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection
 		:description:	Constructor.
 		- parameter	elements:	Array<(Key, Value?)>	Initiates with a given array of elements.
 	*/
-	public convenience init(elements: Array<(Key, Value?)>) {
+	public init(elements: Array<(Key, Value?)>) {
 		self.init()
 		insert(elements)
 	}
@@ -180,15 +181,15 @@ public class SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection
 	//	:returns:	SortedMultiDictionary.Generator
 	//
 	public func makeIterator() -> SortedMultiDictionary.Iterator {
-		var index = startIndex
-		return AnyIterator {
-			if index < self.endIndex {
-				let i: Int = index
-				index += 1
-				return self[i]
-			}
-			return nil
-		}
+        var index = startIndex
+        return AnyIterator {
+            if index < self.endIndex {
+                let i: Int = index
+                index += 1
+                return self[i]
+            }
+            return nil
+        }
 	}
 	
 	/**
@@ -201,7 +202,7 @@ public class SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection
 	/**
 	Conforms to Probable protocol.
 	*/
-	public func count<T: Equatable>(of keys: Array<T>) -> Int {
+	public func count<T: Equatable>(of keys: [T]) -> Int {
         return tree.count(of: keys)
 	}
 	
@@ -215,7 +216,7 @@ public class SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection
 	/**
 	The probability of elements.
 	*/
-	public func probability<T: Equatable>(of elements: Array<T>) -> Double {
+	public func probability<T: Equatable>(of elements: [T]) -> Double {
         return tree.probability(of: elements)
 	}
 	
@@ -229,15 +230,15 @@ public class SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValue<T: Equatable>(of trials: Int, for elements: T...) -> Double {
-        return expectedValue(of: trials, for: elements)
+	public func expectedValue<T: Equatable>(trials: Int, for elements: T...) -> Double {
+        return expectedValue(trials: trials, for: elements)
 	}
 	
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValue<T: Equatable>(of trials: Int, for elements: Array<T>) -> Double {
-        return tree.expectedValue(of: trials, for: elements)
+	public func expectedValue<T: Equatable>(trials: Int, for elements: [T]) -> Double {
+        return tree.expectedValue(trials: trials, for: elements)
 	}
 	
 	/**
@@ -289,7 +290,8 @@ public class SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection
 		:description:	Insert a key / value pair.
 		- returns:	Bool
 	*/
-	public func insert(_ key: Key, value: Value?) -> Bool {
+    @discardableResult
+	mutating public func insert(_ key: Key, value: Value?) -> Bool {
 		let result: Bool = tree.insert(key, value: value)
 		count = tree.count
 		return result
@@ -300,7 +302,7 @@ public class SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection
 		:description:	Inserts a list of (Key, Value?) pairs.
 		- parameter	elements:	(Key, Value?)...	Elements to insert.
 	*/
-	public func insert(_ elements: (Key, Value?)...) {
+	mutating public func insert(_ elements: (Key, Value?)...) {
 		insert(elements)
 	}
 	
@@ -309,7 +311,7 @@ public class SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection
 		:description:	Inserts an array of (Key, Value?) pairs.
 		- parameter	elements:	Array<(Key, Value?)>	Elements to insert.
 	*/
-	public func insert(_ elements: Array<(Key, Value?)>) {
+	mutating public func insert(_ elements: Array<(Key, Value?)>) {
 		tree.insert(elements)
 		count = tree.count
 	}
@@ -319,7 +321,7 @@ public class SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection
 		:description:	Removes key / value pairs based on the key value given.
 		- returns:	SortedMultiDictionary<Key, Value>?
 	*/
-	public func removeValueForKeys(_ keys: Key...) {
+	mutating public func removeValueForKeys(_ keys: Key...) {
 		removeValueForKeys(keys)
 	}
 	
@@ -327,7 +329,7 @@ public class SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection
 		:name:	removeValueForKeys
 		:description:	Removes key / value pairs based on the key value given.
 	*/
-	public func removeValueForKeys(_ keys: Array<Key>) {
+	mutating public func removeValueForKeys(_ keys: Array<Key>) {
 		tree.removeValueForKeys(keys)
 		count = tree.count
 	}
@@ -336,7 +338,7 @@ public class SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection
 		:name:	removeAll
 		:description:	Remove all nodes from the tree.
 	*/
-	public func removeAll() {
+	mutating public func removeAll() {
 		tree.removeAll()
 		count = tree.count
 	}
@@ -346,7 +348,7 @@ public class SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection
 		:description:	Updates a node for the given key value.
 		All keys matching the given key value will be updated.
 	*/
-	public func updateValue(_ value: Value?, forKey: Key) {
+	mutating public func updateValue(_ value: Value?, forKey: Key) {
 		tree.updateValue(value, forKey: forKey)
 	}
 	
@@ -414,28 +416,28 @@ public func !=<Key : Hashable, Value>(lhs: SortedMultiDictionary<Key, Value>, rh
 }
 
 public func +<Key : Hashable, Value>(lhs: SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) -> SortedMultiDictionary<Key, Value> {
-	let t: SortedMultiDictionary<Key, Value> = lhs
+	var t = lhs
 	for (k, v) in rhs {
-		_ = t.insert(k, value: v)
+		t.insert(k, value: v)
 	}
 	return t
 }
 
-public func +=<Key : Hashable, Value>(lhs: SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) {
+public func +=<Key : Hashable, Value>(lhs: inout SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) {
 	for (k, v) in rhs {
-		_ = lhs.insert(k, value: v)
+        lhs.insert(k, value: v)
 	}
 }
 
 public func -<Key : Hashable, Value>(lhs: SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) -> SortedMultiDictionary<Key, Value> {
-	let t: SortedMultiDictionary<Key, Value> = lhs
+	var t = lhs
 	for (k, _) in rhs {
 		t.removeValueForKeys(k)
 	}
 	return t
 }
 
-public func -=<Key : Hashable, Value>(lhs: SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) {
+public func -=<Key : Hashable, Value>(lhs: inout SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) {
 	for (k, _) in rhs {
 		lhs.removeValueForKeys(k)
 	}

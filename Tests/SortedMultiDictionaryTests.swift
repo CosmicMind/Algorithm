@@ -42,7 +42,7 @@ class SortedMultiDictionaryTests: XCTestCase {
 	}
 	
 	func testInt() {
-		let s: SortedMultiDictionary<Int, Int> = SortedMultiDictionary<Int, Int>()
+		var s = SortedMultiDictionary<Int, Int>()
 		
 		XCTAssert(0 == s.count, "Test failed, got \(s.count).")
 		
@@ -87,24 +87,24 @@ class SortedMultiDictionaryTests: XCTestCase {
 			XCTAssert(5 == x.value, "Test failed.")
 		}
 		
-		for i in 0..<s.endIndex {
-			s[i] = (s[i].key, 100)
-			XCTAssert(100 == s[i].value, "Test failed.")
-		}
+//		for i in 0..<s.endIndex {
+//			s[i] = (s[i].key, 100)
+//			XCTAssert(100 == s[i].value, "Test failed.")
+//		}
 		
 		s.removeAll()
 		XCTAssert(0 == s.count, "Test failed.")
 	}
 	
 	func testIndexOf() {
-		let d1: SortedMultiDictionary<Int, Int> = SortedMultiDictionary<Int, Int>()
-		_ = d1.insert(1, value: 1)
-		_ = d1.insert(2, value: 2)
-		_ = d1.insert(3, value: 3)
-		_ = d1.insert(4, value: 4)
-		_ = d1.insert(5, value: 5)
-		_ = d1.insert(5, value: 5)
-		_ = d1.insert(6, value: 6)
+		var d1 = SortedMultiDictionary<Int, Int>()
+		d1.insert(1, value: 1)
+		d1.insert(2, value: 2)
+		d1.insert(3, value: 3)
+		d1.insert(4, value: 4)
+		d1.insert(5, value: 5)
+		d1.insert(5, value: 5)
+		d1.insert(6, value: 6)
 		
 		XCTAssert(0 == d1.indexOf(1), "Test failed.")
 		XCTAssert(6 == d1.indexOf(6), "Test failed.")
@@ -112,13 +112,13 @@ class SortedMultiDictionaryTests: XCTestCase {
 	}
 	
 	func testKeys() {
-		let s: SortedMultiDictionary<String, Int> = SortedMultiDictionary<String, Int>(elements: ("adam", 1), ("daniel", 2), ("mike", 3), ("natalie", 4))
+		let s = SortedMultiDictionary<String, Int>(elements: ("adam", 1), ("daniel", 2), ("mike", 3), ("natalie", 4))
 		let keys: SortedMultiSet<String> = SortedMultiSet<String>(elements: "adam", "daniel", "mike", "natalie")
 		XCTAssert(keys == s.keys, "Test failed.")
 	}
 	
 	func testValues() {
-		let s: SortedMultiDictionary<String, Int> = SortedMultiDictionary<String, Int>(elements: ("adam", 1), ("daniel", 2), ("mike", 3), ("natalie", 4))
+		let s = SortedMultiDictionary<String, Int>(elements: ("adam", 1), ("daniel", 2), ("mike", 3), ("natalie", 4))
 		let values: Array<Int> = [1, 2, 3, 4]
 		XCTAssert(values == s.values, "Test failed.")
 	}

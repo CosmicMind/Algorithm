@@ -44,7 +44,7 @@ extension Set: Probable {
      - Returns: An Int.
      */
     public func count<Element: Equatable>(of elements: [Element]) -> Int {
-        var c: Int = 0
+        var c = 0
         for e in elements {
             for x in self {
                 if e == x as? Element {
@@ -83,7 +83,7 @@ extension Set: Probable {
             return 0
         }
         
-        var c: Int = 0
+        var c = 0
         for e in self {
             if block(e) {
                 c += 1
@@ -99,8 +99,8 @@ extension Set: Probable {
      - Parameter elements: A list of Elements.
      - Returns: A Double.
      */
-    public func expectedValue<Element: Equatable>(of trials: Int, for elements: Element...) -> Double {
-        return expectedValue(of: trials, for: elements)
+    public func expectedValue<Element: Equatable>(trials: Int, for elements: Element...) -> Double {
+        return expectedValue(trials: trials, for: elements)
     }
     
     /**
@@ -109,7 +109,7 @@ extension Set: Probable {
      - Parameter elements: An Array of Elements.
      - Returns: A Double.
      */
-    public func expectedValue<Element: Equatable>(of trials: Int, for elements: [Element]) -> Double {
+    public func expectedValue<Element: Equatable>(trials: Int, for elements: [Element]) -> Double {
         return Double(trials) * probability(of: elements)
     }
 }

@@ -28,7 +28,7 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, Equatable, CustomStringConvertible {
+public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, Equatable, CustomStringConvertible {
     /// Returns the position immediately after the given index.
     ///
     /// - Parameter i: A valid index of the collection. `i` must be less than
@@ -43,7 +43,7 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 	/**
 	Total number of elements within the RedBlackTree
 	*/
-	public internal(set) var count: Int = 0
+	public internal(set) var count = 0
 	
 	/**
 		:name:	tree
@@ -55,8 +55,8 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 	/**
 		:name:	asArray
 	*/
-	public var asArray: Array<Element> {
-		var a: Array<Element> = Array<Element>()
+	public var asArray: [Element] {
+		var a: [Element] = [Element]()
 		for x in self {
 			a.append(x)
 		}
@@ -142,7 +142,7 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 		:name:	init
 		:description:	Constructor.
 	*/
-	public convenience init(elements: Element...) {
+	public init(elements: Element...) {
 		self.init(elements: elements)
 	}
 
@@ -150,7 +150,7 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 		:name:	init
 		:description:	Constructor.
 	*/
-	public convenience init(elements: Array<Element>) {
+	public init(elements: [Element]) {
 		self.init()
 		insert(elements)
 	}
@@ -163,15 +163,15 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 	//	:returns:	SortedSet.Generator
 	//
 	public func makeIterator() -> SortedSet.Iterator {
-		var index = startIndex
-		return AnyIterator {
-			if index < self.endIndex {
-				let i: Int = index
-				index += 1
-				return self[i]
-			}
-			return nil
-		}
+        var index = startIndex
+        return AnyIterator {
+            if index < self.endIndex {
+                let i: Int = index
+                index += 1
+                return self[i]
+            }
+            return nil
+        }
 	}
 
 	/**
@@ -184,7 +184,7 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 	/**
 	Conforms to Probable protocol.
 	*/
-	public func count<T: Equatable>(of keys: Array<T>) -> Int {
+	public func count<T: Equatable>(of keys: [T]) -> Int {
         return tree.count(of: keys)
 	}
 	
@@ -198,7 +198,7 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 	/**
 	The probability of elements.
 	*/
-	public func probability<T: Equatable>(of elements: Array<T>) -> Double {
+	public func probability<T: Equatable>(of elements: [T]) -> Double {
         return tree.probability(of: elements)
 	}
 	
@@ -210,7 +210,7 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 			return 0
 		}
 		
-		var c: Int = 0
+		var c = 0
 		for x in self {
 			if block(x) {
 				c += 1
@@ -222,15 +222,15 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValue<T: Equatable>(of trials: Int, for elements: T...) -> Double {
-        return expectedValue(of: trials, for: elements)
+	public func expectedValue<T: Equatable>(trials: Int, for elements: T...) -> Double {
+        return expectedValue(trials: trials, for: elements)
 	}
 	
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValue<T: Equatable>(of trials: Int, for elements: Array<T>) -> Double {
-        return tree.expectedValue(of: trials, for: elements)
+	public func expectedValue<T: Equatable>(trials: Int, for elements: [T]) -> Double {
+        return tree.expectedValue(trials: trials, for: elements)
 	}
 
 	/**
@@ -270,7 +270,7 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 		 in the set.
 		- returns:	Bool
 	*/
-	public func contains(_ elements: Array<Element>) -> Bool {
+	public func contains(_ elements: [Element]) -> Bool {
 		if 0 == elements.count {
 			return false
 		}
@@ -286,7 +286,7 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 		:name:	insert
 		:description:	Inserts new elements into the SortedSet.
 	*/
-	public func insert(_ elements: Element...) {
+	mutating public func insert(_ elements: Element...) {
 		insert(elements)
 	}
 
@@ -294,7 +294,7 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 		:name:	insert
 		:description:	Inserts new elements into the SortedSet.
 	*/
-	public func insert(_ elements: Array<Element>) {
+	mutating public func insert(_ elements: [Element]) {
 		for x in elements {
 			_ = tree.insert(x, value: x)
 		}
@@ -305,7 +305,7 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 		:name:	remove
 		:description:	Removes elements from the SortedSet.
 	*/
-	public func remove(_ elements: Element...) {
+	mutating public func remove(_ elements: Element...) {
 		remove(elements)
 	}
 
@@ -313,7 +313,7 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 		:name:	remove
 		:description:	Removes elements from the SortedSet.
 	*/
-	public func remove(_ elements: Array<Element>) {
+	mutating public func remove(_ elements: [Element]) {
 		tree.removeValueForKeys(elements)
 		count = tree.count
 	}
@@ -322,7 +322,7 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 		:name:	removeAll
 		:description:	Remove all nodes from the tree.
 	*/
-	public func removeAll() {
+	mutating public func removeAll() {
 		tree.removeAll()
 		count = tree.count
 	}
@@ -333,11 +333,11 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 		- returns:	SortedSet<Element>
 	*/
 	public func intersect(_ set: SortedSet<Element>) -> SortedSet<Element> {
-		let s: SortedSet<Element> = SortedSet<Element>()
-		var i: Int = 0
-		var j: Int = 0
-		let k: Int = count
-		let l: Int = set.count
+		var s = SortedSet<Element>()
+		var i = 0
+		var j = 0
+		let k = count
+		let l = set.count
 		while k > i && l > j {
 			let x: Element = self[i]
 			let y: Element = set[j]
@@ -358,13 +358,13 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 		:name:	intersectInPlace
 		:description:	Insert elements of a finite sequence of Sets.
 	*/
-	public func intersectInPlace(_ set: SortedSet<Element>) {
+	mutating public func intersectInPlace(_ set: SortedSet<Element>) {
 		let l = set.count
 		if 0 == l {
 			removeAll()
 		} else {
-			var i: Int = 0
-			var j: Int = 0
+			var i = 0
+			var j = 0
 			while count > i && l > j {
 				let x: Element = self[i]
 				let y: Element = set[j]
@@ -386,11 +386,11 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 		- returns:	SortedSet<Element>
 	*/
 	public func union(_ set: SortedSet<Element>) -> SortedSet<Element> {
-		let s: SortedSet<Element> = SortedSet<Element>()
-		var i: Int = 0
-		var j: Int = 0
-		let k: Int = count
-		let l: Int = set.count
+		var s = SortedSet<Element>()
+		var i = 0
+		var j = 0
+		let k = count
+		let l = set.count
 		while k > i && l > j {
 			let x: Element = self[i]
 			let y: Element = set[j]
@@ -421,8 +421,8 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 		:name:	unionInPlace
 		:description:	Return a new Set with items in both this set and a finite sequence of Sets.
 	*/
-	public func unionInPlace(_ set: SortedSet<Element>) {
-		var j: Int = set.count
+	mutating public func unionInPlace(_ set: SortedSet<Element>) {
+		var j = set.count
 		while 0 != j {
 			j -= 1
 			insert(set[j])
@@ -435,11 +435,11 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 		- returns:	SortedSet<Element>
 	*/
 	public func subtract(_ set: SortedSet<Element>) -> SortedSet<Element> {
-		let s: SortedSet<Element> = SortedSet<Element>()
-		var i: Int = 0
-		var j: Int = 0
-		let k: Int = count
-		let l: Int = set.count
+		var s = SortedSet<Element>()
+		var i = 0
+		var j = 0
+		let k = count
+		let l = set.count
 		while k > i && l > j {
 			let x: Element = self[i]
 			let y: Element = set[j]
@@ -464,10 +464,10 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 		:name:	subtractInPlace
 		:description:	Remove all elements in the set that occur in a finite sequence of Sets.
 	*/
-	public func subtractInPlace(_ set: SortedSet<Element>) {
-		var i: Int = 0
-		var j: Int = 0
-		let l: Int = set.count
+	mutating public func subtractInPlace(_ set: SortedSet<Element>) {
+		var i = 0
+		var j = 0
+		let l = set.count
 		while count > i && l > j {
 			let x: Element = self[i]
 			let y: Element = set[j]
@@ -488,11 +488,11 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 		- returns:	SortedSet<Element>
 	*/
 	public func exclusiveOr(_ set: SortedSet<Element>) -> SortedSet<Element> {
-		let s: SortedSet<Element> = SortedSet<Element>()
-		var i: Int = 0
-		var j: Int = 0
-		let k: Int = count
-		let l: Int = set.count
+		var s = SortedSet<Element>()
+		var i = 0
+		var j = 0
+		let k = count
+		let l = set.count
 		while k > i && l > j {
 			let x: Element = self[i]
 			let y: Element = set[j]
@@ -524,10 +524,10 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 		common element, otherwise add it to the set. Repeated elements of the sequence will be
 		ignored.
 	*/
-	public func exclusiveOrInPlace(_ set: SortedSet<Element>) {
-		var i: Int = 0
-		var j: Int = 0
-		let l: Int = set.count
+	mutating public func exclusiveOrInPlace(_ set: SortedSet<Element>) {
+		var i = 0
+		var j = 0
+		let l = set.count
 		while count > i && l > j {
 			let x: Element = self[i]
 			let y: Element = set[j]
@@ -553,8 +553,8 @@ public class SortedSet<Element: Comparable>: Probable, Collection, Comparable, E
 		- returns:	Bool
 	*/
 	public func isDisjointWith(_ set: SortedSet<Element>) -> Bool {
-		var i: Int = count - 1
-		var j: Int = set.count - 1
+		var i = count - 1
+		var j = set.count - 1
 		while 0 <= i && 0 <= j {
 			let x: Element = self[i]
 			let y: Element = set[j]
@@ -642,7 +642,7 @@ public func +<Element : Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Elem
 	return lhs.union(rhs)
 }
 
-public func +=<Element : Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) {
+public func +=<Element : Comparable>(lhs: inout SortedSet<Element>, rhs: SortedSet<Element>) {
 	lhs.unionInPlace(rhs)
 }
 
@@ -650,7 +650,7 @@ public func -<Element : Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Elem
 	return lhs.subtract(rhs)
 }
 
-public func -=<Element : Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) {
+public func -=<Element : Comparable>(lhs: inout SortedSet<Element>, rhs: SortedSet<Element>) {
 	lhs.subtractInPlace(rhs)
 }
 

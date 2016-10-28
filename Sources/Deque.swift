@@ -82,7 +82,7 @@ public struct Deque<Element>: CustomStringConvertible, Sequence {
 		- returns:	String
 	*/
 	public var description: String {
-		return "Deque" + list.internalDescription
+		return list.description
 	}
 
 	/**

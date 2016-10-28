@@ -43,7 +43,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 	/**
 	Total number of elements within the RedBlackTree
 	*/
-	public internal(set) var count: Int = 0
+	public internal(set) var count = 0
 	
 	/**
 		:name:	tree
@@ -55,8 +55,8 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 	/**
 		:name:	asArray
 	*/
-	public var asArray: Array<Element> {
-		var a: Array<Element> = Array<Element>()
+	public var asArray: [Element] {
+		var a: [Element] = [Element]()
 		for x in self {
 			a.append(x)
 		}
@@ -150,7 +150,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:name:	init
 		:description:	Constructor
 	*/
-	public convenience init(elements: Array<Element>) {
+	public convenience init(elements: [Element]) {
 		self.init()
 		insert(elements)
 	}
@@ -164,7 +164,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 	//	
 	public func makeIterator() -> SortedMultiSet.Iterator {
 		var index = startIndex
-		return AnyIterator {
+		return AnyIterator { [unowned self] in
 			if index < self.endIndex {
 				let i: Int = index
 				index += 1
@@ -184,7 +184,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 	/**
 	Conforms to Probable protocol.
 	*/
-	public func count<T: Equatable>(of keys: Array<T>) -> Int {
+	public func count<T: Equatable>(of keys: [T]) -> Int {
         return tree.count(of: keys)
 	}
 	
@@ -198,7 +198,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 	/**
 	The probability of elements.
 	*/
-	public func probability<T: Equatable>(of elements: Array<T>) -> Double {
+	public func probability<T: Equatable>(of elements: [T]) -> Double {
         return tree.probability(of: elements)
 	}
 	
@@ -210,7 +210,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 			return 0
 		}
 		
-		var c: Int = 0
+		var c = 0
 		for x in self {
 			if block(x) {
 				c += 1
@@ -222,15 +222,15 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValue<T: Equatable>(of trials: Int, for elements: T...) -> Double {
-        return expectedValue(of: trials, for: elements)
+	public func expectedValue<T: Equatable>(trials: Int, for elements: T...) -> Double {
+        return expectedValue(trials: trials, for: elements)
 	}
 	
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValue<T: Equatable>(of trials: Int, for elements: Array<T>) -> Double {
-        return tree.expectedValue(of: trials, for: elements)
+	public func expectedValue<T: Equatable>(trials: Int, for elements: [T]) -> Double {
+        return tree.expectedValue(trials: trials, for: elements)
 	}
 	
 	/**
@@ -270,7 +270,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		in the set.
 		- returns:	Bool
 	*/
-	public func contains(_ elements: Array<Element>) -> Bool {
+	public func contains(_ elements: [Element]) -> Bool {
 		if 0 == elements.count {
 			return false
 		}
@@ -294,7 +294,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:name:	insert
 		:description:	Inserts new elements into the SortedMultiSet.
 	*/
-	public func insert(_ elements: Array<Element>) {
+	public func insert(_ elements: [Element]) {
 		for x in elements {
 			_ = tree.insert(x, value: x)
 		}
@@ -313,7 +313,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:name:	remove
 		:description:	Removes elements from the SortedMultiSet.
 	*/
-	public func remove(_ elements: Array<Element>) {
+	public func remove(_ elements: [Element]) {
 		tree.removeValueForKeys(elements)
 		count = tree.count
 	}
@@ -334,8 +334,8 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 	*/
 	public func intersect(_ set: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
 		let s: SortedMultiSet<Element> = SortedMultiSet<Element>()
-		var i: Int = 0
-		var j: Int = 0
+		var i = 0
+		var j = 0
 		let k: Int = count
 		let l: Int = set.count
 		while k > i && l > j {
@@ -363,8 +363,8 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		if 0 == l {
 			removeAll()
 		} else {
-			var i: Int = 0
-			var j: Int = 0
+			var i = 0
+			var j = 0
 			while count > i && l > j {
 				let x: Element = self[i]
 				let y: Element = set[j]
@@ -388,8 +388,8 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 	*/
 	public func union(_ set: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
 		let s: SortedMultiSet<Element> = SortedMultiSet<Element>()
-		var i: Int = 0
-		var j: Int = 0
+		var i = 0
+		var j = 0
 		let k: Int = count
 		let l: Int = set.count
 		while k > i && l > j {
@@ -423,8 +423,8 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:description:	Return a new Set with items in both this set and a finite sequence of Sets.
 	*/
 	public func unionInPlace(_ set: SortedMultiSet<Element>) {
-		var i: Int = 0
-		var j: Int = 0
+		var i = 0
+		var j = 0
 		let l: Int = set.count
 		while count > i && l > j {
 			let x: Element = self[i]
@@ -452,8 +452,8 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 	*/
 	public func subtract(_ set: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
 		let s: SortedMultiSet<Element> = SortedMultiSet<Element>()
-		var i: Int = 0
-		var j: Int = 0
+		var i = 0
+		var j = 0
 		let k: Int = count
 		let l: Int = set.count
 		while k > i && l > j {
@@ -481,8 +481,8 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:description:	Remove all elements in the set that occur in a finite sequence of Sets.
 	*/
 	public func subtractInPlace(_ set: SortedMultiSet<Element>) {
-		var i: Int = 0
-		var j: Int = 0
+		var i = 0
+		var j = 0
 		let l: Int = set.count
 		while count > i && l > j {
 			let x: Element = self[i]
@@ -506,8 +506,8 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 	*/
 	public func exclusiveOr(_ set: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
 		let s: SortedMultiSet<Element> = SortedMultiSet<Element>()
-		var i: Int = 0
-		var j: Int = 0
+		var i = 0
+		var j = 0
 		let k: Int = count
 		let l: Int = set.count
 		while k > i && l > j {
@@ -542,8 +542,8 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		ignored.
 	*/
 	public func exclusiveOrInPlace(_ set: SortedMultiSet<Element>) {
-		var i: Int = 0
-		var j: Int = 0
+		var i = 0
+		var j = 0
 		let l: Int = set.count
 		while count > i && l > j {
 			let x: Element = self[i]

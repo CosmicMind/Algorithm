@@ -42,14 +42,14 @@ class RedBlackTreeTests: XCTestCase {
 	}
 	
 	func testInt() {
-		let s: RedBlackTree<Int, Int> = RedBlackTree<Int, Int>(uniqueKeys: true)
+		var s = RedBlackTree<Int, Int>(uniqueKeys: true)
 		
 		XCTAssert(0 == s.count, "Test failed, got \(s.count).")
 		
 		for _ in 0..<1000 {
-			s.insert(1, value: 1)
-			s.insert(2, value: 2)
-			s.insert(3, value: 3)
+            s.insert(1, value: 1)
+            s.insert(2, value: 2)
+            s.insert(3, value: 3)
 		}
 		
 		XCTAssert(3 == s.count, "Test failed.\(s)")
@@ -58,8 +58,8 @@ class RedBlackTreeTests: XCTestCase {
 		XCTAssert(3 == s[2].value, "Test failed.")
 		
 		for _ in 0..<500 {
-			s.removeValueForKeys(1)
-			s.removeValueForKeys(3)
+            s.removeValueForKeys(1)
+            s.removeValueForKeys(3)
 		}
 		
 		XCTAssert(1 == s.count, "Test failed.")
@@ -87,7 +87,7 @@ class RedBlackTreeTests: XCTestCase {
 	}
 	
 	func testPropertyKey() {
-		let s: RedBlackTree<String, Array<Int>> = RedBlackTree<String, Array<Int>>(uniqueKeys: false)
+		var s = RedBlackTree<String, Array<Int>>(uniqueKeys: false)
 		s.insert("friends", value: [1, 2, 3])
 		s["menu"] = [11, 22, 33]
 		
@@ -101,17 +101,17 @@ class RedBlackTreeTests: XCTestCase {
 	}
 	
 	func testValue() {
-		let t1: RedBlackTree<Int, Int> = RedBlackTree<Int, Int>()
+		var t1 = RedBlackTree<Int, Int>()
 		t1.insert(1, value: 1)
 		t1.insert(2, value: 2)
 		t1.insert(3, value: 3)
 		
-		let t2: RedBlackTree<Int, Int> = RedBlackTree<Int, Int>()
+		var t2 = RedBlackTree<Int, Int>()
 		t2.insert(4, value: 4)
 		t2.insert(5, value: 5)
 		t2.insert(6, value: 6)
 		
-		let t3: RedBlackTree<Int, Int> = t1 + t2
+		var t3 = t1 + t2
 		
 		for i in 0..<t1.count {
 			XCTAssert(t1[i].value == t3.findValueForKey(t1[i].value!), "Test failed.")
@@ -123,7 +123,7 @@ class RedBlackTreeTests: XCTestCase {
 	}
 	
 	func testIndexOfUniqueKeys() {
-		let t1: RedBlackTree<Int, Int> = RedBlackTree<Int, Int>(uniqueKeys: true)
+		var t1 = RedBlackTree<Int, Int>(uniqueKeys: true)
 		t1.insert(1, value: 1)
 		t1.insert(2, value: 2)
 		t1.insert(3, value: 3)
@@ -138,7 +138,7 @@ class RedBlackTreeTests: XCTestCase {
 	}
 
 	func testIndexOfNonUniqueKeys() {
-		let t1: RedBlackTree<Int, Int> = RedBlackTree<Int, Int>()
+		var t1 = RedBlackTree<Int, Int>()
 		t1.insert(1, value: 1)
 		t1.insert(2, value: 2)
 		t1.insert(3, value: 3)
@@ -153,15 +153,15 @@ class RedBlackTreeTests: XCTestCase {
 	}
 	
 	func testOperands() {
-		let t1: RedBlackTree<Int, Int> = RedBlackTree<Int, Int>(uniqueKeys: true)
+		var t1 = RedBlackTree<Int, Int>(uniqueKeys: true)
 		t1.insert((1, 1), (2, 2), (3, 3), (4, 4))
 		XCTAssert(4 == t1.count, "Test failed.")
 		
-		let t2: RedBlackTree<Int, Int> = RedBlackTree<Int, Int>(uniqueKeys: true)
+		var t2 = RedBlackTree<Int, Int>(uniqueKeys: true)
 		t2.insert((5, 5), (6, 6), (7, 7), (8, 8))
 		XCTAssert(4 == t2.count, "Test failed.")
 		
-		let t3: RedBlackTree<Int, Int> = t1 + t2
+		var t3 = t1 + t2
 		XCTAssert(8 == t3.count, "Test failed.")
 		
 		XCTAssert(t1 != t2, "Test failed.")
