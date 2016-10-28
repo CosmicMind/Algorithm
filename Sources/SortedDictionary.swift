@@ -28,7 +28,9 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public class SortedDictionary<Key: Comparable, Value>: Probable, Collection, Equatable, CustomStringConvertible where Key: Hashable {
+public struct SortedDictionary<Key: Comparable, Value>: Probable, Collection, Equatable, CustomStringConvertible where Key: Hashable {
+    public typealias Element = Key
+    
     /// Returns the position immediately after the given index.
     ///
     /// - Parameter i: A valid index of the collection. `i` must be less than
@@ -40,91 +42,52 @@ public class SortedDictionary<Key: Comparable, Value>: Probable, Collection, Equ
 
 	public typealias Iterator = AnyIterator<(key: Key, value: Value?)>
 	
-	/**
-	Total number of elements within the RedBlackTree
-	*/
+	/// Total number of elements within the RedBlackTree
 	public internal(set) var count = 0
 	
-	/**
-		:name:	tree
-		:description:	Internal storage of (key, value) pairs.
-		- returns:	RedBlackTree<Key, Value>
-	*/
+	/// Internal storage of (key, value) pairs.
 	internal var tree: RedBlackTree<Key, Value>
 	
-	/**
-		:name:	asDictionary
-	*/
-	public var asDictionary: Dictionary<Key, Value?> {
-		var d: Dictionary<Key, Value?> = Dictionary<Key, Value?>()
+	/// Get the data as a Dictionary.
+	public var asDictionary: [Key: Value?] {
+        var d = [Key: Value?]()
 		for (k, v) in self {
 			d[k] = v
 		}
 		return d
 	}
 	
-	/**
-		:name:	description
-		:description:	Conforms to the Printable Protocol. Outputs the
-		data in the SortedDictionary in a readable format.
-		- returns:	String
-	*/
+	/// Conforms to the Printable Protocol. Outputs the
 	public var description: String {
 		return tree.description
 	}
 	
-	/**
-		:name:	first
-		:description:	Get the first (key, value) pair.
-		k1 <= k2 <= K3 ... <= Kn
-		- returns:	(key: Key, value: Value?)?
-	*/
+	/// Get the first (key, value) pair.
 	public var first: (key: Key, value: Value?)? {
 		return tree.first
 	}
 	
-	/**
-		:name:	last
-		:description:	Get the last (key, value) pair.
-		k1 <= k2 <= K3 ... <= Kn
-		- returns:	(key: Key, value: Value?)?
-	*/
+	/// Get the last (key, value) pair.
 	public var last: (key: Key, value: Value?)? {
 		return tree.last
 	}
 	
-	/**
-		:name:	isEmpty
-		:description:	A boolean of whether the SortedDictionary is empty.
-		- returns:	Bool
-	*/
+	/// A boolean of whether the SortedDictionary is empty.
 	public var isEmpty: Bool {
 		return 0 == count
 	}
 	
-	/**
-		:name:	startIndex
-		:description:	Conforms to the CollectionType Protocol.
-		- returns:	Int
-	*/
+	/// Conforms to the Collection Protocol.
 	public var startIndex: Int {
 		return 0
 	}
 	
-	/**
-		:name:	endIndex
-		:description:	Conforms to the CollectionType Protocol.
-		- returns:	Int
-	*/
+	/// Conforms to the Collection Protocol.
 	public var endIndex: Int {
 		return count
 	}
 	
-	/**
-		:name:	keys
-		:description:	Returns an array of the key values in order.
-		- returns:	SortedDictionary.SortedKey
-	*/
+	/// Retrieves an Array of the key values in order.
 	public var keys: [Key] {
 		var s = [Key]()
 		for x in self {
@@ -133,12 +96,7 @@ public class SortedDictionary<Key: Comparable, Value>: Probable, Collection, Equ
 		return s
 	}
 	
-	/**
-		:name:	values
-		:description:	Returns an array of the values that are sorted based
-		on the key ordering.
-		- returns:	SortedDictionary.SortedValue
-	*/
+	/// Retrieves an Array of the values that are sorted based
 	public var values: [Value] {
 		var s = [Value]()
 		for x in self {
@@ -147,43 +105,31 @@ public class SortedDictionary<Key: Comparable, Value>: Probable, Collection, Equ
 		return s
 	}
 	
-	/**
-		:name:	init
-		:description:	Constructor.
-	*/
+	/// Initializer.
 	public init() {
 		tree = RedBlackTree<Key, Value>(uniqueKeys: true)
 	}
 	
 	/**
-		:name:	init
-		:description:	Constructor.
-		- parameter	elements:	(Key, Value?)...	Initiates with a given list of elements.
-	*/
-	public convenience init(elements: (Key, Value?)...) {
+     Initializes with a given list of elements.
+     - Parameter elements: A list of (key, value) pairs.
+     */
+	public init(elements: (Key, Value?)...) {
 		self.init(elements: elements)
 	}
 	
-	/**
-		:name:	init
-		:description:	Constructor.
-		- parameter	elements:	Array<(Key, Value?)>	Initiates with a given array of elements.
-	*/
-	public convenience init(elements: Array<(Key, Value?)>) {
+    /**
+     Initializes with a given Array of elements.
+     - Parameter elements: An Array of (key, value) pairs.
+     */
+    public init(elements: [(Key, Value?)]) {
 		self.init()
-		insert(elements)
+        insert(elements: elements)
 	}
 	
-	//
-	//	:name:	generate
-	//	:description:	Conforms to the SequenceType Protocol. Returns
-	//	the next value in the sequence of nodes using
-	//	index values [0...n-1].
-	//	:returns:	SortedDictionary.Generator
-	//
 	public func makeIterator() -> SortedDictionary.Iterator {
 		var index = startIndex
-		return AnyIterator { [unowned self] in
+        return AnyIterator {
 			if index < self.endIndex {
 				let i: Int = index
 				index += 1
@@ -194,61 +140,78 @@ public class SortedDictionary<Key: Comparable, Value>: Probable, Collection, Equ
 	}
 	
 	/**
-	Conforms to Probable protocol.
-	*/
-	public func count<T: Equatable>(of keys: T...) -> Int {
+     Retrieves the total count of instances for the given
+     keys. 
+     - Parameter of keys: A list of Key types.
+     - Returns: An Int.
+     */
+    public func count(of keys: Key...) -> Int {
         return count(of: keys)
 	}
 	
-	/**
-	Conforms to Probable protocol.
-	*/
-	public func count<T: Equatable>(of keys: [T]) -> Int {
+    /**
+     Retrieves the total count of instances for the given
+     keys.
+     - Parameter of keys: An Array of Key types.
+     - Returns: An Int.
+     */
+    public func count(of keys: [Key]) -> Int {
         return tree.count(of: keys)
 	}
 	
 	/**
-	The probability of elements.
-	*/
-	public func probability<T: Equatable>(of elements: T...) -> Double {
-        return probability(of: elements)
+     Calculates the probability of the given keys.
+     - Parameter of keys: A list of Key types.
+     - Returns: A Double.
+     */
+	public func probability(of keys: Key...) -> Double {
+        return probability(of: keys)
+	}
+	
+    /**
+     Calculates the probability of the given keys.
+     - Parameter of keys: An Array of Key types.
+     - Returns: A Double.
+     */
+    public func probability(of keys: [Key]) -> Double {
+        return tree.probability(of: keys)
+	}
+	
+    /**
+     Calculates the probability using a block.
+     - Parameter execute block: A block function to execute.
+     - Returns: A Double.
+     */
+    public func probability(execute block: (Key, Value?) -> Bool) -> Double {
+        return tree.probability(execute: block)
+	}
+	
+    /**
+     The expected value of given keys based on a number of trials.
+     - Parameter trials: An Int.
+     - Parameter for keys: A list of Elements.
+     - Returns: A Double.
+     */
+    public func expectedValue(trials: Int, for keys: Key...) -> Double {
+        return expectedValue(trials: trials, for: keys)
+	}
+	
+    /**
+     The expected value of given keys based on a number of trials.
+     - Parameter trials: An Int.
+     - Parameter for keys: A list of Elements.
+     - Returns: A Double.
+     */
+    public func expectedValue(trials: Int, for keys: [Key]) -> Double {
+        return tree.expectedValue(trials: trials, for: keys)
 	}
 	
 	/**
-	The probability of elements.
-	*/
-	public func probability<T: Equatable>(of elements: [T]) -> Double {
-        return tree.probability(of: elements)
-	}
-	
-	/**
-	The probability of elements.
-	*/
-	public func probability(_ block: (Key, Value?) -> Bool) -> Double {
-        return tree.probability(block)
-	}
-	
-	/**
-	The expected value of elements.
-	*/
-	public func expectedValue<T: Equatable>(trials: Int, for elements: T...) -> Double {
-        return expectedValue(trials: trials, for: elements)
-	}
-	
-	/**
-	The expected value of elements.
-	*/
-	public func expectedValue<T: Equatable>(trials: Int, for elements: [T]) -> Double {
-        return tree.expectedValue(trials: trials, for: elements)
-	}
-	
-	/**
-		:name:	operator [key 1...key n]
-		:description:	Property key mapping. If the key type is a
-		String, this feature allows access like a
-		Dictionary.
-		- returns:	Value?
-	*/
+     Property key mapping. If the key type is a String, this feature 
+     allows access like a Dictionary.
+     - Parameter key: A Key type.
+     - Returns: An optional Value type.
+     */
 	public subscript(key: Key) -> Value? {
 		get {
 			return tree[key]
@@ -260,13 +223,12 @@ public class SortedDictionary<Key: Comparable, Value>: Probable, Collection, Equ
 	}
 	
 	/**
-		:name:	operator [0...count - 1]
-		:description:	Allows array like access of the index.
-		Items are kept in order, so when iterating
-		through the items, they are returned in their
-		ordered form.
-		- returns:	(key: Key, value: Value?)
-	*/
+     Allows Array like access of the index. Items are kept in order, 
+     so when iterating through the items, they are returned in their
+     ordered form.
+     - Parameter index: An Int.
+     - Returns:	A (key: Key, value: Value?)
+     */
 	public subscript(index: Int) -> (key: Key, value: Value?) {
 		get {
 			return tree[index]
@@ -278,122 +240,126 @@ public class SortedDictionary<Key: Comparable, Value>: Probable, Collection, Equ
 	}
 	
 	/**
-		:name:	indexOf
-		:description:	Returns the Index of a given member, or -1 if the member is not present in the set.
-		- returns:	Int
-	*/
-	public func indexOf(_ key: Key) -> Int {
-		return tree.indexOf(key)
+     Returns the Index of a given member, or -1 if the member is not 
+     present.
+     - Parameter of key: A Key type.
+     - Returns:	An Int.
+     */
+	public func index(of key: Key) -> Int {
+        return tree.index(of: key)
 	}
 	
 	/**
-		:name:	insert
-		:description:	Insert a key / value pair.
-		- returns:	Bool
-	*/
-	public func insert(_ key: Key, value: Value?) -> Bool {
-		let result: Bool = tree.insert(key, value: value)
+     Insert a key / value pair.
+     - Parameter value: An optional Value type.
+     - Parameter for key: A Key type.
+     - Returns:	A boolean of the result, true if inserted, false
+     otherwise.
+     */
+    @discardableResult
+	mutating public func insert(value: Value?, for key: Key) -> Bool {
+        let result = tree.insert(value: value, for: key)
 		count = tree.count
 		return result
 	}
 	
 	/**
-		:name:	insert
-		:description:	Inserts a list of (Key, Value?) pairs.
-		- parameter	elements:	(Key, Value?)...	Elements to insert.
-	*/
-	public func insert(_ elements: (Key, Value?)...) {
-		insert(elements)
+     Inserts a list of key / value pairs.
+     - Parameter elements: A list of (Key, Value?) tuples.
+     */
+	mutating public func insert(elements: (Key, Value?)...) {
+        insert(elements: elements)
 	}
 	
-	/**
-		:name:	insert
-		:description:	Inserts an array of (Key, Value?) pairs.
-		- parameter	elements:	Array<(Key, Value?)>	Elements to insert.
-	*/
-	public func insert(_ elements: Array<(Key, Value?)>) {
-		tree.insert(elements)
+    /**
+     Inserts an Array of key / value pairs.
+     - Parameter elements: An Array of (Key, Value?) tuples.
+     */
+    mutating public func insert(elements: [(Key, Value?)]) {
+        tree.insert(nodes: elements)
 		count = tree.count
 	}
 	
 	/**
-		:name:	removeValueForKeys
-		:description:	Removes key / value pairs based on the key value given.
-	*/
-	public func removeValueForKeys(_ keys: Key...) {
-		removeValueForKeys(keys)
+     Removes key / value pairs based on the keys given.
+     - Parameter for keys: A list of Key types.
+     */
+	mutating public func removeValue(for keys: Key...) {
+        removeValue(for: keys)
 	}
 	
-	/**
-		:name:	removeValueForKeys
-		:description:	Removes key / value pairs based on the key value given.
-	*/
-	public func removeValueForKeys(_ keys: Array<Key>) {
-		tree.removeValueForKeys(keys)
+    /**
+     Removes key / value pairs based on the keys given.
+     - Parameter for keys: An Array of Key types.
+     */
+    mutating public func removeValue(for keys: [Key]) {
+        tree.removeValue(for: keys)
 		count = tree.count
 	}
 	
-	/**
-		:name:	removeAll
-		:description:	Remove all nodes from the tree.
-	*/
-	public func removeAll() {
+	/// Removes all key / value pairs.
+    mutating public func removeAll() {
 		tree.removeAll()
 		count = tree.count
 	}
 	
 	/**
-		:name:	updateValue
-		:description:	Updates a node for the given key value.
+     Updates a vlue for the given key.
+     - Parameter value: An optional Value type.
+     - Parameter for key: A Key type.
 	*/
-	public func updateValue(_ value: Value?, forKey: Key) {
-		tree.updateValue(value, forKey: forKey)
+	mutating public func update(value: Value?, for key: Key) {
+        tree.update(value: value, for: key)
 	}
 	
 	/**
-		:name:	findValueForKey
-		:description:	Finds the value for key passed.
-		- parameter	key:	Key	The key to find.
-		- returns:	Value?
-	*/
-	public func findValueForKey(_ key: Key) -> Value? {
-		return tree.findValueForKey(key)
+     Finds the value for a given key.
+     - Parameter for key: A Key type.
+     - Returns: An optional Value type.
+     */
+	public func findValue(for key: Key) -> Value? {
+        return tree.findValue(for: key)
 	}
 	
 	/**
-		:name:	search
-		:description:	Accepts a list of keys and returns a subset
-		SortedDictionary with the given values if they exist.
-	*/
-	public func search(_ keys: Key...) -> SortedDictionary<Key, Value> {
-		return search(keys)
+     Searches for given keys in the SortedDictionary.
+     - Parameter for keys: A list of Key types.
+     - Returns: A SortedDictionary<Key, Value>.
+     */
+	public func search(for keys: Key...) -> SortedDictionary<Key, Value> {
+        return search(for: keys)
 	}
 	
-	/**
-		:name:	search
-		:description:	Accepts an array of keys and returns a subset
-		SortedDictionary with the given values if they exist.
-	*/
-	public func search(_ keys: Array<Key>) -> SortedDictionary<Key, Value> {
-		var dict: SortedDictionary<Key, Value> = SortedDictionary<Key, Value>()
-		for key: Key in keys {
-			traverse(key, node: tree.root, dict: &dict)
+    /**
+     Searches for given keys in the SortedDictionary.
+     - Parameter for keys: An Array of Key types.
+     - Returns: A SortedDictionary<Key, Value>.
+     */
+    public func search(for keys: [Key]) -> SortedDictionary<Key, Value> {
+		var d = SortedDictionary<Key, Value>()
+		for key in keys {
+            traverse(for: key, node: tree.root, dictionary: &d)
 		}
-		return dict
+		return d
 	}
 	
 	/**
-		:name:	traverse
-		:description:	Traverses the SortedDictionary, looking for a key match.
-	*/
-	internal func traverse(_ key: Key, node: RedBlackNode<Key, Value>, dict: inout SortedDictionary<Key, Value>) {
-		if tree.sentinel !== node {
-			if key == node.key {
-				dict.insert((key, node.value))
-			}
-			traverse(key, node: node.left, dict: &dict)
-			traverse(key, node: node.right, dict: &dict)
-		}
+     Traverses the SortedDictionary, looking for a key matches.
+     - Parameter for key: A Key type.
+     - Parameter node: A RedBlackNode<Key, Value>.
+     - Parameter dictionary: A SortedDictionary<Key, Value> to map the results too.
+     */
+	internal func traverse(for key: Key, node: RedBlackNode<Key, Value>, dictionary: inout SortedDictionary<Key, Value>) {
+        guard tree.sentinel !== node else {
+            return
+        }
+        
+        if key == node.key {
+            dictionary.insert(value: node.value, for: key)
+        }
+        
+        traverse(for: key, node: node.left, dictionary: &dictionary)
+        traverse(for: key, node: node.right, dictionary: &dictionary)
 	}
 }
 
@@ -414,29 +380,25 @@ public func !=<Key : Comparable, Value>(lhs: SortedDictionary<Key, Value>, rhs: 
 }
 
 public func +<Key : Comparable, Value>(lhs: SortedDictionary<Key, Value>, rhs: SortedDictionary<Key, Value>) -> SortedDictionary<Key, Value> {
-	let t: SortedDictionary<Key, Value> = lhs
+	var t = lhs
 	for (k, v) in rhs {
-		_ = t.insert(k, value: v)
+        t.insert(value: v, for: k)
 	}
 	return t
 }
 
-public func +=<Key : Comparable, Value>(lhs: SortedDictionary<Key, Value>, rhs: SortedDictionary<Key, Value>) {
+public func +=<Key : Comparable, Value>(lhs: inout SortedDictionary<Key, Value>, rhs: SortedDictionary<Key, Value>) {
 	for (k, v) in rhs {
-		_ = lhs.insert(k, value: v)
+        lhs.insert(value: v, for: k)
 	}
 }
 
 public func -<Key : Comparable, Value>(lhs: SortedDictionary<Key, Value>, rhs: SortedDictionary<Key, Value>) -> SortedDictionary<Key, Value> {
-	let t: SortedDictionary<Key, Value> = lhs
-	for (k, _) in rhs {
-		t.removeValueForKeys(k)
-	}
+	var t = lhs
+    t.removeValue(for: rhs.keys)
 	return t
 }
 
-public func -=<Key : Comparable, Value>(lhs: SortedDictionary<Key, Value>, rhs: SortedDictionary<Key, Value>) {
-	for (k, _) in rhs {
-		lhs.removeValueForKeys(k)
-	}
+public func -=<Key : Comparable, Value>(lhs: inout SortedDictionary<Key, Value>, rhs: SortedDictionary<Key, Value>) {
+    lhs.removeValue(for: rhs.keys)
 }

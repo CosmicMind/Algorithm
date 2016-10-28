@@ -70,8 +70,8 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		- returns:	String
 	*/
 	public var description: String {
-		var output: String = "["
-		let l: Int = count - 1
+		var output = "["
+		let l = count - 1
 		for i in 0..<count {
 			output += "\(self[i])"
 			if i != l {
@@ -114,7 +114,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 
 	/**
 		:name:	startIndex
-		:description:	Conforms to the CollectionType Protocol.
+		:description:	Conforms to the Collection Protocol.
 		- returns:	Int
 	*/
 	public var startIndex: Int {
@@ -123,7 +123,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 
 	/**
 		:name:	endIndex
-		:description:	Conforms to the CollectionType Protocol.
+		:description:	Conforms to the Collection Protocol.
 		- returns:	Int
 	*/
 	public var endIndex: Int {

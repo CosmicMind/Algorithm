@@ -29,47 +29,49 @@
 */
 
 internal protocol Probable {
+    associatedtype Element: Equatable
+    
 	/**
      The instance count of elements.
      - Parameter of elements: A list of Elements
      - Returns:	An Int.
      */
-	func count<Element: Equatable>(of elements: Element...) -> Int
+	func count(of elements: Element...) -> Int
 	
     /**
      The instance count of elements.
      - Parameter of elements: An Array of Elements.
      - Returns:	An Int.
      */
-    func count<Element: Equatable>(of elements: [Element]) -> Int
+    func count(of elements: [Element]) -> Int
 	
 	/**
-     The probability of elements.
+     The probability of given elements.
      - Parameter of elements: A list of Elements.
      - Returns:	A Double.
      */
-	func probability<Element: Equatable>(of elements: Element...) -> Double
+	func probability(of elements: Element...) -> Double
 	
     /**
-     The probability of elements.
+     The probability of given elements.
      - Parameter of elements: An Array of Elements.
      - Returns:	A Double.
      */
-    func probability<Element: Equatable>(of elements: [Element]) -> Double
+    func probability(of elements: [Element]) -> Double
 	
 	/**
-     The expected value of elements based on a number of trials.
+     The expected value of given elements based on a number of trials.
      - Parameter trials: An Int.
      - Parameter for elements: A list of Elements.
      - Returns: A Double.
      */
-	func expectedValue<Element: Equatable>(trials: Int, for elements: Element...) -> Double
+	func expectedValue(trials: Int, for elements: Element...) -> Double
 	
     /**
-     The expected value of elements based on a number of trials.
+     The expected value of given elements based on a number of trials.
      - Parameter trials: An Int.
      - Parameter for elements: An Array of Elements.
      - Returns: A Double.
      */
-    func expectedValue<Element: Equatable>(trials: Int, for elements: [Element]) -> Double
+    func expectedValue(trials: Int, for elements: [Element]) -> Double
 }

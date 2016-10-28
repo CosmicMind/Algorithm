@@ -64,15 +64,13 @@ extension Array where Element: Equatable {
             self.remove(object: $0)
         }
 	}
-}
 
-extension Array: Probable {
-	/**
+    /**
      The total count for the given Elements.
      - Parameter of elements: A list of Elements.
      - Returns: An Int.
      */
-	public func count<Element: Equatable>(of elements: Element...) -> Int {
+	public func count(of elements: Element...) -> Int {
         return count(of: elements)
 	}
 
@@ -81,11 +79,11 @@ extension Array: Probable {
      - Parameter of elements: An Array of Elements.
      - Returns: An Int.
      */
-    public func count<Element: Equatable>(of elements: [Element]) -> Int {
+    public func count(of elements: [Element]) -> Int {
 		var c = 0
         for e in elements {
             for x in self {
-                if e == x as? Element {
+                if e == x {
                     c += 1
                 }
             }
@@ -98,7 +96,7 @@ extension Array: Probable {
      - Parameter of elements: A list of Elements.
      - Returns: A Double.
      */
-    public func probability<Element: Equatable>(of elements: Element...) -> Double {
+    public func probability(of elements: Element...) -> Double {
         return probability(of: elements)
 	}
 
@@ -107,7 +105,7 @@ extension Array: Probable {
      - Parameter of elements: An Array of Elements.
      - Returns: A Double.
      */
-    public func probability<Element: Equatable>(of elements: [Element]) -> Double {
+    public func probability(of elements: [Element]) -> Double {
         return 0 < count ? Double(count(of: elements)) / Double(count) : 0
 	}
 
@@ -116,7 +114,7 @@ extension Array: Probable {
      - Parameter of elements: A list of Elements.
      - Returns: A Double.
      */
-    public func probability(of block: @escaping (Element) -> Bool) -> Double {
+    public func probability(execute block: @escaping (Element) -> Bool) -> Double {
         guard 0 < count else {
             return 0
         }
@@ -137,7 +135,7 @@ extension Array: Probable {
      - Parameter elements: A list of Elements.
      - Returns: A Double.
      */
-    public func expectedValue<Element: Equatable>(trials: Int, for elements: Element...) -> Double {
+    public func expectedValue(trials: Int, for elements: Element...) -> Double {
         return expectedValue(trials: trials, for: elements)
 	}
 
@@ -147,7 +145,7 @@ extension Array: Probable {
      - Parameter elements: An Array of Elements.
      - Returns: A Double.
      */
-    public func expectedValue<Element: Equatable>(trials: Int, for elements: [Element]) -> Double {
+    public func expectedValue(trials: Int, for elements: [Element]) -> Double {
         return Double(trials) * probability(of: elements)
 	}
 }

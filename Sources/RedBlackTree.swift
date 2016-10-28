@@ -75,8 +75,8 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 		- returns:	String
 	*/
 	public var description: String {
-        var output: String = "["
-        let l: Int = count - 1
+        var output = "["
+        let l = count - 1
         for i in 0..<count {
             output += "\(self[i])"
             if i != l {
@@ -119,7 +119,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 
 	/**
 		:name:	startIndex
-		:description:	Conforms to the CollectionType Protocol.
+		:description:	Conforms to the Collection Protocol.
 		- returns:	Int
 	*/
 	public var startIndex: Int {
@@ -128,7 +128,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 
 	/**
 		:name:	endIndex
-		:description:	Conforms to the CollectionType Protocol.
+		:description:	Conforms to the Collection Protocol.
 		- returns:	Int
 	*/
 	public var endIndex: Int {
@@ -212,7 +212,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 	/**
 	The probability of elements.
 	*/
-	public func probability(_ block: (Key, Value?) -> Bool) -> Double {
+	public func probability(execute block: (Key, Value?) -> Bool) -> Double {
 		if 0 == count {
 			return 0
 		}
@@ -246,7 +246,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 		- returns:	Bool
 	*/
     @discardableResult
-	mutating public func insert(_ key: Key, value: Value?) -> Bool {
+	mutating public func insert(value: Value?, for key: Key) -> Bool {
 		return sentinel !== internalInsert(key, value: value)
 	}
 	
@@ -255,18 +255,18 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 		:description:	Inserts a list of (Key, Value?) pairs.
 		- parameter	nodes:	(Key, Value?)...	Elements to insert.
 	*/
-	mutating public func insert(_ nodes: (Key, Value?)...) {
-		insert(nodes)
+	mutating public func insert(nodes: (Key, Value?)...) {
+        insert(nodes: nodes)
 	}
 	
 	/**
 		:name:	insert
 		:description:	Inserts an array of (Key, Value?) pairs.
-		- parameter	nodes:	Array<(Key, Value?)>	Elements to insert.
+		- parameter	nodes:	[(Key, Value?)]	Elements to insert.
 	*/
-	mutating public func insert(_ nodes: Array<(Key, Value?)>) {
+	mutating public func insert(nodes: [(Key, Value?)]) {
 		for (k, v) in nodes {
-            insert(k, value: v)
+            insert(value: v, for: k)
 		}
 	}
 
@@ -277,8 +277,8 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 		the given key value will be removed.
 		- returns:	RedBlackTree<Key, Value>?
 	*/
-	mutating public func removeValueForKeys(_ keys: Key...) {
-		return removeValueForKeys(keys)
+	mutating public func removeValue(for keys: Key...) {
+        return removeValue(for: keys)
 	}
 	
 	/**
@@ -288,7 +288,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 		the given key will be removed.
 		- returns:	RedBlackTree<Key, Value>?
 	*/
-	mutating public func removeValueForKeys(_ keys: Array<Key>) {
+	mutating public func removeValue(for keys: [Key]) {
 		for x in keys {
 			var z = internalRemoveValueForKey(x)
 			while sentinel !== z {
@@ -324,8 +324,8 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 		If the tree allows non-unique keys, then all keys matching
 		the given key value will be updated.
 	*/
-	mutating public func updateValue(_ value: Value?, forKey: Key) {
-		internalUpdateValue(value, forKey: forKey, node: root)
+	mutating public func update(value: Value?, for key: Key) {
+		internalUpdateValue(value, forKey: key, node: root)
 	}
 
 	/**
@@ -334,7 +334,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 		in isUniquelyKeyed tree of a given keyed node.
 		- returns:	Value?
 	*/
-	public func findValueForKey(_ key: Key) -> Value? {
+	public func findValue(for key: Key) -> Value? {
 		return internalFindNodeForKey(key).value
 	}
 
@@ -381,7 +381,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 		:description:	Returns the Index of a given member, or nil if the member is not present in the set.
 		- returns:	Int
 	*/
-	public func indexOf(_ key: Key) -> Int {
+	public func index(of key: Key) -> Int {
 		let x = internalFindNodeForKey(key)
 		return sentinel == x ? -1 : internalOrder(x) - 1
 	}

@@ -60,7 +60,7 @@ public struct DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
      - Returns: A String.
      */
 	public var description: String {
-        var output: String = "("
+        var output = "("
         var c = 0
         var x = head
         while nil !== x {

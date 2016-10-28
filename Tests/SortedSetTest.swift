@@ -42,7 +42,7 @@ class SortedSetTests: XCTestCase {
 	}
 	
 	func testInt() {
-		let s: SortedSet<Int> = SortedSet<Int>()
+		var s = SortedSet<Int>()
 		
 		XCTAssert(0 == s.count, "Test failed, got \(s.count).")
 		
@@ -82,27 +82,27 @@ class SortedSetTests: XCTestCase {
 	}
 	
 	func testRemove() {
-		let s1: SortedSet<Int> = SortedSet<Int>(elements: 22, 23, 1, 2, 3, 4, 5)
+		var s1 = SortedSet<Int>(elements: 22, 23, 1, 2, 3, 4, 5)
 		s1.remove(1, 2, 3)
 		XCTAssert(4 == s1.count, "Test failed.")
 	}
 	
 	func testIntersect() {
-		let s1: SortedSet<Int> = SortedSet<Int>(elements: 22, 23, 1, 2, 3, 4, 5)
-		let s2: SortedSet<Int> = SortedSet<Int>(elements: 22, 23, 5, 6, 7, 8, 9, 10)
+		let s1 = SortedSet<Int>(elements: 22, 23, 1, 2, 3, 4, 5)
+		let s2 = SortedSet<Int>(elements: 22, 23, 5, 6, 7, 8, 9, 10)
 
 		XCTAssert(SortedSet<Int>(elements: 22, 23, 5) == s1.intersect(s2), "Test failed. \(s1.intersect(s2))")
 		
 		XCTAssert(SortedSet<Int>() == s1.intersect(SortedSet<Int>()), "Test failed. \(s1)")
 		
-		let s3: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9, 9, 9)
-		let s4: SortedSet<Int> = SortedSet<Int>(elements: 11, 9, 7, 3, 8, 100, 99, 88, 77)
+		let s3 = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9, 9, 9)
+		let s4 = SortedSet<Int>(elements: 11, 9, 7, 3, 8, 100, 99, 88, 77)
 		XCTAssert(SortedSet<Int>(elements: 9, 3, 7, 8) == s3.intersect(s4), "Test failed.")
 	}
 	
 	func testIntersectInPlace() {
-		let s1: SortedSet<Int> = SortedSet<Int>(elements: 22, 23, 1, 2, 3, 4, 5)
-		let s2: SortedSet<Int> = SortedSet<Int>(elements: 22, 23, 5, 6, 7, 8, 9, 10)
+		var s1 = SortedSet<Int>(elements: 22, 23, 1, 2, 3, 4, 5)
+		let s2 = SortedSet<Int>(elements: 22, 23, 5, 6, 7, 8, 9, 10)
 		
 		s1.intersectInPlace(s2)
 		XCTAssert(SortedSet<Int>(elements: 22, 23, 5) == s1, "Test failed. \(s1)")
@@ -110,57 +110,57 @@ class SortedSetTests: XCTestCase {
 		s1.intersectInPlace(SortedSet<Int>())
 		XCTAssert(SortedSet<Int>() == s1, "Test failed. \(s1)")
 		
-		let s3: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9, 9, 9)
-		let s4: SortedSet<Int> = SortedSet<Int>(elements: 11, 9, 7, 3, 8, 100, 99, 88, 77)
+		var s3 = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9, 9, 9)
+		let s4 = SortedSet<Int>(elements: 11, 9, 7, 3, 8, 100, 99, 88, 77)
 		s3.intersectInPlace(s4)
 		XCTAssert(SortedSet<Int>(elements: 9, 3, 7, 8) == s3, "Test failed.")
 	}
 	
 	func testSubtract() {
-		let s1: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 7, 8, 9, 10)
-		let s2: SortedSet<Int> = SortedSet<Int>(elements: 4, 5, 6, 7)
+		let s1 = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 7, 8, 9, 10)
+		let s2 = SortedSet<Int>(elements: 4, 5, 6, 7)
 		
 		XCTAssert(SortedSet<Int>(elements: 1, 2, 3, 8, 9, 10) == s1.subtract(s2), "Test failed. \(s1.subtract(s2))")
 		
-		let s3: SortedSet<Int> = SortedSet<Int>(elements: 0, -1, -2, -7, 99, 100)
-		let s4: SortedSet<Int> = SortedSet<Int>(elements: -3, -5, -7, 99)
+		let s3 = SortedSet<Int>(elements: 0, -1, -2, -7, 99, 100)
+		let s4 = SortedSet<Int>(elements: -3, -5, -7, 99)
 		XCTAssert(SortedSet<Int>(elements: 0, -1, -2, 100) == s3.subtract(s4), "Test failed. \(s3.subtract(s4))")
 	}
 	
 	func testSubtractInPlace() {
-		let s1: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 7, 8, 9, 10)
-		let s2: SortedSet<Int> = SortedSet<Int>(elements: 4, 5, 6, 7)
+		var s1 = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 7, 8, 9, 10)
+		let s2 = SortedSet<Int>(elements: 4, 5, 6, 7)
 		
 		s1.subtractInPlace(s2)
 		XCTAssert(SortedSet<Int>(elements: 1, 2, 3, 8, 9, 10) == s1, "Test failed. \(s1)")
 		
-		let s3: SortedSet<Int> = SortedSet<Int>(elements: 0, -1, -2, -7, 99, 100)
-		let s4: SortedSet<Int> = SortedSet<Int>(elements: -3, -5, -7, 99)
+		var s3 = SortedSet<Int>(elements: 0, -1, -2, -7, 99, 100)
+		let s4 = SortedSet<Int>(elements: -3, -5, -7, 99)
 		s3.subtractInPlace(s4)
 		XCTAssert(SortedSet<Int>(elements: 0, -1, -2, 100) == s3, "Test failed. \(s3)")
 	}
 	
 	func testUnion() {
-		let s1: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5)
-		let s2: SortedSet<Int> = SortedSet<Int>(elements: 5, 6, 7, 8, 9)
-		let s3: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7, 8, 9)
+		let s1 = SortedSet<Int>(elements: 1, 2, 3, 4, 5)
+		let s2 = SortedSet<Int>(elements: 5, 6, 7, 8, 9)
+		let s3 = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7, 8, 9)
 		
 		XCTAssert(s3 == s1.union(s2), "Test failed.")
 	}
 	
 	func testUnionInPlace() {
-		let s1: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5)
-		let s2: SortedSet<Int> = SortedSet<Int>(elements: 5, 6, 7, 8, 9)
-		let s3: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7, 8, 9)
+		var s1 = SortedSet<Int>(elements: 1, 2, 3, 4, 5)
+		let s2 = SortedSet<Int>(elements: 5, 6, 7, 8, 9)
+		let s3 = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7, 8, 9)
 		
 		s1.unionInPlace(s2)
 		XCTAssert(s3 == s1, "Test failed.")
 	}
 	
 	func testExclusiveOr() {
-		let s1: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7)
-		let s2: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5)
-		let s3: SortedSet<Int> = SortedSet<Int>(elements: 5, 6, 7, 8)
+		let s1 = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7)
+		let s2 = SortedSet<Int>(elements: 1, 2, 3, 4, 5)
+		let s3 = SortedSet<Int>(elements: 5, 6, 7, 8)
 		
 		XCTAssert(SortedSet<Int>(elements: 6, 7) == s1.exclusiveOr(s2), "Test failed. \(s1.exclusiveOr(s2))")
 		XCTAssert(SortedSet<Int>(elements: 1, 2, 3, 4, 8) == s1.exclusiveOr(s3), "Test failed.")
@@ -168,9 +168,9 @@ class SortedSetTests: XCTestCase {
 	}
 	
 	func testExclusiveOrInPlace() {
-		var s1: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7)
-		let s2: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5)
-		let s3: SortedSet<Int> = SortedSet<Int>(elements: 5, 6, 7, 8)
+		var s1 = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7)
+		var s2 = SortedSet<Int>(elements: 1, 2, 3, 4, 5)
+		let s3 = SortedSet<Int>(elements: 5, 6, 7, 8)
 		
 		s1.exclusiveOrInPlace(s2)
 		XCTAssert(SortedSet<Int>(elements: 6, 7) == s1, "Test failed. \(s1)")
@@ -184,9 +184,9 @@ class SortedSetTests: XCTestCase {
 	}
 	
 	func testIsDisjointWith() {
-		let s1: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3)
-		let s2: SortedSet<Int> = SortedSet<Int>(elements: 3, 4, 5)
-		let s3: SortedSet<Int> = SortedSet<Int>(elements: 5, 6, 7)
+		let s1 = SortedSet<Int>(elements: 1, 2, 3)
+		let s2 = SortedSet<Int>(elements: 3, 4, 5)
+		let s3 = SortedSet<Int>(elements: 5, 6, 7)
 		
 		XCTAssertFalse(s1.isDisjointWith(s2), "Test failed. \(s1.isDisjointWith(s2))")
 		XCTAssert(s1.isDisjointWith(s3), "Test failed.")
@@ -194,9 +194,9 @@ class SortedSetTests: XCTestCase {
 	}
 	
 	func testIsSubsetOf() {
-		let s1: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3)
-		let s2: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5)
-		let s3: SortedSet<Int> = SortedSet<Int>(elements: 2, 3, 4, 5)
+		let s1 = SortedSet<Int>(elements: 1, 2, 3)
+		let s2 = SortedSet<Int>(elements: 1, 2, 3, 4, 5)
+		let s3 = SortedSet<Int>(elements: 2, 3, 4, 5)
 		
 		XCTAssert(s1 <= s1, "Test failed.")
 		XCTAssert(s1 <= s2, "Test failed.")
@@ -204,9 +204,9 @@ class SortedSetTests: XCTestCase {
 	}
 	
 	func testIsSupersetOf() {
-		let s1: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7)
-		let s2: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5)
-		let s3: SortedSet<Int> = SortedSet<Int>(elements: 5, 6, 7, 8)
+		let s1 = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7)
+		let s2 = SortedSet<Int>(elements: 1, 2, 3, 4, 5)
+		let s3 = SortedSet<Int>(elements: 5, 6, 7, 8)
 		
 		XCTAssert(s1 >= s1, "Test failed.")
 		XCTAssert(s1 >= s2, "Test failed.")
@@ -214,31 +214,31 @@ class SortedSetTests: XCTestCase {
 	}
 	
 	func testIsStrictSubsetOf() {
-		let s1: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3)
-		let s2: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5)
-		let s3: SortedSet<Int> = SortedSet<Int>(elements: 2, 3, 4, 5)
+		let s1 = SortedSet<Int>(elements: 1, 2, 3)
+		let s2 = SortedSet<Int>(elements: 1, 2, 3, 4, 5)
+		let s3 = SortedSet<Int>(elements: 2, 3, 4, 5)
 		
 		XCTAssert(s1 < s2, "Test failed.")
 		XCTAssertFalse(s1 < s3, "Test failed.")
 	}
 	
 	func testIsStrictSupersetOf() {
-		let s1: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7)
-		let s2: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5)
-		let s3: SortedSet<Int> = SortedSet<Int>(elements: 5, 6, 7, 8)
+		let s1 = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7)
+		let s2 = SortedSet<Int>(elements: 1, 2, 3, 4, 5)
+		let s3 = SortedSet<Int>(elements: 5, 6, 7, 8)
 		
 		XCTAssert(s1 > s2, "Test failed.")
 		XCTAssertFalse(s1 > s3, "Test failed.")
 	}
 	
 	func testContains() {
-		let s1: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7)
+		let s1 = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7)
 		XCTAssert(s1.contains(1, 2, 3), "Test failed.")
 		XCTAssertFalse(s1.contains(1, 2, 3, 10), "Test failed.")
 	}
 	
 	func testIndexOf() {
-		let s1: SortedSet<Int> = SortedSet<Int>()
+		var s1 = SortedSet<Int>()
 		s1.insert(1, 2, 3, 4, 5, 6, 7)
 		
 		XCTAssert(0 == s1.indexOf(1), "Test failed.")
@@ -247,13 +247,13 @@ class SortedSetTests: XCTestCase {
 	}
 	
 	func testExample() {
-		let setA: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3) // Sorted: [1, 2, 3]
-		let setB: SortedSet<Int> = SortedSet<Int>(elements: 4, 3, 6) // Sorted: [3, 4, 6]
+		let setA = SortedSet<Int>(elements: 1, 2, 3) // Sorted: [1, 2, 3]
+		let setB = SortedSet<Int>(elements: 4, 3, 6) // Sorted: [3, 4, 6]
 		
-		let setC: SortedSet<Int> = SortedSet<Int>(elements: 7, 1, 2) // Sorted: [1, 2, 7]
-		let setD: SortedSet<Int> = SortedSet<Int>(elements: 1, 7) // Sorted: [1, 7]
+		let setC = SortedSet<Int>(elements: 7, 1, 2) // Sorted: [1, 2, 7]
+		let setD = SortedSet<Int>(elements: 1, 7) // Sorted: [1, 7]
 		
-		let setE: SortedSet<Int> = SortedSet<Int>(elements: 1, 6, 7) // Sorted: [1, 6, 7]
+		let setE = SortedSet<Int>(elements: 1, 6, 7) // Sorted: [1, 6, 7]
 		
 		// Union.
 		print((setA + setB).count) // Output: 5

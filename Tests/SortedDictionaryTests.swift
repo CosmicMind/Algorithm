@@ -42,7 +42,7 @@ class SortedDictionaryTests: XCTestCase {
 	}
 	
 	func testInt() {
-		let s: SortedDictionary<Int, Int> = SortedDictionary<Int, Int>()
+		var s = SortedDictionary<Int, Int>()
 		
 		XCTAssert(0 == s.count, "Test failed, got \(s.count).")
 		
@@ -97,14 +97,14 @@ class SortedDictionaryTests: XCTestCase {
 	}
 	
 	func testIndexOf() {
-		let d1: SortedDictionary<Int, Int> = SortedDictionary<Int, Int>()
-		_ = d1.insert(1, value: 1)
-		_ = d1.insert(2, value: 2)
-		_ = d1.insert(3, value: 3)
-		_ = d1.insert(4, value: 4)
-		_ = d1.insert(5, value: 5)
-		_ = d1.insert(5, value: 5)
-		_ = d1.insert(6, value: 6)
+		var d1 = SortedDictionary<Int, Int>()
+        d1.insert(value: 1, for: 1)
+		d1.insert(value: 2, for: 2)
+		d1.insert(value: 3, for: 3)
+		d1.insert(value: 4, for: 4)
+        d1.insert(value: 5, for: 5)
+		d1.insert(value: 5, for: 5)
+		d1.insert(value: 6, for: 6)
 		
 		XCTAssert(0 == d1.indexOf(1), "Test failed.")
 		XCTAssert(5 == d1.indexOf(6), "Test failed.")
@@ -112,18 +112,13 @@ class SortedDictionaryTests: XCTestCase {
 	}
 	
 	func testKeys() {
-		let s: SortedDictionary<String, Int> = SortedDictionary<String, Int>(elements: ("adam", 1), ("daniel", 2), ("mike", 3), ("natalie", 4))
-		let keys: SortedSet<String> = SortedSet<String>(elements: "adam", "daniel", "mike", "natalie")
-		XCTAssert(keys == s.keys, "Test failed.")
+		let s = SortedDictionary<String, Int>(elements: ("adam", 1), ("daniel", 2), ("mike", 3), ("natalie", 4))
+		XCTAssert(["adam", "daniel", "mike", "natalie"] == s.keys, "Test failed.")
 	}
 	
 	func testValues() {
-		let s: SortedDictionary<String, Int> = SortedDictionary<String, Int>(elements: ("adam", 1), ("daniel", 2), ("mike", 3), ("natalie", 4))
-		let values: Array<Int> = [1, 2, 3, 4]
+		let s = SortedDictionary<String, Int>(elements: ("adam", 1), ("daniel", 2), ("mike", 3), ("natalie", 4))
+		let values = [1, 2, 3, 4]
 		XCTAssert(values == s.values, "Test failed.")
-	}
-	
-	func testPerformance() {
-		self.measure() {}
 	}
 }

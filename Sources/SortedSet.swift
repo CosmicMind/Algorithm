@@ -28,7 +28,9 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, Equatable, CustomStringConvertible {
+public struct SortedSet<T: Comparable>: Probable, Collection, Equatable, CustomStringConvertible where T: Hashable {
+    public typealias Element = T
+    
     /// Returns the position immediately after the given index.
     ///
     /// - Parameter i: A valid index of the collection. `i` must be less than
@@ -70,8 +72,8 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 		- returns:	String
 	*/
 	public var description: String {
-		var output: String = "["
-		let l: Int = count - 1
+		var output = "["
+		let l = count - 1
 		for i in 0..<count {
 			output += "\(self[i])"
 			if i != l {
@@ -114,7 +116,7 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 
 	/**
 		:name:	startIndex
-		:description:	Conforms to the CollectionType Protocol.
+		:description:	Conforms to the Collection Protocol.
 		- returns:	Int
 	*/
 	public var startIndex: Int {
@@ -123,7 +125,7 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 
 	/**
 		:name:	endIndex
-		:description:	Conforms to the CollectionType Protocol.
+		:description:	Conforms to the Collection Protocol.
 		- returns:	Int
 	*/
 	public var endIndex: Int {
@@ -152,21 +154,14 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 	*/
 	public init(elements: [Element]) {
 		self.init()
-		insert(elements)
+		insert(elements: elements)
 	}
 
-	//
-	//	:name:	generate
-	//	:description:	Conforms to the SequenceType Protocol. Returns
-	//	the next value in the sequence of nodes using
-	//	index values [0...n-1].
-	//	:returns:	SortedSet.Generator
-	//
 	public func makeIterator() -> SortedSet.Iterator {
         var index = startIndex
         return AnyIterator {
             if index < self.endIndex {
-                let i: Int = index
+                let i = index
                 index += 1
                 return self[i]
             }
@@ -177,59 +172,51 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 	/**
 	Conforms to Probable protocol.
 	*/
-    public func count<T: Equatable>(of keys: T...) -> Int {
+    public func count(of keys: T...) -> Int {
         return count(of: keys)
 	}
 	
 	/**
 	Conforms to Probable protocol.
 	*/
-	public func count<T: Equatable>(of keys: [T]) -> Int {
+	public func count(of keys: [T]) -> Int {
         return tree.count(of: keys)
 	}
 	
 	/**
 	The probability of elements.
 	*/
-    public func probability<T: Equatable>(of elements: T...) -> Double {
+    public func probability(of elements: T...) -> Double {
         return probability(of: elements)
 	}
 	
 	/**
 	The probability of elements.
 	*/
-	public func probability<T: Equatable>(of elements: [T]) -> Double {
+	public func probability(of elements: [T]) -> Double {
         return tree.probability(of: elements)
 	}
 	
 	/**
 	The probability of elements.
 	*/
-	public func probability(_ block: (Element) -> Bool) -> Double {
-		if 0 == count {
-			return 0
-		}
-		
-		var c = 0
-		for x in self {
-			if block(x) {
-				c += 1
-			}
-		}
-		return Double(c) / Double(count)
+	public func probability(execute block: (Element) -> Bool) -> Double {
+		return tree.probability { (k, _) -> Bool in
+            return block(k)
+        }
 	}
 	
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValue<T: Equatable>(trials: Int, for elements: T...) -> Double {
+	public func expectedValue(trials: Int, for elements: T...) -> Double {
         return expectedValue(trials: trials, for: elements)
 	}
 	
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValue<T: Equatable>(trials: Int, for elements: [T]) -> Double {
+	public func expectedValue(trials: Int, for elements: [T]) -> Double {
         return tree.expectedValue(trials: trials, for: elements)
 	}
 
@@ -250,8 +237,8 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 		:description:	Returns the Index of a given member, or -1 if the member is not present in the set.
 		- returns:	Int
 	*/
-	public func indexOf(_ element: Element) -> Int {
-		return tree.indexOf(element)
+	public func index(of element: Element) -> Int {
+        return tree.index(of: element)
 	}
 	
 	/**
@@ -275,7 +262,7 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 			return false
 		}
 		for x in elements {
-			if nil == tree.findValueForKey(x) {
+            if nil == tree.findValue(for: x) {
 				return false
 			}
 		}
@@ -287,7 +274,7 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 		:description:	Inserts new elements into the SortedSet.
 	*/
 	mutating public func insert(_ elements: Element...) {
-		insert(elements)
+        insert(elements)
 	}
 
 	/**
@@ -296,7 +283,7 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 	*/
 	mutating public func insert(_ elements: [Element]) {
 		for x in elements {
-			_ = tree.insert(x, value: x)
+            tree.insert(value: x, for: x)
 		}
 		count = tree.count
 	}
@@ -306,7 +293,7 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 		:description:	Removes elements from the SortedSet.
 	*/
 	mutating public func remove(_ elements: Element...) {
-		remove(elements)
+        remove(elements)
 	}
 
 	/**
@@ -314,7 +301,7 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 		:description:	Removes elements from the SortedSet.
 	*/
 	mutating public func remove(_ elements: [Element]) {
-		tree.removeValueForKeys(elements)
+        tree.removeValue(for: elements)
 		count = tree.count
 	}
 
@@ -332,7 +319,7 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 		:description:	Return a new set with elements common to this set and a finite sequence of Sets.
 		- returns:	SortedSet<Element>
 	*/
-	public func intersect(_ set: SortedSet<Element>) -> SortedSet<Element> {
+	public func intersection(_ set: SortedSet<Element>) -> SortedSet<Element> {
 		var s = SortedSet<Element>()
 		var i = 0
 		var j = 0
@@ -358,16 +345,16 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 		:name:	intersectInPlace
 		:description:	Insert elements of a finite sequence of Sets.
 	*/
-	mutating public func intersectInPlace(_ set: SortedSet<Element>) {
-		let l = set.count
+	mutating public func intersection<S: Sequence>(_ other: S) where S.Iterator.Element == Element {
+		let l = other.count
 		if 0 == l {
 			removeAll()
 		} else {
 			var i = 0
 			var j = 0
 			while count > i && l > j {
-				let x: Element = self[i]
-				let y: Element = set[j]
+				let x = self[i]
+				let y = other[j]
 				if x < y {
 					remove(x)
 				} else if y < x {
@@ -392,8 +379,8 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 		let k = count
 		let l = set.count
 		while k > i && l > j {
-			let x: Element = self[i]
-			let y: Element = set[j]
+			let x = self[i]
+			let y = set[j]
 			if x < y {
 				s.insert(x)
 				i += 1
@@ -421,12 +408,12 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 		:name:	unionInPlace
 		:description:	Return a new Set with items in both this set and a finite sequence of Sets.
 	*/
-	mutating public func unionInPlace(_ set: SortedSet<Element>) {
-		var j = set.count
-		while 0 != j {
-			j -= 1
-			insert(set[j])
-		}
+	mutating public func union<S: Sequence>(_ other: S) where S.Iterator.Element == Element {
+        var a = [Element]()
+        other.forEach {
+            a.append($0)
+        }
+        insert(a)
 	}
 	
 	/**
@@ -441,10 +428,10 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 		let k = count
 		let l = set.count
 		while k > i && l > j {
-			let x: Element = self[i]
-			let y: Element = set[j]
+			let x = self[i]
+			let y = set[j]
 			if x < y {
-				s.insert(x)
+                s.insert(x)
 				i += 1
 			} else if y < x {
 				j += 1
@@ -454,7 +441,7 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 			}
 		}
 		while k > i {
-			s.insert(self[i])
+            s.insert(self[i])
 			i += 1
 		}
 		return s
@@ -464,13 +451,13 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 		:name:	subtractInPlace
 		:description:	Remove all elements in the set that occur in a finite sequence of Sets.
 	*/
-	mutating public func subtractInPlace(_ set: SortedSet<Element>) {
+	mutating public func subtractInPlace(with set: SortedSet<Element>) {
 		var i = 0
 		var j = 0
 		let l = set.count
 		while count > i && l > j {
-			let x: Element = self[i]
-			let y: Element = set[j]
+			let x = self[i]
+			let y = set[j]
 			if x < y {
 				i += 1
 			} else if y < x {
@@ -487,15 +474,15 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 		:description:	Return a new set with elements that are either in the set or a finite sequence but do not occur in both.
 		- returns:	SortedSet<Element>
 	*/
-	public func exclusiveOr(_ set: SortedSet<Element>) -> SortedSet<Element> {
+	public func exclusive(or set: SortedSet<Element>) -> SortedSet<Element> {
 		var s = SortedSet<Element>()
 		var i = 0
 		var j = 0
 		let k = count
 		let l = set.count
 		while k > i && l > j {
-			let x: Element = self[i]
-			let y: Element = set[j]
+			let x = self[i]
+			let y = set[j]
 			if x < y {
 				s.insert(x)
 				i += 1
@@ -524,13 +511,13 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 		common element, otherwise add it to the set. Repeated elements of the sequence will be
 		ignored.
 	*/
-	mutating public func exclusiveOrInPlace(_ set: SortedSet<Element>) {
+	mutating public func exclusiveOrInPlace(with set: SortedSet<Element>) {
 		var i = 0
 		var j = 0
 		let l = set.count
 		while count > i && l > j {
-			let x: Element = self[i]
-			let y: Element = set[j]
+			let x = self[i]
+			let y = set[j]
 			if x < y {
 				i += 1
 			} else if y < x {
@@ -552,12 +539,12 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 		:description:	Returns true if no elements in the set are in a finite sequence of Sets.
 		- returns:	Bool
 	*/
-	public func isDisjointWith(_ set: SortedSet<Element>) -> Bool {
+	public func isDisjoint(with set: SortedSet<Element>) -> Bool {
 		var i = count - 1
 		var j = set.count - 1
 		while 0 <= i && 0 <= j {
-			let x: Element = self[i]
-			let y: Element = set[j]
+			let x = self[i]
+			let y = set[j]
 			if x < y {
 				j -= 1
 			} else if y < x {
@@ -574,7 +561,7 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 		:description:	Returns true if the set is a subset of a finite sequence as a Set.
 		- returns:	Bool
 	*/
-	public func isSubsetOf(_ set: SortedSet<Element>) -> Bool {
+	public func isSubset(of set: SortedSet<Element>) -> Bool {
 		if count > set.count {
 			return false
 		}
@@ -591,8 +578,8 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 		:description:	Returns true if the set is a subset of a finite sequence as a Set but not equal.
 		- returns:	Bool
 	*/
-	public func isStrictSubsetOf(_ set: SortedSet<Element>) -> Bool {
-		return count < set.count && isSubsetOf(set)
+	public func isStrictSubset(of set: SortedSet<Element>) -> Bool {
+        return count < set.count && isSubset(of: set)
 	}
 
 	/**
@@ -600,7 +587,7 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 		:description:	Returns true if the set is a superset of a finite sequence as a Set.
 		- returns:	Bool
 	*/
-	public func isSupersetOf(_ set: SortedSet<Element>) -> Bool {
+	public func isSuperset(of set: SortedSet<Element>) -> Bool {
 		if count < set.count {
 			return false
 		}
@@ -617,8 +604,8 @@ public struct SortedSet<Element: Comparable>: Probable, Collection, Comparable, 
 		:description:	Returns true if the set is a superset of a finite sequence as a Set but not equal.
 		- returns:	Bool
 	*/
-	public func isStrictSupersetOf(_ set: SortedSet<Element>) -> Bool {
-		return count > set.count && isSupersetOf(set)
+	public func isStrictSuperset(of set: SortedSet<Element>) -> Bool {
+        return count > set.count && isSuperset(of: set)
 	}
 }
 
@@ -638,34 +625,34 @@ public func !=<Element: Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Elem
 	return !(lhs == rhs)
 }
 
-public func +<Element : Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> SortedSet<Element> {
+public func +<Element: Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> SortedSet<Element> {
 	return lhs.union(rhs)
 }
 
-public func +=<Element : Comparable>(lhs: inout SortedSet<Element>, rhs: SortedSet<Element>) {
-	lhs.unionInPlace(rhs)
+public func +=<Element: Comparable>(lhs: inout SortedSet<Element>, rhs: SortedSet<Element>) {
+	lhs.union(rhs)
 }
 
-public func -<Element : Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> SortedSet<Element> {
+public func -<Element: Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> SortedSet<Element> {
 	return lhs.subtract(rhs)
 }
 
-public func -=<Element : Comparable>(lhs: inout SortedSet<Element>, rhs: SortedSet<Element>) {
-	lhs.subtractInPlace(rhs)
+public func -=<Element: Comparable>(lhs: inout SortedSet<Element>, rhs: SortedSet<Element>) {
+	lhs.subtract(rhs)
 }
 
-public func <=<Element : Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
-	return lhs.isSubsetOf(rhs)
+public func <=<Element: Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
+    return lhs.isSubset(of: rhs)
 }
 
-public func >=<Element : Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
-	return lhs.isSupersetOf(rhs)
+public func >=<Element: Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
+    return lhs.isSuperset(of: rhs)
 }
 
-public func ><Element : Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
-	return lhs.isStrictSupersetOf(rhs)
+public func ><Element: Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
+    return lhs.isStrictSuperset(of: rhs)
 }
 
-public func <<Element : Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
-	return lhs.isStrictSubsetOf(rhs)
+public func <<Element: Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
+    return lhs.isStrictSubset(of: rhs)
 }
