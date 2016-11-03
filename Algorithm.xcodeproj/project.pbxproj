@@ -643,7 +643,7 @@
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "io.cosmicmind.Algorithm-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = io.cosmicmind.Algorithm;
 				PRODUCT_NAME = Algorithm;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -663,7 +663,7 @@
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "io.cosmicmind.Algorithm-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = io.cosmicmind.Algorithm;
 				PRODUCT_NAME = Algorithm;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -709,7 +709,7 @@
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "io.cosmicmind.Algorithm-OSX";
+				PRODUCT_BUNDLE_IDENTIFIER = io.cosmicmind.Algorithm;
 				PRODUCT_NAME = Algorithm;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -731,7 +731,7 @@
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "io.cosmicmind.Algorithm-OSX";
+				PRODUCT_BUNDLE_IDENTIFIER = io.cosmicmind.Algorithm;
 				PRODUCT_NAME = Algorithm;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
