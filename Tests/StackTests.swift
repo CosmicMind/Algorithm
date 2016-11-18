@@ -42,7 +42,7 @@ class StackTests: XCTestCase {
 	}
 	
 	func testInt() {
-		let s: Stack<Int> = Stack<Int>()
+		var s = Stack<Int>()
 		
 		s.push(1)
 		s.push(2)
@@ -74,17 +74,17 @@ class StackTests: XCTestCase {
 	}
 	
 	func testConcat() {
-		let s1: Stack<Int> = Stack<Int>()
+		var s1 = Stack<Int>()
 		s1.push(1)
 		s1.push(2)
 		s1.push(3)
 		
-		let s2: Stack<Int> = Stack<Int>()
+		var s2 = Stack<Int>()
 		s2.push(4)
 		s2.push(5)
 		s2.push(6)
 		
-		let s3: Stack<Int> = s1 + s2
+		let s3 = s1 + s2
 		XCTAssert(6 == s3.count, "Concat incorrect.")
 	}
 	

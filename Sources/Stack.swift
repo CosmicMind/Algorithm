@@ -28,7 +28,7 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public class Stack<Element>: CustomStringConvertible, Sequence {
+public struct Stack<Element>: CustomStringConvertible, Sequence {
 	public typealias Iterator = AnyIterator<Element>
 
 	/// Underlying data structure.
@@ -72,7 +72,7 @@ public class Stack<Element>: CustomStringConvertible, Sequence {
      Insert a new element at the top of the Stack.
      - Parameter _ element: An Element type.
      */
-	public func push(_ element: Element) {
+	mutating public func push(_ element: Element) {
         list.insert(atFront: element)
 	}
 
@@ -81,18 +81,18 @@ public class Stack<Element>: CustomStringConvertible, Sequence {
      the Stack.
      - Returns:	Element?
      */
-	public func pop() -> Element? {
+	mutating public func pop() -> Element? {
 		return list.removeAtFront()
 	}
 
 	/// Remove all elements from the Stack.
-	public func removeAll() {
+	mutating public func removeAll() {
 		list.removeAll()
 	}
 }
 
 public func +<Element>(lhs: Stack<Element>, rhs: Stack<Element>) -> Stack<Element> {
-	let s = Stack<Element>()
+	var s = Stack<Element>()
 	for x in lhs {
 		s.push(x)
 	}
@@ -102,7 +102,7 @@ public func +<Element>(lhs: Stack<Element>, rhs: Stack<Element>) -> Stack<Elemen
 	return s
 }
 
-public func +=<Element>(lhs: Stack<Element>, rhs: Stack<Element>) {
+public func +=<Element>(lhs: inout Stack<Element>, rhs: Stack<Element>) {
 	for x in rhs {
 		lhs.push(x)
 	}

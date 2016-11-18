@@ -325,7 +325,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 		the given key value will be updated.
 	*/
 	mutating public func update(value: Value?, for key: Key) {
-		internalUpdateValue(value, forKey: key, node: root)
+		internalUpdateValue(value, for: key, node: root)
 	}
 
 	/**
@@ -348,11 +348,11 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 	*/
 	public subscript(index: Int) -> (key: Key, value: Value?) {
 		get {
-			let x = internalSelect(root, order: index + 1)
+            let x = internalSelect(root, order: index + 1)
 			return (x.key, x.value)
 		}
 		set(element) {
-			internalUpdateValue(element.value, forKey: element.key, node: root)
+			internalUpdateValue(element.value, for: element.key, node: root)
 		}
 	}
 	
@@ -368,7 +368,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 			return internalFindNodeForKey(key).value
 		}
 		set(value) {
-			if sentinel == internalFindNodeForKey(key) {
+			if sentinel === internalFindNodeForKey(key) {
 				_ = internalInsert(key, value: value)
 			} else {
                 update(value: value, for: key)
@@ -383,7 +383,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 	*/
 	public func index(of key: Key) -> Int {
 		let x = internalFindNodeForKey(key)
-		return sentinel == x ? -1 : internalOrder(x) - 1
+		return sentinel === x ? -1 : internalOrder(x) - 1
 	}
 	
 	/**
@@ -407,7 +407,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 
 		let z = RedBlackNode<Key, Value>(parent: y, sentinel: sentinel, key: key, value: value)
 
-		if y == sentinel {
+		if y === sentinel {
 			root = z
 		} else if key < y.key as Key {
 			y.left = z
@@ -428,7 +428,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 	mutating private func insertCleanUp(_ node: RedBlackNode<Key, Value>) {
 		var z = node
 		while z.parent.isRed {
-			if z.parent == z.parent.parent.left {
+			if z.parent === z.parent.parent.left {
 				let y = z.parent.parent.right!
 				// violation 1, parent child relationship re to isRed
 				if y.isRed {
@@ -438,7 +438,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 					z = z.parent.parent
 				} else {
 					// case 2, parent is isRed, uncle is black
-					if z == z.parent.right {
+					if z === z.parent.right {
 						z = z.parent
 						leftRotate(z)
 					}
@@ -458,7 +458,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 					z = z.parent.parent
 				} else {
 					// case 2, parent is isRed, uncle is black
-					if z == z.parent.left {
+					if z === z.parent.left {
 						z = z.parent
 						rightRotate(z)
 					}
@@ -481,7 +481,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
     @discardableResult
 	mutating private func internalRemoveValueForKey(_ key: Key) -> RedBlackNode<Key, Value> {
 		let z = internalFindNodeForKey(key)
-		if z == sentinel {
+		if z === sentinel {
 			return sentinel
 		}
 
@@ -498,17 +498,17 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 		var y = z
 		var isRed: Bool = y.isRed
 
-		if z.left == sentinel {
+		if z.left === sentinel {
 			x = z.right
 			transplant(z, v: z.right)
-		} else if z.right == sentinel {
+		} else if z.right === sentinel {
 			x = z.left
 			transplant(z, v: z.left)
 		} else {
 			y = minimum(z.right)
 			isRed = y.isRed
 			x = y.right
-			if y.parent == z {
+			if y.parent === z {
 				x.parent = y
 			} else {
 				transplant(y, v: y.right)
@@ -542,7 +542,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 	mutating private func removeCleanUp(_ node: RedBlackNode<Key, Value>) {
 		var x = node
 		while x !== root && !x.isRed {
-			if x == x.parent.left {
+			if x === x.parent.left {
 				var y = x.parent.right!
 				if y.isRed {
 					y.isRed = false
@@ -615,9 +615,9 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 		:description:	Swaps two subTrees in the tree.
 	*/
 	mutating private func transplant(_ u: RedBlackNode<Key, Value>, v: RedBlackNode<Key, Value>) {
-		if u.parent == sentinel {
+		if u.parent === sentinel {
 			root = v
-		} else if u == u.parent.left {
+		} else if u === u.parent.left {
 			u.parent.left = v
 		} else {
 			u.parent.right = v
@@ -640,9 +640,9 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 
 		y.parent = x.parent
 
-		if sentinel == x.parent {
+		if sentinel === x.parent {
 			root = y
-		} else if x == x.parent.left {
+		} else if x === x.parent.left {
 			x.parent.left = y
 		} else {
 			x.parent.right = y
@@ -669,9 +669,9 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 
 		x.parent = y.parent
 
-		if sentinel == y.parent {
+		if sentinel === y.parent {
 			root = x
-		} else if y == y.parent.right {
+		} else if y === y.parent.right {
 			y.parent.right = x
 		} else {
 			y.parent.left = x
@@ -733,13 +733,13 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 		:name:	internalUpdateValue
 		:description:	Traverses the Tree and updates all the values that match the key.
 	*/
-	private func internalUpdateValue(_ value: Value?, forKey: Key, node: RedBlackNode<Key, Value>) {
+	private func internalUpdateValue(_ value: Value?, for key: Key, node: RedBlackNode<Key, Value>) {
 		if node !== sentinel {
-			if forKey == node.key {
+			if key == node.key {
 				node.value = value
 			}
-			internalUpdateValue(value, forKey: forKey, node: node.left)
-			internalUpdateValue(value, forKey: forKey, node: node.right)
+			internalUpdateValue(value, for: key, node: node.left)
+			internalUpdateValue(value, for: key, node: node.right)
 		}
 	}
 	
@@ -752,7 +752,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 		var x = node
 		var r: Int = x.left.order + 1
 		while root !== x {
-			if x.parent.right == x {
+			if x.parent.right === x {
 				r += x.parent.left.order + 1
 			}
 			x = x.parent
@@ -765,14 +765,15 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 		:description:	Validates the order statistic being within range of 1...n.
 	*/
 	private func validateOrder(_ order: Int) {
-		assert(order >= startIndex || order < endIndex, "[Algorithm Error: Order out of bounds.]")
+		assert(order > startIndex || order <= endIndex, "[Algorithm Error: Order out of bounds.]")
 	}
 }
 
 public func ==<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) -> Bool {
-    if lhs.count != rhs.count {
+    guard lhs.count == rhs.count else {
 		return false
 	}
+    
 	for i in 0..<lhs.count {
 		if lhs[i].key != rhs[i].key {
 			return false
@@ -786,8 +787,11 @@ public func !=<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedB
 }
 
 public func +<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) -> RedBlackTree<Key, Value> {
-	var t = lhs
-	for (k, v) in rhs {
+	var t = RedBlackTree<Key, Value>()
+    for (k, v) in lhs {
+        t.insert(value: v, for: k)
+    }
+    for (k, v) in rhs {
         t.insert(value: v, for: k)
 	}
 	return t

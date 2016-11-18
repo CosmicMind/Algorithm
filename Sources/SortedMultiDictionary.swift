@@ -380,7 +380,10 @@ public func !=<Key : Comparable, Value>(lhs: SortedMultiDictionary<Key, Value>, 
 }
 
 public func +<Key : Comparable, Value>(lhs: SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) -> SortedMultiDictionary<Key, Value> {
-    var t = lhs
+    var t = SortedMultiDictionary<Key, Value>()
+    for (k, v) in lhs {
+        t.insert(value: v, for: k)
+    }
     for (k, v) in rhs {
         t.insert(value: v, for: k)
     }

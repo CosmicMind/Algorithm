@@ -65,13 +65,13 @@ class RedBlackTreeTests: XCTestCase {
 		XCTAssert(1 == s.count, "Test failed.")
         s.removeValue(for: 2)
 		
-        XCTAssert(true == s.insert(value: 2, for: 10), "Test failed.")
-		XCTAssert(1 == s.count, "Test failed.")
-        XCTAssert(10 == s.findValue(for: 2), "Test failed.")
-		XCTAssert(10 == s[0].value, "Test failed.")
+        XCTAssert(true == s.insert(value: 10, for: 2), "Test failed.")
+		XCTAssertEqual(1, s.count, "Test failed.")
+        XCTAssertEqual(10, s.findValue(for: 2), "Test failed.")
+		XCTAssertEqual(10, s[0].value, "Test failed.")
 		
         s.removeValue(for: 2)
-		XCTAssert(0 == s.count, "Test failed.")
+		XCTAssertEqual(0, s.count, "Test failed.")
 		
         s.insert(value: 1, for: 1)
         s.insert(value: 2, for: 2)
@@ -155,17 +155,18 @@ class RedBlackTreeTests: XCTestCase {
 	func testOperands() {
 		var t1 = RedBlackTree<Int, Int>(uniqueKeys: true)
 		t1.insert((1, 1), (2, 2), (3, 3), (4, 4))
-		XCTAssert(4 == t1.count, "Test failed.")
+		XCTAssertEqual(4, t1.count, "Test failed.")
 		
 		var t2 = RedBlackTree<Int, Int>(uniqueKeys: true)
 		t2.insert((5, 5), (6, 6), (7, 7), (8, 8))
-		XCTAssert(4 == t2.count, "Test failed.")
-		
-		let t3 = t1 + t2
-		XCTAssert(8 == t3.count, "Test failed.")
+		XCTAssertEqual(4, t2.count, "Test failed.")
+        
+        let t3 = t1 + t2
+		XCTAssertEqual(8, t3.count, "Test failed.")
 		
 		XCTAssert(t1 != t2, "Test failed.")
 		XCTAssert(t3 != t2, "Test failed.")
+        
 		XCTAssert(t3 == (t1 + t2), "Test failed.")
 	}
 

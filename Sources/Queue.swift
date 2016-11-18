@@ -28,7 +28,7 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public class Queue<Element>: CustomStringConvertible, Sequence {
+public struct Queue<Element>: CustomStringConvertible, Sequence {
 	public typealias Iterator = AnyIterator<Element>
 
 	/**
@@ -97,7 +97,7 @@ public class Queue<Element>: CustomStringConvertible, Sequence {
 		:name:	enqueue
 		:description:	Insert a new element at the back of the Queue.
 	*/
-	public func enqueue(_ element: Element) {
+	mutating public func enqueue(_ element: Element) {
         list.insert(atBack: element)
 	}
 
@@ -107,7 +107,7 @@ public class Queue<Element>: CustomStringConvertible, Sequence {
 		of the Queue.
 		- returns:	Element?
 	*/
-	public func dequeue() -> Element? {
+	mutating public func dequeue() -> Element? {
 		return list.removeAtFront()
 	}
 
@@ -115,13 +115,13 @@ public class Queue<Element>: CustomStringConvertible, Sequence {
 		:name:	removeAll
 		:description:	Remove all elements from the Queue.
 	*/
-	public func removeAll() {
+	mutating public func removeAll() {
 		list.removeAll()
 	}
 }
 
 public func +<Element>(lhs: Queue<Element>, rhs: Queue<Element>) -> Queue<Element> {
-	let q = Queue<Element>()
+	var q = Queue<Element>()
 	for x in lhs {
 		q.enqueue(x)
 	}
@@ -131,7 +131,7 @@ public func +<Element>(lhs: Queue<Element>, rhs: Queue<Element>) -> Queue<Elemen
 	return q
 }
 
-public func +=<Element>(lhs: Queue<Element>, rhs: Queue<Element>) {
+public func +=<Element>(lhs: inout Queue<Element>, rhs: Queue<Element>) {
 	for x in rhs {
 		lhs.enqueue(x)
 	}

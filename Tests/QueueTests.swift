@@ -42,7 +42,7 @@ class QueueTests: XCTestCase {
 	}
 	
 	func testInt() {
-		let q: Queue<Int> = Queue<Int>()
+		var q = Queue<Int>()
 		
 		q.enqueue(1)
 		q.enqueue(2)
@@ -78,17 +78,17 @@ class QueueTests: XCTestCase {
 	}
 	
 	func testConcat() {
-		let q1: Queue<Int> = Queue<Int>()
+		var q1 = Queue<Int>()
 		q1.enqueue(1)
 		q1.enqueue(2)
 		q1.enqueue(3)
 		
-		let q2: Queue<Int> = Queue<Int>()
+		var q2 = Queue<Int>()
 		q2.enqueue(4)
 		q2.enqueue(5)
 		q2.enqueue(6)
 		
-		let q3: Queue<Int> = q1 + q2
+		var q3 = q1 + q2
 		
 		for x in q1 {
 			XCTAssert(x == q3.dequeue(), "Concat incorrect.")
@@ -99,7 +99,7 @@ class QueueTests: XCTestCase {
 		}
 		
 		q3.removeAll()
-		let q4: Queue<Int> = q1 + q2 + q3
+		var q4 = q1 + q2 + q3
 		for x in q4 {
 			XCTAssert(x == q4.dequeue(), "Concat incorrect.")
 		}
