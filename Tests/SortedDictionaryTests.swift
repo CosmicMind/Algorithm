@@ -47,7 +47,7 @@ class SortedDictionaryTests: XCTestCase {
 		XCTAssert(0 == s.count, "Test failed, got \(s.count).")
 		
 		for _ in 0..<1000 {
-			s.insert((1, 1))
+            s.insert((1, 1))
 			s.insert((2, 2))
 			s.insert((3, 3))
 		}
@@ -58,31 +58,31 @@ class SortedDictionaryTests: XCTestCase {
 		XCTAssert(3 == s[2].value, "Test failed.")
 		
 		for _ in 0..<500 {
-			s.removeValueForKeys(1)
-			s.removeValueForKeys(3)
+            s.removeValue(for: 1)
+            s.removeValue(for: 3)
 		}
 		
 		XCTAssert(1 == s.count, "Test failed.")
-		s.removeValueForKeys(2)
+        s.removeValue(for: 2)
 		
 		s.insert((2, 10))
 		XCTAssert(1 == s.count, "Test failed.")
-		XCTAssert(10 == s.findValueForKey(2), "Test failed.")
+        XCTAssert(10 == s.findValue(for: 2), "Test failed.")
 		XCTAssert(10 == s[0].value!, "Test failed.")
 		
-		s.removeValueForKeys(2)
+        s.removeValue(for: 2)
 		XCTAssert(0 == s.count, "Test failed.")
 		
 		s.insert((1, 1))
 		s.insert((2, 2))
 		s.insert((3, 3))
 		s.insert((3, 3))
-		s.updateValue(5, forKey: 3)
+        s.update(value: 5, for: 3)
 		
-		let subs: SortedDictionary<Int, Int> = s.search(3)
+        let subs: SortedDictionary<Int, Int> = s.search(for: 3)
 		XCTAssert(1 == subs.count, "Test failed.")
 		
-		let generator: SortedDictionary<Int, Int>.Generator = subs.makeIterator()
+		let generator = subs.makeIterator()
 		while let x = generator.next() {
 			XCTAssert(5 == x.value, "Test failed.")
 		}
@@ -106,9 +106,9 @@ class SortedDictionaryTests: XCTestCase {
 		d1.insert(value: 5, for: 5)
 		d1.insert(value: 6, for: 6)
 		
-		XCTAssert(0 == d1.indexOf(1), "Test failed.")
-		XCTAssert(5 == d1.indexOf(6), "Test failed.")
-		XCTAssert(-1 == d1.indexOf(100), "Test failed.")
+		XCTAssert(0 == d1.index(of: 1), "Test failed.")
+		XCTAssert(5 == d1.index(of: 6), "Test failed.")
+		XCTAssert(-1 == d1.index(of: 100), "Test failed.")
 	}
 	
 	func testKeys() {

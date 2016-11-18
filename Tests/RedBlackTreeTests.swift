@@ -47,9 +47,9 @@ class RedBlackTreeTests: XCTestCase {
 		XCTAssert(0 == s.count, "Test failed, got \(s.count).")
 		
 		for _ in 0..<1000 {
-            s.insert(1, value: 1)
-            s.insert(2, value: 2)
-            s.insert(3, value: 3)
+            s.insert(value: 1, for: 1)
+            s.insert(value: 2, for: 2)
+            s.insert(value: 3, for: 3)
 		}
 		
 		XCTAssert(3 == s.count, "Test failed.\(s)")
@@ -58,24 +58,24 @@ class RedBlackTreeTests: XCTestCase {
 		XCTAssert(3 == s[2].value, "Test failed.")
 		
 		for _ in 0..<500 {
-            s.removeValueForKeys(1)
-            s.removeValueForKeys(3)
+            s.removeValue(for: 1)
+            s.removeValue(for: 3)
 		}
 		
 		XCTAssert(1 == s.count, "Test failed.")
-		s.removeValueForKeys(2)
+        s.removeValue(for: 2)
 		
-		XCTAssert(true == s.insert(2, value: 10), "Test failed.")
+        XCTAssert(true == s.insert(value: 2, for: 10), "Test failed.")
 		XCTAssert(1 == s.count, "Test failed.")
-		XCTAssert(10 == s.findValueForKey(2), "Test failed.")
+        XCTAssert(10 == s.findValue(for: 2), "Test failed.")
 		XCTAssert(10 == s[0].value, "Test failed.")
 		
-		s.removeValueForKeys(2)
+        s.removeValue(for: 2)
 		XCTAssert(0 == s.count, "Test failed.")
 		
-		s.insert(1, value: 1)
-		s.insert(2, value: 2)
-		s.insert(3, value: 3)
+        s.insert(value: 1, for: 1)
+        s.insert(value: 2, for: 2)
+        s.insert(value: 3, for: 3)
 		
 		for i in s.startIndex..<s.endIndex {
 			s[i] = (s[i].key, 100)
@@ -88,7 +88,7 @@ class RedBlackTreeTests: XCTestCase {
 	
 	func testPropertyKey() {
 		var s = RedBlackTree<String, Array<Int>>(uniqueKeys: false)
-		s.insert("friends", value: [1, 2, 3])
+        s.insert(value: [1, 2, 3], for: "friends")
 		s["menu"] = [11, 22, 33]
 		
 		XCTAssert(s["friends"]! == s[0].value!, "Test failed.")
@@ -102,54 +102,54 @@ class RedBlackTreeTests: XCTestCase {
 	
 	func testValue() {
 		var t1 = RedBlackTree<Int, Int>()
-		t1.insert(1, value: 1)
-		t1.insert(2, value: 2)
-		t1.insert(3, value: 3)
+        t1.insert(value: 1, for: 1)
+		t1.insert(value: 2, for: 2)
+		t1.insert(value: 3, for: 3)
 		
 		var t2 = RedBlackTree<Int, Int>()
-		t2.insert(4, value: 4)
-		t2.insert(5, value: 5)
-		t2.insert(6, value: 6)
+        t2.insert(value: 4, for: 4)
+		t2.insert(value: 5, for: 5)
+		t2.insert(value: 6, for: 6)
 		
-		var t3 = t1 + t2
+		let t3 = t1 + t2
 		
 		for i in 0..<t1.count {
-			XCTAssert(t1[i].value == t3.findValueForKey(t1[i].value!), "Test failed.")
+            XCTAssert(t1[i].value == t3.findValue(for: t1[i].value!), "Test failed.")
 		}
 		
 		for i in 0..<t2.count {
-			XCTAssert(t2[i].value == t3.findValueForKey(t2[i].value!), "Test failed.")
+            XCTAssert(t2[i].value == t3.findValue(for: t2[i].value!), "Test failed.")
 		}
 	}
 	
 	func testIndexOfUniqueKeys() {
 		var t1 = RedBlackTree<Int, Int>(uniqueKeys: true)
-		t1.insert(1, value: 1)
-		t1.insert(2, value: 2)
-		t1.insert(3, value: 3)
-		t1.insert(4, value: 4)
-		t1.insert(5, value: 5)
-		t1.insert(5, value: 5)
-		t1.insert(6, value: 6)
+        t1.insert(value: 1, for: 1)
+		t1.insert(value: 2, for: 2)
+		t1.insert(value: 3, for: 3)
+		t1.insert(value: 4, for: 4)
+		t1.insert(value: 5, for: 5)
+		t1.insert(value: 5, for: 5)
+		t1.insert(value: 6, for: 6)
 		
-		XCTAssert(0 == t1.indexOf(1), "Test failed.")
-		XCTAssert(5 == t1.indexOf(6), "Test failed.")
-		XCTAssert(-1 == t1.indexOf(100), "Test failed.")
+		XCTAssert(0 == t1.index(of: 1), "Test failed.")
+		XCTAssert(5 == t1.index(of: 6), "Test failed.")
+		XCTAssert(-1 == t1.index(of: 100), "Test failed.")
 	}
 
 	func testIndexOfNonUniqueKeys() {
 		var t1 = RedBlackTree<Int, Int>()
-		t1.insert(1, value: 1)
-		t1.insert(2, value: 2)
-		t1.insert(3, value: 3)
-		t1.insert(4, value: 4)
-		t1.insert(5, value: 5)
-		t1.insert(5, value: 5)
-		t1.insert(6, value: 6)
-		
-		XCTAssert(0 == t1.indexOf(1), "Test failed.")
-		XCTAssert(6 == t1.indexOf(6), "Test failed.")
-		XCTAssert(-1 == t1.indexOf(100), "Test failed.")
+        t1.insert(value: 1, for: 1)
+        t1.insert(value: 2, for: 2)
+        t1.insert(value: 3, for: 3)
+        t1.insert(value: 4, for: 4)
+        t1.insert(value: 5, for: 5)
+        t1.insert(value: 5, for: 5)
+        t1.insert(value: 6, for: 6)
+        
+		XCTAssert(0 == t1.index(of: 1), "Test failed.")
+		XCTAssert(6 == t1.index(of: 6), "Test failed.")
+		XCTAssert(-1 == t1.index(of: 100), "Test failed.")
 	}
 	
 	func testOperands() {
@@ -161,7 +161,7 @@ class RedBlackTreeTests: XCTestCase {
 		t2.insert((5, 5), (6, 6), (7, 7), (8, 8))
 		XCTAssert(4 == t2.count, "Test failed.")
 		
-		var t3 = t1 + t2
+		let t3 = t1 + t2
 		XCTAssert(8 == t3.count, "Test failed.")
 		
 		XCTAssert(t1 != t2, "Test failed.")

@@ -255,8 +255,8 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 		:description:	Inserts a list of (Key, Value?) pairs.
 		- parameter	nodes:	(Key, Value?)...	Elements to insert.
 	*/
-	mutating public func insert(nodes: (Key, Value?)...) {
-        insert(nodes: nodes)
+	mutating public func insert(_ nodes: (Key, Value?)...) {
+        insert(nodes)
 	}
 	
 	/**
@@ -264,7 +264,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 		:description:	Inserts an array of (Key, Value?) pairs.
 		- parameter	nodes:	[(Key, Value?)]	Elements to insert.
 	*/
-	mutating public func insert(nodes: [(Key, Value?)]) {
+	mutating public func insert(_ nodes: [(Key, Value?)]) {
 		for (k, v) in nodes {
             insert(value: v, for: k)
 		}

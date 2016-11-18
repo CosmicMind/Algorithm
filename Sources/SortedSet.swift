@@ -342,7 +342,7 @@ public struct SortedSet<T: Comparable>: Probable, Collection, Equatable, CustomS
 	}
 	
 	/**
-		:name:	intersectInPlace
+		:name:	formIntersection
 		:description:	Insert elements of a finite sequence of Sets.
 	*/
     mutating public func formIntersection(_ other: SortedSet<Element>) {
@@ -448,7 +448,7 @@ public struct SortedSet<T: Comparable>: Probable, Collection, Equatable, CustomS
 	}
 	
 	/**
-		:name:	subtractInPlace
+		:name:	subtract
 		:description:	Remove all elements in the set that occur in a finite sequence of Sets.
 	*/
 	mutating public func subtract(_ other: SortedSet<Element>) {

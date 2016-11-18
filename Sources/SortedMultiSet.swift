@@ -350,7 +350,7 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 	}
 	
 	/**
-		:name:	intersectInPlace
+		:name:	formIntersection
 		:description:	Insert elements of a finite sequence of Sets.
 	*/
 	mutating public func formIntersection(_ other: SortedMultiSet<Element>) {
@@ -472,7 +472,7 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 	}
 	
 	/**
-		:name:	subtractInPlace
+		:name:	subtract
 		:description:	Remove all elements in the set that occur in a finite sequence of Sets.
 	*/
 	mutating public func subtract(_ other: SortedMultiSet<Element>) {
@@ -564,7 +564,7 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 		:description:	Returns true if no elements in the set are in a finite sequence of Sets.
 		- returns:	Bool
 	*/
-	public func isDisjointWith(_ other: SortedMultiSet<Element>) -> Bool {
+	public func isDisjoint(with other: SortedMultiSet<Element>) -> Bool {
 		var i: Int = count - 1
 		var j: Int = other.count - 1
 		while 0 <= i && 0 <= j {
@@ -586,7 +586,7 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 		:description:	Returns true if the set is a subset of a finite sequence as a Set.
 		- returns:	Bool
 	*/
-	public func isSubsetOf(_ other: SortedMultiSet<Element>) -> Bool {
+	public func isSubset(of other: SortedMultiSet<Element>) -> Bool {
 		if count > other.count {
 			return false
 		}
@@ -603,8 +603,8 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 		:description:	Returns true if the set is a subset of a finite sequence as a Set but not equal.
 		- returns:	Bool
 	*/
-	public func isStrictSubsetOf(_ other: SortedMultiSet<Element>) -> Bool {
-		return count < other.count && isSubsetOf(other)
+	public func isStrictSubset(of other: SortedMultiSet<Element>) -> Bool {
+        return count < other.count && isSubset(of: other)
 	}
 	
 	/**
@@ -612,7 +612,7 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 		:description:	Returns true if the set is a superset of a finite sequence as a Set.
 		- returns:	Bool
 	*/
-	public func isSupersetOf(_ other: SortedMultiSet<Element>) -> Bool {
+	public func isSuperset(of other: SortedMultiSet<Element>) -> Bool {
 		if count < other.count {
 			return false
 		}
@@ -629,8 +629,8 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 		:description:	Returns true if the set is a superset of a finite sequence as a Set but not equal.
 		- returns:	Bool
 	*/
-	public func isStrictSupersetOf(_ other: SortedMultiSet<Element>) -> Bool {
-		return count > other.count && isSupersetOf(other)
+    public func isStrictSuperset(of other: SortedMultiSet<Element>) -> Bool {
+        return count > other.count && isSuperset(of: other)
 	}
 }
 
@@ -667,17 +667,17 @@ public func -=<Element : Comparable>(lhs: inout SortedMultiSet<Element>, rhs: So
 }
 
 public func <=<Element : Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
-	return lhs.isSubsetOf(rhs)
+    return lhs.isSubset(of: rhs)
 }
 
 public func >=<Element : Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
-	return lhs.isSupersetOf(rhs)
+    return lhs.isSuperset(of: rhs)
 }
 
 public func ><Element : Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
-	return lhs.isStrictSupersetOf(rhs)
+    return lhs.isStrictSuperset(of: rhs)
 }
 
 public func <<Element : Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
-	return lhs.isStrictSubsetOf(rhs)
+    return lhs.isStrictSubset(of: rhs)
 }

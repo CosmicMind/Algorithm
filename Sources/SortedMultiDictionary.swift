@@ -124,7 +124,7 @@ public struct SortedMultiDictionary<Key: Comparable, Value>: Probable, Collectio
      */
     public init(elements: [(Key, Value?)]) {
         self.init()
-        insert(elements: elements)
+        insert(elements)
     }
     
     public func makeIterator() -> SortedMultiDictionary.Iterator {
@@ -267,16 +267,16 @@ public struct SortedMultiDictionary<Key: Comparable, Value>: Probable, Collectio
      Inserts a list of key / value pairs.
      - Parameter elements: A list of (Key, Value?) tuples.
      */
-    mutating public func insert(elements: (Key, Value?)...) {
-        insert(elements: elements)
+    mutating public func insert(_ elements: (Key, Value?)...) {
+        insert(elements)
     }
     
     /**
      Inserts an Array of key / value pairs.
      - Parameter elements: An Array of (Key, Value?) tuples.
      */
-    mutating public func insert(elements: [(Key, Value?)]) {
-        tree.insert(nodes: elements)
+    mutating public func insert(_ elements: [(Key, Value?)]) {
+        tree.insert(elements)
         count = tree.count
     }
     

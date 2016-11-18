@@ -91,28 +91,28 @@ class SortedSetTests: XCTestCase {
 		let s1 = SortedSet<Int>(elements: 22, 23, 1, 2, 3, 4, 5)
 		let s2 = SortedSet<Int>(elements: 22, 23, 5, 6, 7, 8, 9, 10)
 
-		XCTAssert(SortedSet<Int>(elements: 22, 23, 5) == s1.intersect(s2), "Test failed. \(s1.intersect(s2))")
+		XCTAssert(SortedSet<Int>(elements: 22, 23, 5) == s1.intersection(s2), "Test failed. \(s1.intersection(s2))")
 		
-		XCTAssert(SortedSet<Int>() == s1.intersect(SortedSet<Int>()), "Test failed. \(s1)")
+		XCTAssert(SortedSet<Int>() == s1.intersection(SortedSet<Int>()), "Test failed. \(s1)")
 		
 		let s3 = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9, 9, 9)
 		let s4 = SortedSet<Int>(elements: 11, 9, 7, 3, 8, 100, 99, 88, 77)
-		XCTAssert(SortedSet<Int>(elements: 9, 3, 7, 8) == s3.intersect(s4), "Test failed.")
+		XCTAssert(SortedSet<Int>(elements: 9, 3, 7, 8) == s3.intersection(s4), "Test failed.")
 	}
 	
 	func testIntersectInPlace() {
 		var s1 = SortedSet<Int>(elements: 22, 23, 1, 2, 3, 4, 5)
 		let s2 = SortedSet<Int>(elements: 22, 23, 5, 6, 7, 8, 9, 10)
 		
-		s1.intersectInPlace(s2)
+		s1.formIntersection(s2)
 		XCTAssert(SortedSet<Int>(elements: 22, 23, 5) == s1, "Test failed. \(s1)")
 		
-		s1.intersectInPlace(SortedSet<Int>())
+		s1.formIntersection(SortedSet<Int>())
 		XCTAssert(SortedSet<Int>() == s1, "Test failed. \(s1)")
 		
 		var s3 = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9, 9, 9)
 		let s4 = SortedSet<Int>(elements: 11, 9, 7, 3, 8, 100, 99, 88, 77)
-		s3.intersectInPlace(s4)
+		s3.formIntersection(s4)
 		XCTAssert(SortedSet<Int>(elements: 9, 3, 7, 8) == s3, "Test failed.")
 	}
 	
@@ -120,23 +120,23 @@ class SortedSetTests: XCTestCase {
 		let s1 = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 7, 8, 9, 10)
 		let s2 = SortedSet<Int>(elements: 4, 5, 6, 7)
 		
-		XCTAssert(SortedSet<Int>(elements: 1, 2, 3, 8, 9, 10) == s1.subtract(s2), "Test failed. \(s1.subtract(s2))")
+		XCTAssert(SortedSet<Int>(elements: 1, 2, 3, 8, 9, 10) == s1.subtracting(s2), "Test failed. \(s1.subtracting(s2))")
 		
 		let s3 = SortedSet<Int>(elements: 0, -1, -2, -7, 99, 100)
 		let s4 = SortedSet<Int>(elements: -3, -5, -7, 99)
-		XCTAssert(SortedSet<Int>(elements: 0, -1, -2, 100) == s3.subtract(s4), "Test failed. \(s3.subtract(s4))")
+		XCTAssert(SortedSet<Int>(elements: 0, -1, -2, 100) == s3.subtracting(s4), "Test failed. \(s3.subtracting(s4))")
 	}
 	
 	func testSubtractInPlace() {
 		var s1 = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 7, 8, 9, 10)
 		let s2 = SortedSet<Int>(elements: 4, 5, 6, 7)
 		
-		s1.subtractInPlace(s2)
+		s1.subtract(s2)
 		XCTAssert(SortedSet<Int>(elements: 1, 2, 3, 8, 9, 10) == s1, "Test failed. \(s1)")
 		
 		var s3 = SortedSet<Int>(elements: 0, -1, -2, -7, 99, 100)
 		let s4 = SortedSet<Int>(elements: -3, -5, -7, 99)
-		s3.subtractInPlace(s4)
+		s3.subtract(s4)
 		XCTAssert(SortedSet<Int>(elements: 0, -1, -2, 100) == s3, "Test failed. \(s3)")
 	}
 	
@@ -153,7 +153,7 @@ class SortedSetTests: XCTestCase {
 		let s2 = SortedSet<Int>(elements: 5, 6, 7, 8, 9)
 		let s3 = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7, 8, 9)
 		
-		s1.unionInPlace(s2)
+		s1.formUnion(s2)
 		XCTAssert(s3 == s1, "Test failed.")
 	}
 	
@@ -162,9 +162,9 @@ class SortedSetTests: XCTestCase {
 		let s2 = SortedSet<Int>(elements: 1, 2, 3, 4, 5)
 		let s3 = SortedSet<Int>(elements: 5, 6, 7, 8)
 		
-		XCTAssert(SortedSet<Int>(elements: 6, 7) == s1.exclusiveOr(s2), "Test failed. \(s1.exclusiveOr(s2))")
-		XCTAssert(SortedSet<Int>(elements: 1, 2, 3, 4, 8) == s1.exclusiveOr(s3), "Test failed.")
-		XCTAssert(SortedSet<Int>(elements: 1, 2, 3, 4, 6, 7, 8) == s2.exclusiveOr(s3), "Test failed.")
+		XCTAssert(SortedSet<Int>(elements: 6, 7) == s1.symmetricDifference(s2), "Test failed. \(s1.symmetricDifference(s2))")
+		XCTAssert(SortedSet<Int>(elements: 1, 2, 3, 4, 8) == s1.symmetricDifference(s3), "Test failed.")
+		XCTAssert(SortedSet<Int>(elements: 1, 2, 3, 4, 6, 7, 8) == s2.symmetricDifference(s3), "Test failed.")
 	}
 	
 	func testExclusiveOrInPlace() {
@@ -172,14 +172,14 @@ class SortedSetTests: XCTestCase {
 		var s2 = SortedSet<Int>(elements: 1, 2, 3, 4, 5)
 		let s3 = SortedSet<Int>(elements: 5, 6, 7, 8)
 		
-		s1.exclusiveOrInPlace(s2)
+		s1.formSymmetricDifference(s2)
 		XCTAssert(SortedSet<Int>(elements: 6, 7) == s1, "Test failed. \(s1)")
 		
 		s1 = SortedSet<Int>(elements: 1, 2, 3, 4, 5, 6, 7)
-		s1.exclusiveOrInPlace(s3)
+		s1.formSymmetricDifference(s3)
 		XCTAssert(SortedSet<Int>(elements: 1, 2, 3, 4, 8) == s1, "Test failed. \(s1)")
 		
-		s2.exclusiveOrInPlace(s3)
+		s2.formSymmetricDifference(s3)
 		XCTAssert(SortedSet<Int>(elements: 1, 2, 3, 4, 6, 7, 8) == s2, "Test failed. \(s2)")
 	}
 	
@@ -188,9 +188,9 @@ class SortedSetTests: XCTestCase {
 		let s2 = SortedSet<Int>(elements: 3, 4, 5)
 		let s3 = SortedSet<Int>(elements: 5, 6, 7)
 		
-		XCTAssertFalse(s1.isDisjointWith(s2), "Test failed. \(s1.isDisjointWith(s2))")
-		XCTAssert(s1.isDisjointWith(s3), "Test failed.")
-		XCTAssertFalse(s2.isDisjointWith(s3), "Test failed.")
+		XCTAssertFalse(s1.isDisjoint(with: s2), "Test failed. \(s1.isDisjoint(with: s2))")
+		XCTAssert(s1.isDisjoint(with: s3), "Test failed.")
+		XCTAssertFalse(s2.isDisjoint(with: s3), "Test failed.")
 	}
 	
 	func testIsSubsetOf() {
@@ -241,9 +241,9 @@ class SortedSetTests: XCTestCase {
 		var s1 = SortedSet<Int>()
 		s1.insert(1, 2, 3, 4, 5, 6, 7)
 		
-		XCTAssert(0 == s1.indexOf(1), "Test failed.")
-		XCTAssert(5 == s1.indexOf(6), "Test failed.")
-		XCTAssert(-1 == s1.indexOf(100), "Test failed.")
+		XCTAssert(0 == s1.index(of: 1), "Test failed.")
+		XCTAssert(5 == s1.index(of: 6), "Test failed.")
+		XCTAssert(-1 == s1.index(of: 100), "Test failed.")
 	}
 	
 	func testExample() {
@@ -260,15 +260,15 @@ class SortedSetTests: XCTestCase {
 		print(setA.union(setB).count) // Output: 5
 		
 		// Intersect.
-		print(setC.intersect(setD).count) // Output: 2
+		print(setC.intersection(setD).count) // Output: 2
 		
 		// Subset.
 		print(setD < setC) // true
-		print(setD.isSubsetOf(setC)) // true
+        print(setD.isSubset(of: setC)) // true
 		
 		// Superset.
 		print(setD > setC) // false
-		print(setD.isSupersetOf(setC)) // false
+		print(setD.isSuperset(of: setC)) // false
 		
 		// Contains.
 		print(setE.contains(setA.first!)) // true

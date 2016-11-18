@@ -58,39 +58,39 @@ class SortedMultiDictionaryTests: XCTestCase {
 		XCTAssert(1 == s[2].value, "Test failed.")
 		
 		for _ in 0..<500 {
-			s.removeValueForKeys(1)
-			s.removeValueForKeys(3)
+			s.removeValue(for: 1)
+			s.removeValue(for: 3)
 		}
 		
 		XCTAssert(1000 == s.count, "Test failed.")
-		s.removeValueForKeys(2)
+		s.removeValue(for: 2)
 		
 		s.insert((2, 10))
 		XCTAssert(1 == s.count, "Test failed.")
-		XCTAssert(10 == s.findValueForKey(2), "Test failed.")
+        XCTAssert(10 == s.findValue(for: 2), "Test failed.")
 		XCTAssert(10 == s[0].value!, "Test failed.")
 		
-		s.removeValueForKeys(2)
+		s.removeValue(for: 2)
 		XCTAssert(0 == s.count, "Test failed.")
 		
 		s.insert((1, 1))
 		s.insert((2, 2))
 		s.insert((3, 3))
 		s.insert((3, 3))
-		s.updateValue(5, forKey: 3)
+        s.update(value: 5, for: 3)
 		
-		let subs: SortedMultiDictionary<Int, Int>= s.search(3)
+        let subs = s.search(for: 3)
 		XCTAssert(2 == subs.count, "Test failed.")
 		
-		let generator: SortedMultiDictionary<Int, Int>.Generator = subs.makeIterator()
+		let generator = subs.makeIterator()
 		while let x = generator.next() {
 			XCTAssert(5 == x.value, "Test failed.")
 		}
 		
-//		for i in 0..<s.endIndex {
-//			s[i] = (s[i].key, 100)
-//			XCTAssert(100 == s[i].value, "Test failed.")
-//		}
+		for i in 0..<s.endIndex {
+			s[i] = (s[i].key, 100)
+			XCTAssert(100 == s[i].value, "Test failed.")
+		}
 		
 		s.removeAll()
 		XCTAssert(0 == s.count, "Test failed.")
@@ -98,28 +98,28 @@ class SortedMultiDictionaryTests: XCTestCase {
 	
 	func testIndexOf() {
 		var d1 = SortedMultiDictionary<Int, Int>()
-		d1.insert(1, value: 1)
-		d1.insert(2, value: 2)
-		d1.insert(3, value: 3)
-		d1.insert(4, value: 4)
-		d1.insert(5, value: 5)
-		d1.insert(5, value: 5)
-		d1.insert(6, value: 6)
+        d1.insert(value: 1, for: 1)
+        d1.insert(value: 2, for: 2)
+        d1.insert(value: 3, for: 3)
+        d1.insert(value: 4, for: 4)
+        d1.insert(value: 5, for: 5)
+        d1.insert(value: 5, for: 5)
+        d1.insert(value: 6, for: 6)
 		
-		XCTAssert(0 == d1.indexOf(1), "Test failed.")
-		XCTAssert(6 == d1.indexOf(6), "Test failed.")
-		XCTAssert(-1 == d1.indexOf(100), "Test failed.")
+		XCTAssert(0 == d1.index(of: 1), "Test failed.")
+		XCTAssert(6 == d1.index(of: 6), "Test failed.")
+		XCTAssert(-1 == d1.index(of: 100), "Test failed.")
 	}
 	
 	func testKeys() {
 		let s = SortedMultiDictionary<String, Int>(elements: ("adam", 1), ("daniel", 2), ("mike", 3), ("natalie", 4))
-		let keys: SortedMultiSet<String> = SortedMultiSet<String>(elements: "adam", "daniel", "mike", "natalie")
-		XCTAssert(keys == s.keys, "Test failed.")
+		let keys = SortedMultiSet<String>(elements: "adam", "daniel", "mike", "natalie")
+		XCTAssert(keys.asArray == s.keys, "Test failed.")
 	}
 	
 	func testValues() {
 		let s = SortedMultiDictionary<String, Int>(elements: ("adam", 1), ("daniel", 2), ("mike", 3), ("natalie", 4))
-		let values: Array<Int> = [1, 2, 3, 4]
+		let values = [1, 2, 3, 4]
 		XCTAssert(values == s.values, "Test failed.")
 	}
 	
