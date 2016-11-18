@@ -28,7 +28,9 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparable, Equatable, CustomStringConvertible {
+public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, CustomStringConvertible where T: Hashable {
+    public typealias Element = T
+    
     /// Returns the position immediately after the given index.
     ///
     /// - Parameter i: A valid index of the collection. `i` must be less than
@@ -56,7 +58,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:name:	asArray
 	*/
 	public var asArray: [Element] {
-		var a: [Element] = [Element]()
+		var a = [Element]()
 		for x in self {
 			a.append(x)
 		}
@@ -142,7 +144,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:name:	init
 		:description:	Constructor
 	*/
-	public convenience init(elements: Element...) {
+	public init(elements: Element...) {
 		self.init(elements: elements)
 	}
 
@@ -150,7 +152,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:name:	init
 		:description:	Constructor
 	*/
-	public convenience init(elements: [Element]) {
+	public init(elements: [Element]) {
 		self.init()
 		insert(elements)
 	}
@@ -163,106 +165,99 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 	//	:returns:	SortedMultiSet.Generator
 	//	
 	public func makeIterator() -> SortedMultiSet.Iterator {
-		var index = startIndex
-		return AnyIterator { [unowned self] in
-			if index < self.endIndex {
-				let i: Int = index
-				index += 1
-				return self[i]
-			}
-			return nil
-		}
+        var index = startIndex
+        return AnyIterator {
+            if index < self.endIndex {
+                let i = index
+                index += 1
+                return self[i]
+            }
+            return nil
+        }
 	}
 
-	/**
-	Conforms to Probable protocol.
-	*/
-	public func count<T: Equatable>(of keys: T...) -> Int {
-        return count(of: keys)
-	}
-	
-	/**
-	Conforms to Probable protocol.
-	*/
-	public func count<T: Equatable>(of keys: [T]) -> Int {
-        return tree.count(of: keys)
-	}
-	
-	/**
-	The probability of elements.
-	*/
-	public func probability<T: Equatable>(of elements: T...) -> Double {
+    /**
+     Conforms to Probable protocol.
+     */
+    public func count(of elements: T...) -> Int {
+        return count(of: elements)
+    }
+    
+    /**
+     Conforms to Probable protocol.
+     */
+    public func count(of elements: [T]) -> Int {
+        return tree.count(of: elements)
+    }
+    
+    /**
+     The probability of elements.
+     */
+    public func probability(of elements: T...) -> Double {
         return probability(of: elements)
-	}
-	
-	/**
-	The probability of elements.
-	*/
-	public func probability<T: Equatable>(of elements: [T]) -> Double {
+    }
+    
+    /**
+     The probability of elements.
+     */
+    public func probability(of elements: [T]) -> Double {
         return tree.probability(of: elements)
-	}
-	
-	/**
-	The probability of elements.
-	*/
-	public func probability(_ block: (Element) -> Bool) -> Double {
-		if 0 == count {
-			return 0
-		}
-		
-		var c = 0
-		for x in self {
-			if block(x) {
-				c += 1
-			}
-		}
-		return Double(c) / Double(count)
-	}
-	
-	/**
-	The expected value of elements.
-	*/
-	public func expectedValue<T: Equatable>(trials: Int, for elements: T...) -> Double {
+    }
+    
+    /**
+     The probability of elements.
+     */
+    public func probability(execute block: (Element) -> Bool) -> Double {
+        return tree.probability { (k, _) -> Bool in
+            return block(k)
+        }
+    }
+    
+    /**
+     The expected value of elements.
+     */
+    public func expectedValue(trials: Int, for elements: T...) -> Double {
         return expectedValue(trials: trials, for: elements)
-	}
-	
-	/**
-	The expected value of elements.
-	*/
-	public func expectedValue<T: Equatable>(trials: Int, for elements: [T]) -> Double {
+    }
+    
+    /**
+     The expected value of elements.
+     */
+    public func expectedValue(trials: Int, for elements: [T]) -> Double {
         return tree.expectedValue(trials: trials, for: elements)
-	}
-	
-	/**
-		:name:	operator [0...count - 1]
-		:description:	Allows array like access of the index.
-		Items are kept in order, so when iterating
-		through the items, they are returned in their
-		ordered form.
-		- returns:	Element
-	*/
-	public subscript(index: Int) -> Element {
-		return tree[index].key
-	}
+    }
+    
+    /**
+     :name:	operator [0...count - 1]
+     :description:	Allows array like access of the index.
+     Items are kept in order, so when iterating
+     through the items, they are returned in their
+     ordered form.
+     - returns:	Element
+     */
+    public subscript(index: Int) -> Element {
+        return tree[index].key
+    }
 
-	/**
-		:name:	indexOf
-		:description:	Returns the Index of a given member, or -1 if the member is not present in the set.
-		- returns:	Int
-	*/
-	public func indexOf(_ element: Element) -> Int {
-		return tree.indexOf(element)
-	}
-	
-	/**
-		:name:	contains
-		:description:	A boolean check if values exists
-		in the set.
-		- returns:	Bool
-	*/
-	public func contains(_ elements: Element...) -> Bool {
-		return contains(elements)
-	}
+
+    /**
+     :name:	indexOf
+     :description:	Returns the Index of a given member, or -1 if the member is not present in the set.
+     - returns:	Int
+     */
+    public func index(of element: Element) -> Int {
+        return tree.index(of: element)
+    }
+    
+    /**
+     :name:	contains
+     :description:	A boolean check if values exists
+     in the set.
+     - returns:	Bool
+     */
+    public func contains(_ elements: Element...) -> Bool {
+        return contains(elements)
+    }
 	
 	/**
 		:name:	contains
@@ -275,7 +270,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 			return false
 		}
 		for x in elements {
-			if nil == tree.findValueForKey(x) {
+            if nil == tree.findValue(for: x) {
 				return false
 			}
 		}
@@ -286,61 +281,61 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:name:	insert
 		:description:	Inserts new elements into the SortedMultiSet.
 	*/
-	public func insert(_ elements: Element...) {
+	mutating public func insert(_ elements: Element...) {
 		insert(elements)
 	}
 
-	/**
-		:name:	insert
-		:description:	Inserts new elements into the SortedMultiSet.
-	*/
-	public func insert(_ elements: [Element]) {
-		for x in elements {
-			_ = tree.insert(x, value: x)
-		}
-		count = tree.count
-	}
+    /**
+     :name:	insert
+     :description:	Inserts new elements into the SortedSet.
+     */
+    mutating public func insert(_ elements: [Element]) {
+        for x in elements {
+            tree.insert(value: x, for: x)
+        }
+        count = tree.count
+    }
 
-	/**
-		:name:	remove
-		:description:	Removes elements from the SortedMultiSet.
-	*/
-	public func remove(_ elements: Element...) {
-		remove(elements)
-	}
-
-	/**
-		:name:	remove
-		:description:	Removes elements from the SortedMultiSet.
-	*/
-	public func remove(_ elements: [Element]) {
-		tree.removeValueForKeys(elements)
-		count = tree.count
-	}
-
-	/**
-		:name:	removeAll
-		:description:	Remove all nodes from the tree.
-	*/
-	public func removeAll() {
-		tree.removeAll()
-		count = tree.count
-	}
+    /**
+     :name:	remove
+     :description:	Removes elements from the SortedSet.
+     */
+    mutating public func remove(_ elements: Element...) {
+        remove(elements)
+    }
+    
+    /**
+     :name:	remove
+     :description:	Removes elements from the SortedSet.
+     */
+    mutating public func remove(_ elements: [Element]) {
+        tree.removeValue(for: elements)
+        count = tree.count
+    }
+    
+    /**
+     :name:	removeAll
+     :description:	Remove all nodes from the tree.
+     */
+    mutating public func removeAll() {
+        tree.removeAll()
+        count = tree.count
+    }
 
 	/**
 		:name:	intersect
 		:description:	Return a new set with elements common to this set and a finite sequence of Sets.
 		- returns:	SortedMultiSet<Element>
 	*/
-	public func intersect(_ set: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
-		let s: SortedMultiSet<Element> = SortedMultiSet<Element>()
+	public func intersection(_ other: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
+		var s = SortedMultiSet<Element>()
 		var i = 0
 		var j = 0
 		let k: Int = count
-		let l: Int = set.count
+		let l: Int = other.count
 		while k > i && l > j {
-			let x: Element = self[i]
-			let y: Element = set[j]
+			let x = self[i]
+			let y = other[j]
 			if x < y {
 				i += 1
 			} else if y < x {
@@ -358,16 +353,16 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:name:	intersectInPlace
 		:description:	Insert elements of a finite sequence of Sets.
 	*/
-	public func intersectInPlace(_ set: SortedMultiSet<Element>) {
-		let l = set.count
+	mutating public func formIntersection(_ other: SortedMultiSet<Element>) {
+		let l = other.count
 		if 0 == l {
 			removeAll()
 		} else {
 			var i = 0
 			var j = 0
 			while count > i && l > j {
-				let x: Element = self[i]
-				let y: Element = set[j]
+				let x = self[i]
+				let y = other[j]
 				if x < y {
 					_ = tree.removeInstanceValueForKey(x)
 					count = tree.count
@@ -386,15 +381,15 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:description:	Return a new Set with items in both this set and a finite sequence of Sets.
 		- returns:	SortedMultiSet<Element>
 	*/
-	public func union(_ set: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
-		let s: SortedMultiSet<Element> = SortedMultiSet<Element>()
+	public func union(_ other: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
+		var s = SortedMultiSet<Element>()
 		var i = 0
 		var j = 0
 		let k: Int = count
-		let l: Int = set.count
+		let l: Int = other.count
 		while k > i && l > j {
-			let x: Element = self[i]
-			let y: Element = set[j]
+			let x = self[i]
+			let y = other[j]
 			if x < y {
 				s.insert(x)
 				i += 1
@@ -412,7 +407,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 			i += 1
 		}
 		while l > j {
-			s.insert(set[j])
+			s.insert(other[j])
 			j += 1
 		}
 		return s
@@ -422,13 +417,13 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:name:	unionInPlace
 		:description:	Return a new Set with items in both this set and a finite sequence of Sets.
 	*/
-	public func unionInPlace(_ set: SortedMultiSet<Element>) {
+	mutating public func formUnion(_ other: SortedMultiSet<Element>) {
 		var i = 0
 		var j = 0
-		let l: Int = set.count
+		let l: Int = other.count
 		while count > i && l > j {
-			let x: Element = self[i]
-			let y: Element = set[j]
+			let x = self[i]
+			let y = other[j]
 			if x < y {
 				i += 1
 			} else if y < x {
@@ -440,7 +435,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 			}
 		}
 		while l > j {
-			insert(set[j])
+			insert(other[j])
 			j += 1
 		}
 	}
@@ -450,15 +445,15 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:description:	Return a new set with elements in this set that do not occur in a finite sequence of Sets.
 		- returns:	SortedMultiSet<Element>
 	*/
-	public func subtract(_ set: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
-		let s: SortedMultiSet<Element> = SortedMultiSet<Element>()
+	public func subtracting(_ other: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
+		var s = SortedMultiSet<Element>()
 		var i = 0
 		var j = 0
 		let k: Int = count
-		let l: Int = set.count
+		let l: Int = other.count
 		while k > i && l > j {
-			let x: Element = self[i]
-			let y: Element = set[j]
+			let x = self[i]
+			let y = other[j]
 			if x < y {
 				s.insert(x)
 				i += 1
@@ -480,13 +475,13 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:name:	subtractInPlace
 		:description:	Remove all elements in the set that occur in a finite sequence of Sets.
 	*/
-	public func subtractInPlace(_ set: SortedMultiSet<Element>) {
+	mutating public func subtract(_ other: SortedMultiSet<Element>) {
 		var i = 0
 		var j = 0
-		let l: Int = set.count
+		let l: Int = other.count
 		while count > i && l > j {
-			let x: Element = self[i]
-			let y: Element = set[j]
+			let x = self[i]
+			let y = other[j]
 			if x < y {
 				i += 1
 			} else if y < x {
@@ -504,15 +499,15 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:description:	Return a new set with elements that are either in the set or a finite sequence but do not occur in both.
 		- returns:	SortedMultiSet<Element>
 	*/
-	public func exclusiveOr(_ set: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
-		let s: SortedMultiSet<Element> = SortedMultiSet<Element>()
+	public func symmetricDifference(_ other: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
+		var s = SortedMultiSet<Element>()
 		var i = 0
 		var j = 0
 		let k: Int = count
-		let l: Int = set.count
+		let l: Int = other.count
 		while k > i && l > j {
 			let x: Element = self[i]
-			let y: Element = set[j]
+			let y: Element = other[j]
 			if x < y {
 				s.insert(x)
 				i += 1
@@ -521,7 +516,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 				j += 1
 			} else {
                 i += count(of: x)
-                j += set.count(of: y)
+                j += other.count(of: y)
 			}
 		}
 		while k > i {
@@ -529,7 +524,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 			i += 1
 		}
 		while l > j {
-			s.insert(set[j])
+			s.insert(other[j])
 			j += 1
 		}
 		return s
@@ -541,13 +536,13 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		common element, otherwise add it to the set. Repeated elements of the sequence will be
 		ignored.
 	*/
-	public func exclusiveOrInPlace(_ set: SortedMultiSet<Element>) {
+	mutating public func formSymmetricDifference(_ other: SortedMultiSet<Element>) {
 		var i = 0
 		var j = 0
-		let l: Int = set.count
+		let l: Int = other.count
 		while count > i && l > j {
-			let x: Element = self[i]
-			let y: Element = set[j]
+			let x = self[i]
+			let y = other[j]
 			if x < y {
 				i += 1
 			} else if y < x {
@@ -559,7 +554,7 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 			}
 		}
 		while l > j {
-			insert(set[j])
+			insert(other[j])
 			j += 1
 		}
 	}
@@ -569,12 +564,12 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:description:	Returns true if no elements in the set are in a finite sequence of Sets.
 		- returns:	Bool
 	*/
-	public func isDisjointWith(_ set: SortedMultiSet<Element>) -> Bool {
+	public func isDisjointWith(_ other: SortedMultiSet<Element>) -> Bool {
 		var i: Int = count - 1
-		var j: Int = set.count - 1
+		var j: Int = other.count - 1
 		while 0 <= i && 0 <= j {
-			let x: Element = self[i]
-			let y: Element = set[j]
+			let x = self[i]
+			let y = other[j]
 			if x < y {
 				j -= 1
 			} else if y < x {
@@ -591,12 +586,12 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:description:	Returns true if the set is a subset of a finite sequence as a Set.
 		- returns:	Bool
 	*/
-	public func isSubsetOf(_ set: SortedMultiSet<Element>) -> Bool {
-		if count > set.count {
+	public func isSubsetOf(_ other: SortedMultiSet<Element>) -> Bool {
+		if count > other.count {
 			return false
 		}
 		for x in self {
-			if !set.contains(x) {
+			if !other.contains(x) {
 				return false
 			}
 		}
@@ -608,8 +603,8 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:description:	Returns true if the set is a subset of a finite sequence as a Set but not equal.
 		- returns:	Bool
 	*/
-	public func isStrictSubsetOf(_ set: SortedMultiSet<Element>) -> Bool {
-		return count < set.count && isSubsetOf(set)
+	public func isStrictSubsetOf(_ other: SortedMultiSet<Element>) -> Bool {
+		return count < other.count && isSubsetOf(other)
 	}
 	
 	/**
@@ -617,11 +612,11 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:description:	Returns true if the set is a superset of a finite sequence as a Set.
 		- returns:	Bool
 	*/
-	public func isSupersetOf(_ set: SortedMultiSet<Element>) -> Bool {
-		if count < set.count {
+	public func isSupersetOf(_ other: SortedMultiSet<Element>) -> Bool {
+		if count < other.count {
 			return false
 		}
-		for x in set {
+		for x in other {
 			if !contains(x) {
 				return false
 			}
@@ -634,8 +629,8 @@ public class SortedMultiSet<Element: Comparable>: Probable, Collection, Comparab
 		:description:	Returns true if the set is a superset of a finite sequence as a Set but not equal.
 		- returns:	Bool
 	*/
-	public func isStrictSupersetOf(_ set: SortedMultiSet<Element>) -> Bool {
-		return count > set.count && isSupersetOf(set)
+	public func isStrictSupersetOf(_ other: SortedMultiSet<Element>) -> Bool {
+		return count > other.count && isSupersetOf(other)
 	}
 }
 
@@ -659,16 +654,16 @@ public func +<Element : Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMul
 	return lhs.union(rhs)
 }
 
-public func +=<Element : Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) {
-	lhs.unionInPlace(rhs)
+public func +=<Element : Comparable>(lhs: inout SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) {
+	lhs.formUnion(rhs)
 }
 
 public func -<Element : Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
-	return lhs.subtract(rhs)
+	return lhs.subtracting(rhs)
 }
 
-public func -=<Element : Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) {
-	lhs.subtractInPlace(rhs)
+public func -=<Element : Comparable>(lhs: inout SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) {
+	lhs.subtract(rhs)
 }
 
 public func <=<Element : Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {

@@ -180,17 +180,17 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 	/**
 	Conforms to Probable protocol.
 	*/
-	public func count<T: Equatable>(of keys: T...) -> Int {
+	public func count(of keys: Key...) -> Int {
         return count(of: keys)
 	}
 
 	/**
 	Conforms to Probable protocol.
 	*/
-	public func count<T: Equatable>(of keys: [T]) -> Int {
+	public func count(of keys: [Key]) -> Int {
 		var c = 0
 		for key in keys {
-			internalCount(key as! Key, node: root, count: &c)
+			internalCount(key, node: root, count: &c)
 		}
 		return c
 	}
@@ -198,15 +198,15 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 	/**
 	The probability of elements.
 	*/
-	public func probability<T: Equatable>(of elements: T...) -> Double {
-        return probability(of: elements)
+	public func probability(of keys: Key...) -> Double {
+        return probability(of: keys)
 	}
 	
 	/**
 	The probability of elements.
 	*/
-	public func probability<T: Equatable>(of elements: [T]) -> Double {
-        return 0 == count ? 0 : Double(count(of: elements)) / Double(count)
+	public func probability(of keys: [Key]) -> Double {
+        return 0 == count ? 0 : Double(count(of: keys)) / Double(count)
 	}
 	
 	/**
@@ -229,15 +229,15 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValue<T: Equatable>(trials: Int, for elements: T...) -> Double {
-        return expectedValue(trials: trials, for: elements)
+	public func expectedValue(trials: Int, for keys: Key...) -> Double {
+        return expectedValue(trials: trials, for: keys)
 	}
 	
 	/**
 	The expected value of elements.
 	*/
-	public func expectedValue<T: Equatable>(trials: Int, for elements: [T]) -> Double {
-        return Double(trials) * probability(of: elements)
+	public func expectedValue(trials: Int, for keys: [Key]) -> Double {
+        return Double(trials) * probability(of: keys)
 	}
 
 	/**
@@ -371,7 +371,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 			if sentinel == internalFindNodeForKey(key) {
 				_ = internalInsert(key, value: value)
 			} else {
-				updateValue(value, forKey: key)
+                update(value: value, for: key)
 			}
 		}
 	}
