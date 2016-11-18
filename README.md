@@ -26,7 +26,7 @@ Algorithm is a library of tools that is used to create intelligent applications.
 
 ## Requirements
 
-* iOS 8.0+ / Mac OS X 10.10+
+* iOS 8.0+ / Mac OS X 10.9+
 * Xcode 8.0+
 
 ## Communication
@@ -39,7 +39,7 @@ Algorithm is a library of tools that is used to create intelligent applications.
 
 ## Installation
 
-> **Embedded frameworks require a minimum deployment target of iOS 8 or OS X Mavericks (10.10).**
+> **Embedded frameworks require a minimum deployment target of iOS 8 or OS X Mavericks (10.9).**
 > - [Download Algorithm](https://github.com/CosmicMind/Algorithm/archive/master.zip)
 
 Visit the [Installation](https://github.com/CosmicMind/Algorithm/wiki/Installation) page to learn how to install Algorithm using [CocoaPods](http://cocoapods.org) and [Carthage](https://github.com/Carthage/Carthage).
