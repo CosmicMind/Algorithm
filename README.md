@@ -1,15 +1,33 @@
-![CosmicMind](http://www.cosmicmind.com/algorithm/index/images/AlgorithmIcon.png)
+![Algorithm](http://www.cosmicmind.com/algorithm/github/algorithm-logo.png)
 
 ## Welcome to Algorithm
 
-Algorithm is a collection of data structures that are empowered by a probability toolset.
+Algorithm is a library of tools that is used to create intelligent applications.
 
-Algorithm's architecture is designed for beginners and professionals. Its robust API requires no setup and is ready for the simplest and most extensive applications.
+## Features
+
+- [x] Probability Tools 
+- [x] Expected Value
+- [x] Programmable Probability Blocks
+- [x] Array Extensions
+- [x] Set Extensions
+
+## Data Structures
+
+- [x] DoublyLinkedList
+- [x] Stack
+- [x] Queue
+- [x] Deque
+- [x] RedBlackTree
+- [x] SortedSet
+- [x] SortedMultiSet
+- [x] SortedDictionary
+- [x] SortedMultiDictionary
 
 ## Requirements
 
-* iOS 8.0+ / Mac OS X 10.9+
-* Xcode 7.3+
+* iOS 8.0+ / Mac OS X 10.10+
+* Xcode 8.0+
 
 ## Communication
 
@@ -21,8 +39,8 @@ Algorithm's architecture is designed for beginners and professionals. Its robust
 
 ## Installation
 
-> **Embedded frameworks require a minimum deployment target of iOS 8 or OS X Mavericks (10.9).**
-> - [Download Algorithm](https://github.com/CosmicMind/Algorithm/archive/master.zip)
+> **Embedded frameworks require a minimum deployment target of iOS 8 or OS X Mavericks (10.10).**
+> - [Download Graph](https://github.com/CosmicMind/Algorithm/archive/master.zip)
 
 Visit the [Installation](https://github.com/CosmicMind/Algorithm/wiki/Installation) page to learn how to install Algorithm using [CocoaPods](http://cocoapods.org) and [Carthage](https://github.com/Carthage/Carthage).
 
@@ -30,7 +48,11 @@ Visit the [Installation](https://github.com/CosmicMind/Algorithm/wiki/Installati
 
 Algorithm is a growing project and will encounter changes throughout its development. It is recommended that the [Changelog](https://github.com/CosmicMind/Algorithm/wiki/Changelog) be reviewed prior to updating versions.
 
-## A Tour  
+# Samples
+
+The following are samples to see how Algorithm may be used within your applications.
+
+* Visit the [Samples](https://github.com/CosmicMind/Samples) repo to see example projects using Algorithm.
 
 * [Probability](#probability)
 * [ExpectedValue](#expectedvalue)
@@ -54,8 +76,11 @@ Each data structure within Algorithm is equipped with probability tools.
 For example, determining the probability of rolling a 3 using a die of 6 numbers.
 
 ```swift
-let die: Array<Int> = Array<Int>(arrayLiteral: 1, 2, 3, 4, 5, 6)
-print(die.probabilityOf(3)) // Output: 0.166666666666667
+let die = [Int](arrayLiteral: 1, 2, 3, 4, 5, 6)
+
+if 0.1 < die.probability(of: 3) 
+		// Do something ...
+}
 ```
 
 #### Conditional Probability
@@ -63,18 +88,14 @@ print(die.probabilityOf(3)) // Output: 0.166666666666667
 For conditional probabilities that require a more complex calculation, use block statements.
 
 ```swift
-let die: Array<Int> = Array<Int>(arrayLiteral: 1, 2, 3, 4, 5, 6)
+let die = [Int](arrayLiteral: 1, 2, 3, 4, 5, 6)
 
-let probabilityOfX: Double = die.probabilityOf { (number: Int) in
-	if 5 < number || 0 == number % 3 {
-		// Do more.
-		return true
-	}
-	return false
+let pOfX = die.probability { (number) in
+	return 5 < number || 0 == number % 3
 }
 
-if 0.33 < probabilityOfX {
-	// Do something.
+if 0.33 < pOfX {
+	// Do something ...
 }
 ```
 
@@ -84,8 +105,11 @@ if 0.33 < probabilityOfX {
 The expected value of rolling a 3 or 6 with 100 trials using a die of 6 numbers.
 
 ```swift
-let die: Array<Int> = Array<Int>(arrayLiteral: 1, 2, 3, 4, 5, 6)
-print(die.expectedValueOf(100, elements: 3, 6)) // Output: 33.3333333333333
+let die = [Int](arrayLiteral: 1, 2, 3, 4, 5, 6)
+
+if 20 < die.expectedValue(trials: 100, for: 3, 6) {
+		// Do something ...
+}
 ```
 
 <a name="doublylinkedlist"></a>
@@ -94,29 +118,29 @@ print(die.expectedValueOf(100, elements: 3, 6)) // Output: 33.3333333333333
 The DoublyLinkedList data structure is excellent for large growing collections of data. Below is an example of its usage.
 
 ```swift
-let listA: DoublyLinkedList<Int> = DoublyLinkedList<Int>()
-listA.insertAtFront(3)
-listA.insertAtFront(2)
-listA.insertAtFront(1)
+var listA = DoublyLinkedList<Int>()
+        
+listA.insert(atFront: 3)
+listA.insert(atFront: 2)
+listA.insert(atFront: 1)
 
-let listB: DoublyLinkedList<Int> = DoublyLinkedList<Int>()
-listB.insertAtBack(4)
-listB.insertAtBack(5)
-listB.insertAtBack(6)
+var listB = DoublyLinkedList<Int>()
 
-let listC: DoublyLinkedList<Int> = listA + listB
+listB.insert(atBack: 4)
+listB.insert(atBack: 5)
+listB.insert(atBack: 6)
+
+var listC = listA + listB
 
 listC.cursorToFront()
-repeat {
-	print(listC.cursor)
-} while nil != listC.next
-// Output:
-// 1
-// 2
-// 3
-// 4
-// 5
-// 6
+
+var value = listC.cursor
+
+while nil != value {
+    // Do something ...
+    
+    value = listC.next()
+}
 ```
 
 <a name="stack"></a>
@@ -125,18 +149,17 @@ repeat {
 The Stack data structure is a container of objects that are inserted and removed according to the last-in-first-out (LIFO) principle. Below is an example of its usage.
 
 ```swift
-let stack: Stack<Int> = Stack<Int>()
+var stack = Stack<Int>()
+
 stack.push(1)
 stack.push(2)
 stack.push(3)
 
 while !stack.isEmpty {
-	print(stack.pop())
+	let value = stack.pop()
+	
+	// Do something ...
 }
-// Output:
-// 3
-// 2
-// 1
 ```
 
 <a name="queue"></a>
@@ -145,18 +168,17 @@ while !stack.isEmpty {
 The Queue data structure is a container of objects that are inserted and removed according to the first-in-first-out (FIFO) principle. Below is an example of its usage.
 
 ```swift
-let queue: Queue<Int> = Queue<Int>()
+var queue = Queue<Int>()
+
 queue.enqueue(1)
 queue.enqueue(2)
 queue.enqueue(3)
 
 while !queue.isEmpty {
-	print(queue.dequeue())
+    let value = queue.dequeue()
+
+    // Do something ...
 }
-// Output:
-// 1
-// 2
-// 3
 ```
 
 <a name="deque"></a>
@@ -165,31 +187,27 @@ while !queue.isEmpty {
 The Deque data structure is a container of objects that are inserted and removed according to the first-in-first-out (FIFO) and last-in-first-out (LIFO) principle. Essentially, a Deque is a Stack and Queue combined. Below are examples of its usage.
 
 ```swift
-let dequeA: Deque<Int> = Deque<Int>()
-dequeA.insertAtBack(1)
-dequeA.insertAtBack(2)
-dequeA.insertAtBack(3)
+var dequeA = Deque<Int>()
+dequeA.insert(atBack: 1)
+dequeA.insert(atBack: 2)
+dequeA.insert(atBack: 3)
 
 while !dequeA.isEmpty {
-	print(dequeA.removeAtFront())
+	let value = dequeA.removeAtFront()
+	
+	// Do something ...
 }
-// Output:
-// 1
-// 2
-// 3
 
-let dequeB: Deque<Int> = Deque<Int>()
-dequeB.insertAtBack(4)
-dequeB.insertAtBack(5)
-dequeB.insertAtBack(6)
+var dequeB = Deque<Int>()
+dequeB.insert(atBack: 4)
+dequeB.insert(atBack: 5)
+dequeB.insert(atBack: 6)
 
 while !dequeB.isEmpty {
-	print(dequeB.removeAtBack())
+	let value = dequeB.removeAtFront()
+	
+	// Do something ...
 }
-// Output:
-// 6
-// 5
-// 4
 ```
 
 <a name="redblacktree"></a>
@@ -198,14 +216,17 @@ while !dequeB.isEmpty {
 A RedBlackTree is a Balanced Binary Search Tree that maintains insert, remove, update, and search operations in a complexity of O(logn). The following implementation of a RedBlackTree also includes an order-statistic, which allows the data structure to be accessed using subscripts like an array or dictionary. RedBlackTrees may store unique keys or non-unique key values. Below is an example of its usage.
 
 ```swift
-let rbA: RedBlackTree<Int, Int> = RedBlackTree<Int, Int>(uniqueKeys: true)
+var ages = RedBlackTree<String, Int>(uniqueKeys: true)
 
-for var i: Int = 1000; 0 < i; --i {
-	rbA.insert(1, value: 1)
-	rbA.insert(2, value: 2)
-	rbA.insert(3, value: 3)
+ages.insert(value: 16, for: "Sarah")
+ages.insert(value: 12, for: "Peter")
+ages.insert(value: 23, for: "Alex")
+
+let node = ages[1]
+
+if "Peter" == node.key {
+    // Do something ...
 }
-print(rbA.count) // Output: 3
 ```
 
 <a name="sortedset"></a>
@@ -214,34 +235,32 @@ print(rbA.count) // Output: 3
 SortedSets are a powerful data structure for algorithm and analysis design. Elements within a SortedSet are unique and insert, remove, and search operations have a complexity of O(logn). The following implementation of a SortedSet also includes an order-statistic, which allows the data structure to be accessed using an index subscript like an array. Below are examples of its usage.
 
 ```swift
-let setA: SortedSet<Int> = SortedSet<Int>(elements: 1, 2, 3) // Sorted: [1, 2, 3]
-let setB: SortedSet<Int> = SortedSet<Int>(elements: 4, 3, 6) // Sorted: [3, 4, 6]
-
-let setC: SortedSet<Int> = SortedSet<Int>(elements: 7, 1, 2) // Sorted: [1, 2, 7]
-let setD: SortedSet<Int> = SortedSet<Int>(elements: 1, 7) // Sorted: [1, 7]
-
-let setE: SortedSet<Int> = SortedSet<Int>(elements: 1, 6, 7) // Sorted: [1, 6, 7]
+let setA = SortedSet<Int>(elements: 1, 2, 3)
+let setB = SortedSet<Int>(elements: 4, 3, 6)
+let setC = SortedSet<Int>(elements: 7, 1, 2)
+let setD = SortedSet<Int>(elements: 1, 7)
+let setE = SortedSet<Int>(elements: 1, 6, 7)
 
 // Union.
-print((setA + setB).count) // Output: 5
-print(setA.union(setB).count) // Output: 5
+setA + setB
+setA.union(setB)
 
-// Intersect.
-print(setC.intersect(setD).count) // Output: 2
+// Intersection.
+setC.intersection(setD)
 
 // Subset.
-print(setD < setC) // true
-print(setD.isSubsetOf(setC)) // true
+setD < setC
+setD.isSubset(of: setC)
 
 // Superset.
-print(setD > setC) // false
-print(setD.isSupersetOf(setC)) // false
+setD > setC
+setD.isSuperset(of: setC)
 
 // Contains.
-print(setE.contains(setA.first!)) // true
+setE.contains(setA.first!)
 
 // Probability.
-print(setE.probabilityOf(setA.first!, setA.last!)) // 0.333333333333333
+setE.probability(of: setA.first!, setA.last!)
 ```
 
 <a name="sortedmultiset"></a>
@@ -264,17 +283,24 @@ struct Student {
     var name: String
 }
 
-let dict: SortedMultiDictionary<String, Student> = SortedMultiDictionary<String, Student>()
+let sarah = Student(name: "Sarah")
+let peter = Student(name: "Peter")
+let alex = Student(name: "Alex")
 
-// Do something with an alphabetically SortedMultiDictionary of Student structs.
+var students = SortedMultiDictionary<String, Student>()
+
+students.insert(value: sarah, for: sarah.name)
+students.insert(value: peter, for: peter.name)
+students.insert(value: alex, for: alex.name)
+
 for student in students {
-	dict.insert(student.name, value: student)
+    // Do something ...
 }
 ```
 
 ## License
 
-Copyright (C) 2015 - 2016, Daniel Dahan and CosmicMind, Inc. <http://cosmicmind.com>. All rights reserved.
+Copyright (C) 2015 - 2016, CosmicMind, Inc. <http://cosmicmind.com>. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
