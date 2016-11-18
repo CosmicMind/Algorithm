@@ -402,14 +402,14 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 		while x !== sentinel {
 			y = x
 			y.order += 1
-			x = key < x.key ? x.left : x.right
+			x = key < x.key as Key ? x.left : x.right
 		}
 
 		let z = RedBlackNode<Key, Value>(parent: y, sentinel: sentinel, key: key, value: value)
 
 		if y == sentinel {
 			root = z
-		} else if key < y.key {
+		} else if key < y.key as Key {
 			y.left = z
 		} else {
 			y.right = z
@@ -694,7 +694,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 			if key == z.key {
 				return z
 			}
-			z = key < z.key ? z.left : z.right
+			z = key < z.key as Key ? z.left : z.right
 		}
 		return sentinel
 	}
@@ -788,27 +788,27 @@ public func !=<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedB
 public func +<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) -> RedBlackTree<Key, Value> {
 	var t = lhs
 	for (k, v) in rhs {
-		t.insert(k, value: v)
+        t.insert(value: v, for: k)
 	}
 	return t
 }
 
 public func +=<Key : Comparable, Value>(lhs: inout RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) {
 	for (k, v) in rhs {
-		lhs.insert(k, value: v)
+		lhs.insert(value: v, for: k)
 	}
 }
 
 public func -<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) -> RedBlackTree<Key, Value> {
 	var t = rhs
 	for (k, _) in rhs {
-		t.removeValueForKeys(k)
+        t.removeValue(for: k)
 	}
 	return t
 }
 
 public func -=<Key : Comparable, Value>(lhs: inout RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) {
 	for (k, _) in rhs {
-		lhs.removeValueForKeys(k)
+		lhs.removeValue(for: k)
 	}
 }
