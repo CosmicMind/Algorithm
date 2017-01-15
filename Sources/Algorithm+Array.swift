@@ -37,10 +37,7 @@ extension Array where Element: Equatable {
      */
     @discardableResult
     mutating func remove(object: Element) -> Element? {
-        guard let v = index(of: object) else {
-            return nil
-        }
-        return remove(at: v)
+      return index(of: object).map { self.remove(at: $0) }
 	}
 
     /**
@@ -82,10 +79,8 @@ extension Array where Element: Equatable {
     public func count(of elements: [Element]) -> Int {
 		var c = 0
         for e in elements {
-            for x in self {
-                if e == x {
-                    c += 1
-                }
+            for x in self where e == x {
+                c += 1
             }
         }
 		return c
