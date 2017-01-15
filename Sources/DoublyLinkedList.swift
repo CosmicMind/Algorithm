@@ -167,11 +167,10 @@ public struct DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
     public func makeIterator() -> DoublyLinkedList.Iterator {
         var it = head
         return AnyIterator {
-            guard let e = it?.element else {
-                return nil
-            }
+          defer {
             it = it?.next
-            return e
+          }
+          return it?.element
 		}
 	}
 

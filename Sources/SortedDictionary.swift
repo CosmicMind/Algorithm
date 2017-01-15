@@ -120,14 +120,8 @@ public struct SortedDictionary<Key: Comparable, Value>: Probable, Collection, Eq
 	}
 	
 	public func makeIterator() -> SortedDictionary.Iterator {
-		var index = startIndex
-    return AnyIterator {
-      guard index < self.endIndex else { return nil }
-      defer {
-        index += 1
-      }
-      return self[index]
-		}
+    var i = indices.makeIterator()
+    return AnyIterator { i.next().map { self[$0] } }
 	}
 	
 	/**

@@ -137,10 +137,8 @@ public struct SortedSet<T: Comparable>: Probable, Collection, Equatable, CustomS
 	}
 
 	public func makeIterator() -> SortedSet.Iterator {
-        var i = indices.makeIterator()
-        return AnyIterator {
-            i.next().map { self[$0] }
-        }
+      var i = indices.makeIterator()
+      return AnyIterator { i.next().map { self[$0] } }
 	}
 
 	/**

@@ -158,15 +158,8 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 	//	:returns:	RedBlackTree.Generator
 	//
 	public func makeIterator() -> RedBlackTree.Iterator {
-        var index = startIndex
-        return AnyIterator {
-            if index < self.endIndex {
-                let i: Int = index
-                index += 1
-                return self[i]
-            }
-            return nil
-        }
+        var i = indices.makeIterator()
+        return AnyIterator { i.next().map { self[$0] } }
 	}
 
 	/**

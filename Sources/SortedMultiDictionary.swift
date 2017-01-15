@@ -120,15 +120,8 @@ public struct SortedMultiDictionary<Key: Comparable, Value>: Probable, Collectio
     }
     
     public func makeIterator() -> SortedMultiDictionary.Iterator {
-        var index = startIndex
-        return AnyIterator {
-            if index < self.endIndex {
-                let i: Int = index
-                index += 1
-                return self[i]
-            }
-            return nil
-        }
+        var i = indices.makeIterator()
+        return AnyIterator { i.next().map { self[$0] } }
     }
     
     /**
