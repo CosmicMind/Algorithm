@@ -72,15 +72,7 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 		- returns:	String
 	*/
 	public var description: String {
-		var output = "["
-		let l = count - 1
-		for i in 0..<count {
-			output += "\(self[i])"
-			if i != l {
-				output += ", "
-			}
-		}
-		return output + "]"
+    return "[" + map { "\($0)" }.joined(separator: ", ") + "]"
 	}
 
 	/**
