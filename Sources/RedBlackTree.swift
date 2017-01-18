@@ -75,15 +75,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 		- returns:	String
 	*/
 	public var description: String {
-        var output = "["
-        let l = count - 1
-        for i in 0..<count {
-            output += "\(self[i])"
-            if i != l {
-                output += ", "
-            }
-        }
-        return output + "]"
+        return "[" + map { "\($0)" }.joined(separator: ", ") + "]"
 	}
 
 	/**
@@ -166,15 +158,8 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 	//	:returns:	RedBlackTree.Generator
 	//
 	public func makeIterator() -> RedBlackTree.Iterator {
-        var index = startIndex
-        return AnyIterator {
-            if index < self.endIndex {
-                let i: Int = index
-                index += 1
-                return self[i]
-            }
-            return nil
-        }
+        var i = indices.makeIterator()
+        return AnyIterator { i.next().map { self[$0] } }
 	}
 
 	/**

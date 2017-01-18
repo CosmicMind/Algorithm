@@ -58,11 +58,7 @@ public struct SortedSet<T: Comparable>: Probable, Collection, Equatable, CustomS
 		:name:	asArray
 	*/
 	public var asArray: [Element] {
-		var a = [Element]()
-		for x in self {
-			a.append(x)
-		}
-		return a
+    return map { $0 }
 	}
 	
 	/**
@@ -72,15 +68,7 @@ public struct SortedSet<T: Comparable>: Probable, Collection, Equatable, CustomS
 		- returns:	String
 	*/
 	public var description: String {
-		var output = "["
-		let l = count - 1
-		for i in 0..<count {
-			output += "\(self[i])"
-			if i != l {
-				output += ", "
-			}
-		}
-		return output + "]"
+    return "[" + map { "\($0)" }.joined(separator: ",") + "]"
 	}
 
 	/**
@@ -103,15 +91,6 @@ public struct SortedSet<T: Comparable>: Probable, Collection, Equatable, CustomS
 	*/
 	public var last: Element? {
 		return tree.last?.value
-	}
-
-	/**
-		:name:	isEmpty
-		:description:	A boolean of whether the RedBlackTree is empty.
-		- returns:	Bool
-	*/
-	public var isEmpty: Bool {
-		return 0 == count
 	}
 
 	/**
@@ -158,15 +137,8 @@ public struct SortedSet<T: Comparable>: Probable, Collection, Equatable, CustomS
 	}
 
 	public func makeIterator() -> SortedSet.Iterator {
-        var index = startIndex
-        return AnyIterator {
-            if index < self.endIndex {
-                let i = index
-                index += 1
-                return self[i]
-            }
-            return nil
-        }
+      var i = indices.makeIterator()
+      return AnyIterator { i.next().map { self[$0] } }
 	}
 
 	/**
@@ -283,7 +255,7 @@ public struct SortedSet<T: Comparable>: Probable, Collection, Equatable, CustomS
 	*/
 	mutating public func insert(_ elements: [Element]) {
 		for x in elements {
-            tree.insert(value: x, for: x)
+      tree.insert(value: x, for: x)
 		}
 		count = tree.count
 	}

@@ -89,20 +89,12 @@ public struct SortedDictionary<Key: Comparable, Value>: Probable, Collection, Eq
 	
 	/// Retrieves an Array of the key values in order.
 	public var keys: [Key] {
-		var s = [Key]()
-		for x in self {
-			s.append(x.key)
-		}
-		return s
+		return map { $0.key }
 	}
 	
 	/// Retrieves an Array of the values that are sorted based
 	public var values: [Value] {
-		var s = [Value]()
-		for x in self {
-			s.append(x.value!)
-		}
-		return s
+		return flatMap { $0.value }
 	}
 	
 	/// Initializer.
@@ -128,15 +120,8 @@ public struct SortedDictionary<Key: Comparable, Value>: Probable, Collection, Eq
 	}
 	
 	public func makeIterator() -> SortedDictionary.Iterator {
-		var index = startIndex
-        return AnyIterator {
-			if index < self.endIndex {
-				let i: Int = index
-				index += 1
-				return self[i]
-			}
-			return nil
-		}
+    var i = indices.makeIterator()
+    return AnyIterator { i.next().map { self[$0] } }
 	}
 	
 	/**
