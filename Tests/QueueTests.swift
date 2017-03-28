@@ -49,14 +49,14 @@ class QueueTests: XCTestCase {
 		q.enqueue(3)
 		
 		XCTAssert(3 == q.count, "Count incorrect, got \(q.count).")
-		XCTAssert(1 == q.peek, "Peek incorrect, got \(q.peek)")
+		XCTAssert(1 == q.peek, "Peek incorrect, got \(String(describing: q.peek))")
 		
 		q.enqueue(5)
 		q.enqueue(6)
 		q.enqueue(7)
 		
 		XCTAssert(6 == q.count, "Count incorrect, got \(q.count).")
-		XCTAssert(1 == q.peek, "Peek incorrect, got \(q.peek)")
+		XCTAssert(1 == q.peek, "Peek incorrect, got \(String(describing: q.peek))")
 		
 		XCTAssert(1 == q.dequeue() && 5 == q.count && 2 == q.peek, "Dequeue incorrect")
 		XCTAssert(2 == q.dequeue() && 4 == q.count && 3 == q.peek, "Dequeue incorrect")

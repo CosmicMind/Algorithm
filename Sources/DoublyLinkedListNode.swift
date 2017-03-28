@@ -56,7 +56,7 @@ internal class DoublyLinkedListNode<Element>: CustomStringConvertible {
 		- returns:	String
 	*/
 	internal var description: String {
-		return "\(element)"
+		return "\(String(describing: element))"
 	}
 
 	/**

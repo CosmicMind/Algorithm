@@ -45,7 +45,6 @@ extension Array where Element: Equatable {
      they exists.
      - Parameter objects: A list of Elements.
      */
-    @discardableResult
 	mutating func remove(objects: Element...) {
 		remove(objects: objects)
 	}
@@ -55,8 +54,7 @@ extension Array where Element: Equatable {
      they exists.
      - Parameter objects: An Array of Elements.
      */
-    @discardableResult
-	mutating func remove(objects: [Element]) {
+    mutating func remove(objects: [Element]) {
         objects.forEach {
             self.remove(object: $0)
         }

@@ -64,7 +64,7 @@ public struct DoublyLinkedList<Element>: CustomStringConvertible, Sequence {
         var c = 0
         var x = head
         while nil !== x {
-            output += "\(x)"
+            output += "\(String(describing: x))"
             c += 1
             if c != count {
                 output += ", "

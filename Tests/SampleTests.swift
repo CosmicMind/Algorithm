@@ -187,7 +187,7 @@ class SampleTests: XCTestCase {
         students.insert(value: peter, for: peter.name)
         students.insert(value: alex, for: alex.name)
         
-        for student in students {
+        for _ in students {
             // Do something ...
         }
     }

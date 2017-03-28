@@ -50,8 +50,8 @@ class DequeTests: XCTestCase {
 		
 		XCTAssert(3 == d.count, "Count incorrect, got \(d.count).")
 		
-		XCTAssert(3 == d.front, "Front incorrect, got \(d.front)")
-		XCTAssert(1 == d.back, "Back incorrect, got \(d.back)")
+		XCTAssert(3 == d.front, "Front incorrect, got \(String(describing: d.front))")
+		XCTAssert(1 == d.back, "Back incorrect, got \(String(describing: d.back))")
 		
         d.insert(atBack: 5)
 		d.insert(atBack: 6)
@@ -59,8 +59,8 @@ class DequeTests: XCTestCase {
 		
 		XCTAssert(6 == d.count, "Count incorrect, got \(d.count).")
 		
-		XCTAssert(3 == d.front, "Front incorrect, got \(d.front)")
-		XCTAssert(7 == d.back, "Back incorrect, got \(d.back)")
+		XCTAssert(3 == d.front, "Front incorrect, got \(String(describing: d.front))")
+		XCTAssert(7 == d.back, "Back incorrect, got \(String(describing: d.back))")
 		
 		XCTAssert(3 == d.removeAtFront() && 5 == d.count && 2 == d.front, "RemoveAtFront incorrect")
 		XCTAssert(2 == d.removeAtFront() && 4 == d.count && 1 == d.front, "RemoveAtFront incorrect")

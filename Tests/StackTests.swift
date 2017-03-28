@@ -49,14 +49,14 @@ class StackTests: XCTestCase {
 		s.push(3)
 		
 		XCTAssert(3 == s.count, "Count incorrect, got \(s.count).")
-		XCTAssert(3 == s.top, "Top incorrect, got \(s.top)")
+		XCTAssert(3 == s.top, "Top incorrect, got \(String(describing: s.top))")
 		
 		s.push(5)
 		s.push(6)
 		s.push(7)
 		
 		XCTAssert(6 == s.count, "Count incorrect, got \(s.count).")
-		XCTAssert(7 == s.top, "Top incorrect, got \(s.top)")
+		XCTAssert(7 == s.top, "Top incorrect, got \(String(describing: s.top))")
 		
 		XCTAssert(7 == s.pop() && 5 == s.count && 6 == s.top, "Pop incorrect")
 		XCTAssert(6 == s.pop() && 4 == s.count && 5 == s.top, "Pop incorrect")
