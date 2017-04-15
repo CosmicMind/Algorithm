@@ -752,52 +752,50 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 	private func validateOrder(_ order: Int) {
 		assert(order > startIndex || order <= endIndex, "[Algorithm Error: Order out of bounds.]")
 	}
-}
-
-public func ==<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) -> Bool {
-    guard lhs.count == rhs.count else {
-		return false
-	}
     
-	for i in 0..<lhs.count {
-		if lhs[i].key != rhs[i].key {
-			return false
-		}
-	}
-	return true
-}
-
-public func !=<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) -> Bool {
-	return !(lhs == rhs)
-}
-
-public func +<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) -> RedBlackTree<Key, Value> {
-	var t = RedBlackTree<Key, Value>()
-    for (k, v) in lhs {
-        t.insert(value: v, for: k)
+    public static func ==(lhs: RedBlackTree, rhs: RedBlackTree) -> Bool {
+        guard lhs.count == rhs.count else {
+            return false
+        }
+        
+        for i in 0..<lhs.count {
+            if lhs[i].key != rhs[i].key {
+                return false
+            }
+        }
+        return true
     }
-    for (k, v) in rhs {
-        t.insert(value: v, for: k)
-	}
-	return t
+
+    public static func +(lhs: RedBlackTree, rhs: RedBlackTree) -> RedBlackTree<Key, Value> {
+        var t = RedBlackTree()
+        for (k, v) in lhs {
+            t.insert(value: v, for: k)
+        }
+        for (k, v) in rhs {
+            t.insert(value: v, for: k)
+        }
+        return t
+    }
+    
+    public static func +=(lhs: inout RedBlackTree, rhs: RedBlackTree) {
+        for (k, v) in rhs {
+            lhs.insert(value: v, for: k)
+        }
+    }
+    
+    public static func -(lhs: RedBlackTree, rhs: RedBlackTree) -> RedBlackTree {
+        var t = rhs
+        for (k, _) in rhs {
+            t.removeValue(for: k)
+        }
+        return t
+    }
+    
+    public static func -=(lhs: inout RedBlackTree, rhs: RedBlackTree) {
+        for (k, _) in rhs {
+            lhs.removeValue(for: k)
+        }
+    }
 }
 
-public func +=<Key : Comparable, Value>(lhs: inout RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) {
-	for (k, v) in rhs {
-		lhs.insert(value: v, for: k)
-	}
-}
 
-public func -<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) -> RedBlackTree<Key, Value> {
-	var t = rhs
-	for (k, _) in rhs {
-        t.removeValue(for: k)
-	}
-	return t
-}
-
-public func -=<Key : Comparable, Value>(lhs: inout RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) {
-	for (k, _) in rhs {
-		lhs.removeValue(for: k)
-	}
-}
