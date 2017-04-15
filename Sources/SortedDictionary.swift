@@ -62,19 +62,9 @@ public struct SortedDictionary<Key: Comparable, Value>: Probable, Collection, Eq
 		return tree.description
 	}
 	
-	/// Get the first (key, value) pair.
-	public var first: (key: Key, value: Value?)? {
-		return tree.first
-	}
-	
 	/// Get the last (key, value) pair.
 	public var last: (key: Key, value: Value?)? {
 		return tree.last
-	}
-	
-	/// A boolean of whether the SortedDictionary is empty.
-	public var isEmpty: Bool {
-		return 0 == count
 	}
 	
 	/// Conforms to the Collection Protocol.
@@ -118,8 +108,13 @@ public struct SortedDictionary<Key: Comparable, Value>: Probable, Collection, Eq
 		self.init()
         insert(elements)
 	}
+    
+    fileprivate init(tree : RedBlackTree<Key, Value>) {
+        self.init()
+        self.tree = tree
+    }
 	
-	public func makeIterator() -> SortedDictionary.Iterator {
+	public func makeIterator() -> Iterator {
     var i = indices.makeIterator()
     return AnyIterator { i.next().map { self[$0] } }
 	}
@@ -309,7 +304,7 @@ public struct SortedDictionary<Key: Comparable, Value>: Probable, Collection, Eq
 	/**
      Searches for given keys in the SortedDictionary.
      - Parameter for keys: A list of Key types.
-     - Returns: A SortedDictionary<Key, Value>.
+     - Returns: A SortedDictionary.
      */
 	public func search(for keys: Key...) -> SortedDictionary<Key, Value> {
         return search(for: keys)
@@ -318,7 +313,7 @@ public struct SortedDictionary<Key: Comparable, Value>: Probable, Collection, Eq
     /**
      Searches for given keys in the SortedDictionary.
      - Parameter for keys: An Array of Key types.
-     - Returns: A SortedDictionary<Key, Value>.
+     - Returns: A SortedDictionary.
      */
     public func search(for keys: [Key]) -> SortedDictionary<Key, Value> {
 		var d = SortedDictionary<Key, Value>()
@@ -332,9 +327,9 @@ public struct SortedDictionary<Key: Comparable, Value>: Probable, Collection, Eq
      Traverses the SortedDictionary, looking for a key matches.
      - Parameter for key: A Key type.
      - Parameter node: A RedBlackNode<Key, Value>.
-     - Parameter dictionary: A SortedDictionary<Key, Value> to map the results too.
+     - Parameter dictionary: A SortedDictionary to map the results too.
      */
-	internal func traverse(for key: Key, node: RedBlackNode<Key, Value>, dictionary: inout SortedDictionary<Key, Value>) {
+	internal func traverse(for key: Key, node: RedBlackNode<Key, Value>, dictionary: inout SortedDictionary) {
         guard tree.sentinel !== node else {
             return
         }
@@ -346,44 +341,26 @@ public struct SortedDictionary<Key: Comparable, Value>: Probable, Collection, Eq
         traverse(for: key, node: node.left, dictionary: &dictionary)
         traverse(for: key, node: node.right, dictionary: &dictionary)
 	}
+    
+    static public func ==(lhs: SortedDictionary, rhs: SortedDictionary) -> Bool {
+        return lhs.tree == rhs.tree
+    }
+    
+    static public func +(lhs: SortedDictionary, rhs: SortedDictionary) -> SortedDictionary<Key, Value> {
+        return SortedDictionary(tree : lhs.tree + rhs.tree)
+    }
+    
+    static public func +=(lhs: inout SortedDictionary, rhs: SortedDictionary) {
+        lhs.tree += rhs.tree
+    }
+    
+    static public func -(lhs: SortedDictionary, rhs: SortedDictionary) -> SortedDictionary<Key, Value> {
+        return SortedDictionary(tree : lhs.tree - rhs.tree)
+    }
+    
+    static public func -=(lhs: inout SortedDictionary, rhs: SortedDictionary) {
+        lhs.tree -= rhs.tree
+    }
 }
 
-public func ==<Key : Comparable, Value>(lhs: SortedDictionary<Key, Value>, rhs: SortedDictionary<Key, Value>) -> Bool {
-    if lhs.count != rhs.count {
-		return false
-	}
-	for i in 0..<lhs.count {
-		if lhs[i].key != rhs[i].key {
-			return false
-		}
-	}
-	return true
-}
 
-public func !=<Key : Comparable, Value>(lhs: SortedDictionary<Key, Value>, rhs: SortedDictionary<Key, Value>) -> Bool {
-	return !(lhs == rhs)
-}
-
-public func +<Key : Comparable, Value>(lhs: SortedDictionary<Key, Value>, rhs: SortedDictionary<Key, Value>) -> SortedDictionary<Key, Value> {
-	var t = lhs
-	for (k, v) in rhs {
-        t.insert(value: v, for: k)
-	}
-	return t
-}
-
-public func +=<Key : Comparable, Value>(lhs: inout SortedDictionary<Key, Value>, rhs: SortedDictionary<Key, Value>) {
-	for (k, v) in rhs {
-        lhs.insert(value: v, for: k)
-	}
-}
-
-public func -<Key : Comparable, Value>(lhs: SortedDictionary<Key, Value>, rhs: SortedDictionary<Key, Value>) -> SortedDictionary<Key, Value> {
-	var t = lhs
-    t.removeValue(for: rhs.keys)
-	return t
-}
-
-public func -=<Key : Comparable, Value>(lhs: inout SortedDictionary<Key, Value>, rhs: SortedDictionary<Key, Value>) {
-    lhs.removeValue(for: rhs.keys)
-}
