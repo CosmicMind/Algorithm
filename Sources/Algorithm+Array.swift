@@ -75,6 +75,7 @@ extension Array where Element: Equatable {
      - Returns: An Int.
      */
     public func count(of elements: [Element]) -> Int {
+        
 		var c = 0
         for e in elements {
             for x in self where e == x {

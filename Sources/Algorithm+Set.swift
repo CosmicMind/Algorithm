@@ -34,7 +34,7 @@ extension Set: Probable {
      - Parameter of elements: A list of Elements.
      - Returns: An Int.
      */
-    public func count<Element: Equatable>(of elements: Element...) -> Int {
+    public func count(of elements: Element...) -> Int {
         return count(of: elements)
     }
     
@@ -43,7 +43,7 @@ extension Set: Probable {
      - Parameter of elements: An Array of Elements.
      - Returns: An Int.
      */
-    public func count<Element: Equatable>(of elements: [Element]) -> Int {
+    public func count(of elements: [Element]) -> Int {
         var c = 0
         for e in elements {
             for x in self {
@@ -60,7 +60,7 @@ extension Set: Probable {
      - Parameter of elements: A list of Elements.
      - Returns: A Double.
      */
-    public func probability<Element: Equatable>(of elements: Element...) -> Double {
+    public func probability(of elements: Element...) -> Double {
         return probability(of: elements)
     }
     
@@ -69,7 +69,7 @@ extension Set: Probable {
      - Parameter of elements: An Array of Elements.
      - Returns: A Double.
      */
-    public func probability<Element: Equatable>(of elements: [Element]) -> Double {
+    public func probability(of elements: [Element]) -> Double {
         return 0 < count ? Double(count(of: elements)) / Double(count) : 0
     }
     
@@ -99,7 +99,7 @@ extension Set: Probable {
      - Parameter elements: A list of Elements.
      - Returns: A Double.
      */
-    public func expectedValue<Element: Equatable>(trials: Int, for elements: Element...) -> Double {
+    public func expectedValue(trials: Int, for elements: Element...) -> Double {
         return expectedValue(trials: trials, for: elements)
     }
     
@@ -109,7 +109,7 @@ extension Set: Probable {
      - Parameter elements: An Array of Elements.
      - Returns: A Double.
      */
-    public func expectedValue<Element: Equatable>(trials: Int, for elements: [Element]) -> Double {
+    public func expectedValue(trials: Int, for elements: [Element]) -> Double {
         return Double(trials) * probability(of: elements)
     }
 }
