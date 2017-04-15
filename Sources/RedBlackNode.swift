@@ -32,23 +32,23 @@ internal class RedBlackNode<Key: Comparable, Value>: Comparable, Equatable, Cust
 	/**
 		:name:	parent
 		:description:	A reference to the parent node of a given node.
-		- returns:	RedBlackNode<Key, Value>!
+		- returns:	RedBlackNode!
 	*/
-	internal var parent: RedBlackNode<Key, Value>!
+	internal var parent: RedBlackNode!
 
 	/**
 		:name:	left
 		:description:	A reference to the left child node of a given node.
-		- returns:	RedBlackNode<Key, Value>!
+		- returns:	RedBlackNode!
 	*/
-	internal var left: RedBlackNode<Key, Value>!
+	internal var left: RedBlackNode!
 
 	/**
 		:name:	right
 		:description:	A reference to the right child node of a given node.
-		- returns:	RedBlackNode<Key, Value>!
+		- returns:	RedBlackNode!
 	*/
-	internal var right: RedBlackNode<Key, Value>!
+	internal var right: RedBlackNode!
 
 	/**
 		:name:	isRed
@@ -102,7 +102,7 @@ internal class RedBlackNode<Key: Comparable, Value>: Comparable, Equatable, Cust
 		:name:	init
 		:description:	Constructor used for nodes that store data.
 	*/
-	internal init(parent: RedBlackNode<Key, Value>, sentinel: RedBlackNode<Key, Value>, key: Key, value: Value?) {
+	internal init(parent: RedBlackNode, sentinel: RedBlackNode, key: Key, value: Value?) {
 		self.key = key
 		self.value = value
 		self.parent = parent
@@ -111,24 +111,14 @@ internal class RedBlackNode<Key: Comparable, Value>: Comparable, Equatable, Cust
 		isRed = true
 		order = 1
 	}
+    
+    static func ==(lhs: RedBlackNode, rhs: RedBlackNode) -> Bool {
+        return lhs.key == rhs.key
+    }
+    
+    static func <(lhs: RedBlackNode, rhs: RedBlackNode) -> Bool {
+        return lhs.key < rhs.key
+    }
 }
 
-func ==<Key : Comparable, Value>(lhs: RedBlackNode<Key, Value>, rhs: RedBlackNode<Key, Value>) -> Bool {
-	return lhs.key == rhs.key
-}
 
-func <=<Key : Comparable, Value>(lhs: RedBlackNode<Key, Value>, rhs: RedBlackNode<Key, Value>) -> Bool {
-	return lhs.key <= rhs.key
-}
-
-func >=<Key : Comparable, Value>(lhs: RedBlackNode<Key, Value>, rhs: RedBlackNode<Key, Value>) -> Bool {
-	return lhs.key >= rhs.key
-}
-
-func ><Key : Comparable, Value>(lhs: RedBlackNode<Key, Value>, rhs: RedBlackNode<Key, Value>) -> Bool {
-	return lhs.key > rhs.key
-}
-
-func <<Key : Comparable, Value>(lhs: RedBlackNode<Key, Value>, rhs: RedBlackNode<Key, Value>) -> Bool {
-	return lhs.key < rhs.key
-}
