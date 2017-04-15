@@ -80,7 +80,7 @@ public struct Queue<Element>: CustomStringConvertible, Sequence {
 		:description:	Constructor.
 	*/
 	public init() {
-		list = DoublyLinkedList<Element>()
+		list = DoublyLinkedList()
 	}
 
 	//
@@ -89,7 +89,7 @@ public struct Queue<Element>: CustomStringConvertible, Sequence {
 	//	the next value in the sequence of nodes.
 	//	:returns:	Queue.Generator
 	//
-	public func makeIterator() -> Queue.Iterator {
+	public func makeIterator() -> Iterator {
 		return list.makeIterator()
 	}
 
@@ -118,21 +118,21 @@ public struct Queue<Element>: CustomStringConvertible, Sequence {
 	mutating public func removeAll() {
 		list.removeAll()
 	}
-}
 
-public func +<Element>(lhs: Queue<Element>, rhs: Queue<Element>) -> Queue<Element> {
-	var q = Queue<Element>()
-	for x in lhs {
-		q.enqueue(x)
-	}
-	for x in rhs {
-		q.enqueue(x)
-	}
-	return q
-}
+    public static func +(lhs: Queue, rhs: Queue) -> Queue<Element> {
+        var q = Queue<Element>()
+        for x in lhs {
+            q.enqueue(x)
+        }
+        for x in rhs {
+            q.enqueue(x)
+        }
+        return q
+    }
 
-public func +=<Element>(lhs: inout Queue<Element>, rhs: Queue<Element>) {
-	for x in rhs {
-		lhs.enqueue(x)
-	}
+    public static func +=(lhs: inout Queue, rhs: Queue) {
+        for x in rhs {
+            lhs.enqueue(x)
+        }
+    }
 }

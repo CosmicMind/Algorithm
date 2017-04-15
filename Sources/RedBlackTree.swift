@@ -28,14 +28,18 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, CustomStringConvertible {
+public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, BidirectionalCollection, CustomStringConvertible {
     /// Returns the position immediately after the given index.
     ///
     /// - Parameter i: A valid index of the collection. `i` must be less than
     ///   `endIndex`.
     /// - Returns: The index value immediately after `i`.
     public func index(after i: Int) -> Int {
-        return i < endIndex ? i + 1 : 0
+        return i + 1
+    }
+
+    public func index(before i: Int) -> Int {
+        return i - 1
     }
 
 	public typealias Iterator = AnyIterator<(key: Key, value: Value?)>
@@ -76,37 +80,6 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 	*/
 	public var description: String {
         return "[" + map { "\($0)" }.joined(separator: ", ") + "]"
-	}
-
-	/**
-		:name:	first
-		:description:	Get the first node value in the tree, this is
-		the first node based on the order of keys where
-		k1 <= k2 <= Key3 ... <= Keyn
-		- returns:	(key: Key, value: Value?)?
-	*/
-	public var first: (key: Key, value: Value?)? {
-		return isEmpty ? nil : self[0]
-	}
-
-	/**
-		:name:	last
-		:description:	Get the last node value in the tree, this is
-		the last node based on the order of keys where
-		k1 <= k2 <= Key3 ... <= Keyn
-		- returns:	(key: Key, value: Value?)?
-	*/
-	public var last: (key: Key, value: Value?)? {
-		return isEmpty ? nil : self[count - 1]
-	}
-
-	/**
-		:name:	isEmpty
-		:description:	A boolean of whether the RedBlackTree is empty.
-		- returns:	Bool
-	*/
-	public var isEmpty: Bool {
-		return 0 == count
 	}
 
 	/**
@@ -752,52 +725,43 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Custom
 	private func validateOrder(_ order: Int) {
 		assert(order > startIndex || order <= endIndex, "[Algorithm Error: Order out of bounds.]")
 	}
-}
-
-public func ==<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) -> Bool {
-    guard lhs.count == rhs.count else {
-		return false
-	}
     
-	for i in 0..<lhs.count {
-		if lhs[i].key != rhs[i].key {
-			return false
-		}
-	}
-	return true
-}
-
-public func !=<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) -> Bool {
-	return !(lhs == rhs)
-}
-
-public func +<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) -> RedBlackTree<Key, Value> {
-	var t = RedBlackTree<Key, Value>()
-    for (k, v) in lhs {
-        t.insert(value: v, for: k)
+    public static func ==(lhs: RedBlackTree, rhs: RedBlackTree) -> Bool {
+        return lhs.count == rhs.count && lhs.elementsEqual(rhs) {
+            $0.0.key == $0.1.key
+        }
     }
-    for (k, v) in rhs {
-        t.insert(value: v, for: k)
-	}
-	return t
+
+    public static func +(lhs: RedBlackTree, rhs: RedBlackTree) -> RedBlackTree<Key, Value> {
+        var t = RedBlackTree()
+        for (k, v) in lhs {
+            t.insert(value: v, for: k)
+        }
+        for (k, v) in rhs {
+            t.insert(value: v, for: k)
+        }
+        return t
+    }
+    
+    public static func +=(lhs: inout RedBlackTree, rhs: RedBlackTree) {
+        for (k, v) in rhs {
+            lhs.insert(value: v, for: k)
+        }
+    }
+    
+    public static func -(lhs: RedBlackTree, rhs: RedBlackTree) -> RedBlackTree {
+        var t = rhs
+        for (k, _) in rhs {
+            t.removeValue(for: k)
+        }
+        return t
+    }
+    
+    public static func -=(lhs: inout RedBlackTree, rhs: RedBlackTree) {
+        for (k, _) in rhs {
+            lhs.removeValue(for: k)
+        }
+    }
 }
 
-public func +=<Key : Comparable, Value>(lhs: inout RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) {
-	for (k, v) in rhs {
-		lhs.insert(value: v, for: k)
-	}
-}
 
-public func -<Key : Comparable, Value>(lhs: RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) -> RedBlackTree<Key, Value> {
-	var t = rhs
-	for (k, _) in rhs {
-        t.removeValue(for: k)
-	}
-	return t
-}
-
-public func -=<Key : Comparable, Value>(lhs: inout RedBlackTree<Key, Value>, rhs: RedBlackTree<Key, Value>) {
-	for (k, _) in rhs {
-		lhs.removeValue(for: k)
-	}
-}
