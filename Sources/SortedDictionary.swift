@@ -28,7 +28,7 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-public struct SortedDictionary<Key: Comparable, Value>: Probable, Collection, Equatable, CustomStringConvertible where Key: Hashable {
+public struct SortedDictionary<Key: Comparable & Hashable, Value>: Probable, Collection, BidirectionalCollection, Equatable, CustomStringConvertible {
     public typealias Element = Key
     
     /// Returns the position immediately after the given index.
@@ -37,7 +37,11 @@ public struct SortedDictionary<Key: Comparable, Value>: Probable, Collection, Eq
     ///   `endIndex`.
     /// - Returns: The index value immediately after `i`.
     public func index(after i: Int) -> Int {
-        return i < endIndex ? i + 1 : 0
+        return i + 1
+    }
+
+    public func index(before i: Int) -> Int {
+        return i - 1
     }
 
 	public typealias Iterator = AnyIterator<(key: Key, value: Value?)>
@@ -62,11 +66,6 @@ public struct SortedDictionary<Key: Comparable, Value>: Probable, Collection, Eq
 		return tree.description
 	}
 	
-	/// Get the last (key, value) pair.
-	public var last: (key: Key, value: Value?)? {
-		return tree.last
-	}
-	
 	/// Conforms to the Collection Protocol.
 	public var startIndex: Int {
 		return 0
@@ -89,7 +88,7 @@ public struct SortedDictionary<Key: Comparable, Value>: Probable, Collection, Eq
 	
 	/// Initializer.
 	public init() {
-		tree = RedBlackTree<Key, Value>(uniqueKeys: true)
+		tree = RedBlackTree(uniqueKeys: true)
 	}
 	
 	/**
@@ -341,26 +340,25 @@ public struct SortedDictionary<Key: Comparable, Value>: Probable, Collection, Eq
         traverse(for: key, node: node.left, dictionary: &dictionary)
         traverse(for: key, node: node.right, dictionary: &dictionary)
 	}
-    
+
     static public func ==(lhs: SortedDictionary, rhs: SortedDictionary) -> Bool {
         return lhs.tree == rhs.tree
     }
-    
+
     static public func +(lhs: SortedDictionary, rhs: SortedDictionary) -> SortedDictionary<Key, Value> {
         return SortedDictionary(tree : lhs.tree + rhs.tree)
     }
-    
+
     static public func +=(lhs: inout SortedDictionary, rhs: SortedDictionary) {
         lhs.tree += rhs.tree
     }
-    
+
     static public func -(lhs: SortedDictionary, rhs: SortedDictionary) -> SortedDictionary<Key, Value> {
         return SortedDictionary(tree : lhs.tree - rhs.tree)
     }
-    
+
     static public func -=(lhs: inout SortedDictionary, rhs: SortedDictionary) {
         lhs.tree -= rhs.tree
     }
 }
-
 
