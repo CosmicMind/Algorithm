@@ -47,7 +47,7 @@ extension Set: Probable {
         var c = 0
         for e in elements {
             for x in self {
-                if e == x as? Element {
+                if e == x {
                     c += 1
                 }
             }
