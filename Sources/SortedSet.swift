@@ -43,8 +43,8 @@ public struct SortedSet<T: Comparable>: Probable, Collection, Equatable, CustomS
     public typealias Iterator = AnyIterator<Element>
 	
 	/**
-	Total number of elements within the RedBlackTree
-	*/
+     Total number of elements within the RedBlackTree
+     */
 	public internal(set) var count = 0
 	
 	/**
@@ -581,7 +581,7 @@ public struct SortedSet<T: Comparable>: Probable, Collection, Equatable, CustomS
 	}
 }
 
-public func ==<Element: Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
+public func ==<Element>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
     if lhs.count != rhs.count {
 		return false
 	}
@@ -593,38 +593,38 @@ public func ==<Element: Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Elem
 	return true
 }
 
-public func !=<Element: Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
+public func !=<Element>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
 	return !(lhs == rhs)
 }
 
-public func +<Element: Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> SortedSet<Element> {
+public func +<Element>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> SortedSet<Element> {
 	return lhs.union(rhs)
 }
 
-public func +=<Element: Comparable>(lhs: inout SortedSet<Element>, rhs: SortedSet<Element>) {
+public func +=<Element>(lhs: inout SortedSet<Element>, rhs: SortedSet<Element>) {
 	lhs.formUnion(rhs)
 }
 
-public func -<Element: Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> SortedSet<Element> {
+public func -<Element>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> SortedSet<Element> {
 	return lhs.subtracting(rhs)
 }
 
-public func -=<Element: Comparable>(lhs: inout SortedSet<Element>, rhs: SortedSet<Element>) {
+public func -=<Element>(lhs: inout SortedSet<Element>, rhs: SortedSet<Element>) {
 	lhs.subtract(rhs)
 }
 
-public func <=<Element: Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
+public func <=<Element>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
     return lhs.isSubset(of: rhs)
 }
 
-public func >=<Element: Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
+public func >=<Element>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
     return lhs.isSuperset(of: rhs)
 }
 
-public func ><Element: Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
+public func ><Element>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
     return lhs.isStrictSuperset(of: rhs)
 }
 
-public func <<Element: Comparable>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
+public func <<Element>(lhs: SortedSet<Element>, rhs: SortedSet<Element>) -> Bool {
     return lhs.isStrictSubset(of: rhs)
 }

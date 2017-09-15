@@ -84,7 +84,7 @@ class ProbabilityTests: XCTestCase {
 
 	func testSortedDictionary() {
 		var s = SortedDictionary<Int, Int>()
-		XCTAssertEqual(0, s.probability { _ -> Bool in return true})
+		XCTAssertEqual(0, s.probability { _, _ -> Bool in return true})
 
 		s.insert((1, 1))
 		s.insert((2, 2))
@@ -107,7 +107,7 @@ class ProbabilityTests: XCTestCase {
 
 	func testSortedMultiDictionary() {
 		var s = SortedMultiDictionary<Int, Int>()
-		XCTAssertEqual(0, s.probability { _ -> Bool in return true})
+		XCTAssertEqual(0, s.probability { _, _ -> Bool in return true})
 
 		s.insert((1, 1))
 		s.insert((2, 2))

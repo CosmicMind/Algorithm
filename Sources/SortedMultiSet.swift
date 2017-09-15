@@ -619,7 +619,7 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 	}
 }
 
-public func ==<Element: Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
+public func ==<Element>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
     if lhs.count != rhs.count {
 		return false
 	}
@@ -631,38 +631,38 @@ public func ==<Element: Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMul
 	return true
 }
 
-public func !=<Element: Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
+public func !=<Element>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
 	return !(lhs == rhs)
 }
 
-public func +<Element : Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
+public func +<Element>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
 	return lhs.union(rhs)
 }
 
-public func +=<Element : Comparable>(lhs: inout SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) {
+public func +=<Element>(lhs: inout SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) {
 	lhs.formUnion(rhs)
 }
 
-public func -<Element : Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
+public func -<Element>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
 	return lhs.subtracting(rhs)
 }
 
-public func -=<Element : Comparable>(lhs: inout SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) {
+public func -=<Element>(lhs: inout SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) {
 	lhs.subtract(rhs)
 }
 
-public func <=<Element : Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
+public func <=<Element>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
     return lhs.isSubset(of: rhs)
 }
 
-public func >=<Element : Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
+public func >=<Element>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
     return lhs.isSuperset(of: rhs)
 }
 
-public func ><Element : Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
+public func ><Element>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
     return lhs.isStrictSuperset(of: rhs)
 }
 
-public func <<Element : Comparable>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
+public func <<Element>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
     return lhs.isStrictSubset(of: rhs)
 }

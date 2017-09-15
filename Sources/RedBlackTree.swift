@@ -29,6 +29,9 @@
 */
 
 public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, BidirectionalCollection, CustomStringConvertible {
+    public typealias Element = (key: Key, value: Value?)
+    public typealias ProbableElement = Key
+    
     /// Returns the position immediately after the given index.
     ///
     /// - Parameter i: A valid index of the collection. `i` must be less than
@@ -42,7 +45,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Bidire
         return i - 1
     }
 
-	public typealias Iterator = AnyIterator<(key: Key, value: Value?)>
+	public typealias Iterator = AnyIterator<Element>
 	
 	/**
 	Total number of elements within the RedBlackTree
@@ -99,6 +102,46 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Bidire
 	public var endIndex: Int {
 		return count
 	}
+    
+    /**
+     :name:    first
+     :description:    Get the first node value in the tree, this is
+     the first node based on the order of keys where
+     k1 <= k2 <= K3 ... <= Kn
+     - returns:    Element?
+     */
+    public var first: Element? {
+        guard 0 < count else {
+            return nil
+        }
+        
+        return self[0]
+    }
+    
+    /**
+     :name:    last
+     :description:    Get the last node value in the tree, this is
+     the last node based on the order of keys where
+     k1 <= k2 <= K3 ... <= Kn
+     - returns:    Element?
+     */
+    public var last: Element? {
+        guard 0 < count else {
+            return nil
+        }
+        
+        return self[count - 1]
+    }
+    
+    /// Retrieves an Array of the key values in order.
+    public var keys: [Key] {
+        return map { $0.key }
+    }
+    
+    /// Retrieves an Array of the values that are sorted based.
+    public var values: [Value] {
+        return flatMap { $0.value }
+    }
 	
 	/**
 		:name:	init
@@ -123,6 +166,10 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Bidire
 		root = sentinel
 	}
 
+    public func _customIndexOfEquatableElement(_ element: Key) -> Int?? {
+        return nil
+    }
+    
 	//
 	//	:name:	generate
 	//	:description:	Conforms to the SequenceType Protocol. Returns
@@ -147,9 +194,11 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Bidire
 	*/
 	public func count(of keys: [Key]) -> Int {
 		var c = 0
-		for key in keys {
-			internalCount(key, node: root, count: &c)
+        
+		for k in keys {
+			internalCount(k, node: root, count: &c)
 		}
+        
 		return c
 	}
 	
@@ -176,11 +225,13 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Bidire
 		}
 		
 		var c = 0
-		for (k, v) in self {
+		
+        for (k, v) in self {
 			if block(k, v) {
 				c += 1
 			}
 		}
+        
 		return Double(c) / Double(count)
 	}
 	
@@ -249,6 +300,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Bidire
 	mutating public func removeValue(for keys: [Key]) {
 		for x in keys {
 			var z = internalRemoveValueForKey(x)
+            
 			while sentinel !== z {
 				z = internalRemoveValueForKey(x)
 			}
@@ -296,6 +348,15 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Bidire
 		return internalFindNodeForKey(key).value
 	}
 
+    /**
+     Returns the Key value at a given position.
+     - Parameter position: An Int.
+     - Returns: A Key.
+     */
+    public subscript(position: Int) -> Key {
+        return self[position].key
+    }
+    
 	/**
 		:name:	operator [0...count - 1]
 		:description:	Allows array like access of the index.
@@ -664,13 +725,16 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Bidire
 	*/
 	private func internalSelect(_ x: RedBlackNode<Key, Value>, order: Int) -> RedBlackNode<Key, Value> {
 		validateOrder(order)
+        
 		let r = x.left.order + 1
-		if order == r {
+		
+        if order == r {
 			return x
 		} else if order < r {
 			return internalSelect(x.left, order: order)
 		}
-		return internalSelect(x.right, order: order - r)
+		
+        return internalSelect(x.right, order: order - r)
 	}
 
 	/**
@@ -682,6 +746,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Bidire
 			if key == node.key {
 				count += 1
 			}
+            
 			internalCount(key, node: node.left, count: &count)
 			internalCount(key, node: node.right, count: &count)
 		}
@@ -696,6 +761,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Bidire
 			if key == node.key {
 				node.value = value
 			}
+            
 			internalUpdateValue(value, for: key, node: node.left)
 			internalUpdateValue(value, for: key, node: node.right)
 		}
@@ -709,12 +775,14 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Bidire
 	private func internalOrder(_ node: RedBlackNode<Key, Value>) -> Int {
 		var x = node
 		var r: Int = x.left.order + 1
-		while root !== x {
+		
+        while root !== x {
 			if x.parent.right === x {
 				r += x.parent.left.order + 1
 			}
 			x = x.parent
 		}
+        
 		return r
 	}
 
@@ -727,19 +795,26 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Bidire
 	}
     
     public static func ==(lhs: RedBlackTree, rhs: RedBlackTree) -> Bool {
-        return lhs.count == rhs.count && lhs.elementsEqual(rhs) {
-            $0.0.key == $0.1.key
-        }
+        return lhs.count == rhs.count && lhs.elementsEqual(rhs, by: { a, b -> Bool in
+            return a.key == b.key
+        })
+    }
+    
+    public static func !=(lhs: RedBlackTree, rhs: RedBlackTree) -> Bool {
+        return !(lhs == rhs)
     }
 
     public static func +(lhs: RedBlackTree, rhs: RedBlackTree) -> RedBlackTree<Key, Value> {
         var t = RedBlackTree()
+        
         for (k, v) in lhs {
             t.insert(value: v, for: k)
         }
+        
         for (k, v) in rhs {
             t.insert(value: v, for: k)
         }
+        
         return t
     }
     
@@ -751,9 +826,11 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Bidire
     
     public static func -(lhs: RedBlackTree, rhs: RedBlackTree) -> RedBlackTree {
         var t = rhs
+        
         for (k, _) in rhs {
             t.removeValue(for: k)
         }
+        
         return t
     }
     

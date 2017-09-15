@@ -29,7 +29,7 @@
  */
 
 public struct SortedMultiDictionary<Key: Comparable, Value>: Probable, Collection, Equatable, CustomStringConvertible where Key: Hashable {
-    public typealias Element = Key
+    public typealias Element = RedBlackTree<Key, Value>.Element
     
     /// Returns the position immediately after the given index.
     ///
@@ -51,9 +51,11 @@ public struct SortedMultiDictionary<Key: Comparable, Value>: Probable, Collectio
     /// Get the data as a Dictionary.
     public var asDictionary: [Key: Value?] {
         var d = [Key: Value?]()
+        
         for (k, v) in self {
             d[k] = v
         }
+        
         return d
     }
     
@@ -89,12 +91,12 @@ public struct SortedMultiDictionary<Key: Comparable, Value>: Probable, Collectio
     
     /// Retrieves an Array of the key values in order.
     public var keys: [Key] {
-        return map { $0.key }
+        return tree.keys
     }
     
     /// Retrieves an Array of the values that are sorted based
     public var values: [Value] {
-        return flatMap { $0.value }
+        return tree.values
     }
     
     /// Initializer.
@@ -117,6 +119,10 @@ public struct SortedMultiDictionary<Key: Comparable, Value>: Probable, Collectio
     public init(elements: [(Key, Value?)]) {
         self.init()
         insert(elements)
+    }
+    
+    public func _customIndexOfEquatableElement(_ element: Key) -> Int?? {
+        return nil
     }
     
     public func makeIterator() -> SortedMultiDictionary.Iterator {
@@ -205,6 +211,15 @@ public struct SortedMultiDictionary<Key: Comparable, Value>: Probable, Collectio
             tree[key] = value
             count = tree.count
         }
+    }
+    
+    /**
+     Returns the Key value at a given position.
+     - Parameter position: An Int.
+     - Returns: A Key.
+     */
+    public subscript(position: Int) -> Key {
+        return tree[position]
     }
     
     /**
@@ -348,7 +363,7 @@ public struct SortedMultiDictionary<Key: Comparable, Value>: Probable, Collectio
     }
 }
 
-public func ==<Key : Comparable, Value>(lhs: SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) -> Bool {
+public func ==<Key, Value>(lhs: SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) -> Bool {
     if lhs.count != rhs.count {
         return false
     }
@@ -360,11 +375,11 @@ public func ==<Key : Comparable, Value>(lhs: SortedMultiDictionary<Key, Value>, 
     return true
 }
 
-public func !=<Key : Comparable, Value>(lhs: SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) -> Bool {
+public func !=<Key, Value>(lhs: SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) -> Bool {
     return !(lhs == rhs)
 }
 
-public func +<Key : Comparable, Value>(lhs: SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) -> SortedMultiDictionary<Key, Value> {
+public func +<Key, Value>(lhs: SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) -> SortedMultiDictionary<Key, Value> {
     var t = SortedMultiDictionary<Key, Value>()
     for (k, v) in lhs {
         t.insert(value: v, for: k)
@@ -375,18 +390,18 @@ public func +<Key : Comparable, Value>(lhs: SortedMultiDictionary<Key, Value>, r
     return t
 }
 
-public func +=<Key : Comparable, Value>(lhs: inout SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) {
+public func +=<Key, Value>(lhs: inout SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) {
     for (k, v) in rhs {
         lhs.insert(value: v, for: k)
     }
 }
 
-public func -<Key : Comparable, Value>(lhs: SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) -> SortedMultiDictionary<Key, Value> {
+public func -<Key, Value>(lhs: SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) -> SortedMultiDictionary<Key, Value> {
     var t = lhs
     t.removeValue(for: rhs.keys)
     return t
 }
 
-public func -=<Key : Comparable, Value>(lhs: inout SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) {
+public func -=<Key, Value>(lhs: inout SortedMultiDictionary<Key, Value>, rhs: SortedMultiDictionary<Key, Value>) {
     lhs.removeValue(for: rhs.keys)
 }

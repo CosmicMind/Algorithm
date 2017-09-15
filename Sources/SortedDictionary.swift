@@ -29,7 +29,8 @@
 */
 
 public struct SortedDictionary<Key: Comparable & Hashable, Value>: Probable, Collection, BidirectionalCollection, Equatable, CustomStringConvertible {
-    public typealias Element = Key
+    public typealias Element = RedBlackTree<Key, Value>.Element
+    public typealias ProbableElement = RedBlackTree<Key, Value>.ProbableElement
     
     /// Returns the position immediately after the given index.
     ///
@@ -44,7 +45,7 @@ public struct SortedDictionary<Key: Comparable & Hashable, Value>: Probable, Col
         return i - 1
     }
 
-	public typealias Iterator = AnyIterator<(key: Key, value: Value?)>
+	public typealias Iterator = AnyIterator<Element>
 	
 	/// Total number of elements within the RedBlackTree
 	public internal(set) var count = 0
@@ -78,12 +79,12 @@ public struct SortedDictionary<Key: Comparable & Hashable, Value>: Probable, Col
 	
 	/// Retrieves an Array of the key values in order.
 	public var keys: [Key] {
-		return map { $0.key }
+		return tree.keys
 	}
 	
 	/// Retrieves an Array of the values that are sorted based
 	public var values: [Value] {
-		return flatMap { $0.value }
+		return tree.values
 	}
 	
 	/// Initializer.
@@ -112,10 +113,14 @@ public struct SortedDictionary<Key: Comparable & Hashable, Value>: Probable, Col
         self.init()
         self.tree = tree
     }
+    
+    public func _customIndexOfEquatableElement(_ element: Key) -> Int?? {
+        return nil
+    }
 	
 	public func makeIterator() -> Iterator {
-    var i = indices.makeIterator()
-    return AnyIterator { i.next().map { self[$0] } }
+        var i = indices.makeIterator()
+        return AnyIterator { i.next().map { self[$0] } }
 	}
 	
 	/**
@@ -200,6 +205,10 @@ public struct SortedDictionary<Key: Comparable & Hashable, Value>: Probable, Col
 			count = tree.count
 		}
 	}
+    
+    public subscript(position: Int) -> Key {
+        return self[position].key
+    }
 	
 	/**
      Allows Array like access of the index. Items are kept in order, 
