@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 - 2017, Daniel Dahan and CosmicMind, Inc. <http://cosmicmind.com>.
+ * Copyright (C) 2015 - 2018, Daniel Dahan and CosmicMind, Inc. <http://cosmicmind.com>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -75,7 +75,7 @@ extension Array where Element: Equatable {
      - Returns: An Int.
      */
     public func count(of elements: [Element]) -> Int {
-        
+
 		var c = 0
         for e in elements {
             for x in self where e == x {
@@ -119,7 +119,7 @@ extension Array where Element: Equatable {
                 c += 1
             }
         }
-        
+
 		return Double(c) / Double(count)
 	}
 
