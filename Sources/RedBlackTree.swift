@@ -140,7 +140,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Bidire
     
     /// Retrieves an Array of the values that are sorted based.
     public var values: [Value] {
-        return flatMap { $0.value }
+      return compactMap { $0.value }
     }
 	
 	/**
