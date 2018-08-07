@@ -86,7 +86,7 @@ internal class RedBlackNode<Key: Comparable, Value>: Comparable, Equatable, Cust
 		- returns:	String
 	*/
 	internal var description: String {
-		return "(\(key), \(String(describing: value)))"
+    return "(\(String(describing: key)), \(String(describing: value)))"
 	}
 
 	/**
