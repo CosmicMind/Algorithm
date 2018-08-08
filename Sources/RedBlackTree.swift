@@ -515,7 +515,7 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Bidire
 
 		var x: RedBlackNode<Key, Value>!
 		var y = z
-		var isRed: Bool = y.isRed
+		var isRed = y.isRed
 
 		if z.left === sentinel {
 			x = z.right
