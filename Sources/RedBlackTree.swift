@@ -349,6 +349,24 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Bidire
 	}
 
     /**
+     :name:    findLowerValue
+     :description:     Finds instance with key that is lower or equal input key
+     - returns:    Value?
+     */
+    public func findLowerValue(for key: Key) -> Value? {
+        return internalFindLowerForKey(key).value
+    }
+    
+    /**
+     :name:    findCeilingValue
+     :description:     Finds instance with key that is larger or equal input key
+     - returns:    Value?
+     */
+    public func findCeilingValue(for key: Key) -> Value? {
+        return internalFindCeilingForKey(key).value
+    }
+    
+    /**
      Returns the Key value at a given position.
      - Parameter position: An Int.
      - Returns: A Key.
@@ -395,6 +413,48 @@ public struct RedBlackTree<Key: Comparable, Value>: Probable, Collection, Bidire
 		}
 	}
 	
+    /**
+     :name:    internalFindLowerForKey
+     :description:    Finds a node with a key that is equal or less that given.
+     - returns:    RedBlackNode<Key, Value>
+     */
+    private func internalFindLowerForKey(_ key: Key) -> RedBlackNode<Key, Value> {
+        var z = root
+        var max = sentinel
+        
+        while z !== sentinel {
+            if key > z.key {
+                max = z
+            }
+            if key == z.key {
+                return z
+            }
+            z = key < z.key as Key ? z.left : z.right
+        }
+        return max
+    }
+    
+    /**
+     :name:    internalFindCeilingForKey
+     :description:    Finds a node with a key that is equal or larger that given.
+     - returns:    RedBlackNode<Key, Value>
+     */
+    private func internalFindCeilingForKey(_ key: Key) -> RedBlackNode<Key, Value> {
+        var z = root
+        var min = sentinel
+        
+        while z !== sentinel {
+            if key < z.key {
+                min = z
+            }
+            if key == z.key {
+                return z
+            }
+            z = key < z.key as Key ? z.left : z.right
+        }
+        return min
+    }
+    
 	/**
 		:name:	indexOf
 		:description:	Returns the Index of a given member, or nil if the member is not present in the set.

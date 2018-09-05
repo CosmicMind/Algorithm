@@ -309,6 +309,24 @@ public struct SortedDictionary<Key: Comparable & Hashable, Value>: Probable, Col
         return tree.findValue(for: key)
 	}
 	
+    /**
+     Finds the value for a key which is less or equal given.
+     - Parameter for key: A Key type.
+     - Returns: An optional Value type.
+     */
+    public func findLowerEntry(for key: Key) -> Value? {
+        return tree.findLowerValue(for: key)
+    }
+    
+    /**
+     Finds the value for a key which is larger or equal given.
+     - Parameter for key: A Key type.
+     - Returns: An optional Value type.
+     */
+    public func findCeilingEntry(for key: Key) -> Value? {
+        return tree.findCeilingValue(for: key)
+    }
+    
 	/**
      Searches for given keys in the SortedDictionary.
      - Parameter for keys: A list of Key types.
