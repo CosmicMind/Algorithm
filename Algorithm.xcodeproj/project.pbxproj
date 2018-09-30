@@ -91,6 +91,11 @@
 		65744D441C554F410011C977 /* Stack.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CEB1C554EDA0011C977 /* Stack.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		961E6C3D1DDF9E64004E6C93 /* SampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961E6C3C1DDF9E64004E6C93 /* SampleTests.swift */; };
 		961E6C3E1DDF9E64004E6C93 /* SampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961E6C3C1DDF9E64004E6C93 /* SampleTests.swift */; };
+		EF0A5623215DE24C00A288CD /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0A5622215DE24C00A288CD /* Vector.swift */; };
+		EF0A5625215F34DE00A288CD /* Algorithm+Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0A5624215F34DE00A288CD /* Algorithm+Protocol.swift */; };
+		EF741886214D7EB1005A3068 /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF741885214D7EB1005A3068 /* Matrix.swift */; };
+		EF741896214ED48E005A3068 /* MatrixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF741894214ED476005A3068 /* MatrixTests.swift */; };
+		EF741897214ED48E005A3068 /* MatrixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF741894214ED476005A3068 /* MatrixTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,6 +149,10 @@
 		65744D121C554F0E0011C977 /* SortedSetTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedSetTest.swift; sourceTree = "<group>"; };
 		65744D131C554F0E0011C977 /* StackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackTests.swift; sourceTree = "<group>"; };
 		961E6C3C1DDF9E64004E6C93 /* SampleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleTests.swift; sourceTree = "<group>"; };
+		EF0A5622215DE24C00A288CD /* Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
+		EF0A5624215F34DE00A288CD /* Algorithm+Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Algorithm+Protocol.swift"; sourceTree = "<group>"; };
+		EF741885214D7EB1005A3068 /* Matrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
+		EF741894214ED476005A3068 /* MatrixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +216,7 @@
 				65744CB91C554DDC0011C977 /* Info.plist */,
 				65744CB81C554DDC0011C977 /* Algorithm.h */,
 				65744CDD1C554EDA0011C977 /* Algorithm+Array.swift */,
+				EF0A5624215F34DE00A288CD /* Algorithm+Protocol.swift */,
 				65744CDE1C554EDA0011C977 /* Algorithm+Set.swift */,
 				65744CDF1C554EDA0011C977 /* Deque.swift */,
 				65744CE01C554EDA0011C977 /* DoublyLinkedList.swift */,
@@ -220,6 +230,8 @@
 				65744CE91C554EDA0011C977 /* SortedMultiSet.swift */,
 				65744CEA1C554EDA0011C977 /* SortedSet.swift */,
 				65744CEB1C554EDA0011C977 /* Stack.swift */,
+				EF741885214D7EB1005A3068 /* Matrix.swift */,
+				EF0A5622215DE24C00A288CD /* Vector.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -239,6 +251,7 @@
 				65744D121C554F0E0011C977 /* SortedSetTest.swift */,
 				65744D131C554F0E0011C977 /* StackTests.swift */,
 				961E6C3C1DDF9E64004E6C93 /* SampleTests.swift */,
+				EF741894214ED476005A3068 /* MatrixTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -459,7 +472,10 @@
 				65744D001C554EDA0011C977 /* SortedDictionary.swift in Sources */,
 				65744CF41C554EDA0011C977 /* DoublyLinkedListNode.swift in Sources */,
 				65744CFE1C554EDA0011C977 /* RedBlackTree.swift in Sources */,
+				EF0A5623215DE24C00A288CD /* Vector.swift in Sources */,
+				EF0A5625215F34DE00A288CD /* Algorithm+Protocol.swift in Sources */,
 				65744CF01C554EDA0011C977 /* Deque.swift in Sources */,
+				EF741886214D7EB1005A3068 /* Matrix.swift in Sources */,
 				65744CF81C554EDA0011C977 /* Probable.swift in Sources */,
 				65744CF21C554EDA0011C977 /* DoublyLinkedList.swift in Sources */,
 				65744D041C554EDA0011C977 /* SortedMultiSet.swift in Sources */,
@@ -470,6 +486,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF741897214ED48E005A3068 /* MatrixTests.swift in Sources */,
 				65744D261C554F0E0011C977 /* StackTests.swift in Sources */,
 				65744D241C554F0E0011C977 /* SortedSetTest.swift in Sources */,
 				65744D1E1C554F0E0011C977 /* SortedDictionaryTests.swift in Sources */,
@@ -509,6 +526,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF741896214ED48E005A3068 /* MatrixTests.swift in Sources */,
 				65744D271C554F0E0011C977 /* StackTests.swift in Sources */,
 				65744D251C554F0E0011C977 /* SortedSetTest.swift in Sources */,
 				65744D1F1C554F0E0011C977 /* SortedDictionaryTests.swift in Sources */,
