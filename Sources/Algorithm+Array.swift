@@ -143,3 +143,20 @@ extension Array where Element: Equatable {
         return Double(trials) * probability(of: elements)
 	}
 }
+
+
+extension Array where Element: Arithmetic {
+    
+    /**
+     Calculates dot product of `self` and another `[Numeric]`
+     - b: another array
+     - Returns: A `Arithmetic` value.
+     */
+    public func dot_product(_ b: [Element]) -> Element {
+        let a = self
+        assert(a.count == b.count, MatrixError.unequal.localizedDescription)
+        let c = a.indices.map { a[$0] * b[$0] }
+        return c.reduce(0, { $0 + $1 })
+    }
+}
+

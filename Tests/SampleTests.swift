@@ -180,7 +180,7 @@ class SampleTests: XCTestCase {
         let sarah = Student(name: "Sarah")
         let peter = Student(name: "Peter")
         let alex = Student(name: "Alex")
-        
+
         var students = SortedMultiDictionary<String, Student>()
         
         students.insert(value: sarah, for: sarah.name)
