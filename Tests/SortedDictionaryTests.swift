@@ -121,4 +121,42 @@ class SortedDictionaryTests: XCTestCase {
 		let values = [1, 2, 3, 4]
 		XCTAssert(values == s.values, "Test failed.")
 	}
+    
+    func testLowerEntry() {
+        let s = SortedDictionary<Int, Int>(elements: (1, 1), (2, 2), (3, 3), (5, 5), (8, 8), (13, 13), (21, 21), (34, 34))
+        
+        XCTAssert(s.findLowerEntry(for: -15) == nil, "Test failed.")
+        XCTAssert(s.findLowerEntry(for: 0) == nil, "Test failed.")
+        XCTAssert(s.findLowerEntry(for: 1) == 1, "Test failed.")
+        XCTAssert(s.findLowerEntry(for: 2) == 2, "Test failed.")
+        XCTAssert(s.findLowerEntry(for: 3) == 3, "Test failed.")
+        XCTAssert(s.findLowerEntry(for: 4) == 3, "Test failed.")
+        XCTAssert(s.findLowerEntry(for: 5) == 5, "Test failed.")
+        XCTAssert(s.findLowerEntry(for: 6) == 5, "Test failed.")
+        XCTAssert(s.findLowerEntry(for: 7) == 5, "Test failed.")
+        XCTAssert(s.findLowerEntry(for: 8) == 8, "Test failed.")
+        XCTAssert(s.findLowerEntry(for: 9) == 8, "Test failed.")
+        XCTAssert(s.findLowerEntry(for: 10) == 8, "Test failed.")
+        XCTAssert(s.findLowerEntry(for: 40) == 34, "Test failed.")
+        XCTAssert(s.findLowerEntry(for: 50) == 34, "Test failed.")
+    }
+    
+    func testCeilingEntry() {
+        let s = SortedDictionary<Int, Int>(elements: (1, 1), (2, 2), (3, 3), (5, 5), (8, 8), (13, 13), (21, 21), (34, 34))
+        
+        XCTAssert(s.findCeilingEntry(for: -15) == 1, "Test failed.")
+        XCTAssert(s.findCeilingEntry(for: 0) == 1, "Test failed.")
+        XCTAssert(s.findCeilingEntry(for: 1) == 1, "Test failed.")
+        XCTAssert(s.findCeilingEntry(for: 2) == 2, "Test failed.")
+        XCTAssert(s.findCeilingEntry(for: 3) == 3, "Test failed.")
+        XCTAssert(s.findCeilingEntry(for: 4) == 5, "Test failed.")
+        XCTAssert(s.findCeilingEntry(for: 5) == 5, "Test failed.")
+        XCTAssert(s.findCeilingEntry(for: 6) == 8, "Test failed.")
+        XCTAssert(s.findCeilingEntry(for: 7) == 8, "Test failed.")
+        XCTAssert(s.findCeilingEntry(for: 8) == 8, "Test failed.")
+        XCTAssert(s.findCeilingEntry(for: 9) == 13, "Test failed.")
+        XCTAssert(s.findCeilingEntry(for: 10) == 13, "Test failed.")
+        XCTAssert(s.findCeilingEntry(for: 40) == nil, "Test failed.")
+        XCTAssert(s.findCeilingEntry(for: 50) == nil, "Test failed.")
+    }
 }
