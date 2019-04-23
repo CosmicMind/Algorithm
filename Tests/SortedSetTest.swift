@@ -90,7 +90,7 @@ class SortedSetTests: XCTestCase {
 	func testIntersect() {
 		let s1 = SortedSet<Int>(elements: 22, 23, 1, 2, 3, 4, 5)
 		let s2 = SortedSet<Int>(elements: 22, 23, 5, 6, 7, 8, 9, 10)
-
+		
 		XCTAssert(SortedSet<Int>(elements: 22, 23, 5) == s1.intersection(s2), "Test failed. \(s1.intersection(s2))")
 		
 		XCTAssert(SortedSet<Int>() == s1.intersection(SortedSet<Int>()), "Test failed. \(s1)")
@@ -264,7 +264,7 @@ class SortedSetTests: XCTestCase {
 		
 		// Subset.
 		print(setD < setC) // true
-        print(setD.isSubset(of: setC)) // true
+		print(setD.isSubset(of: setC)) // true
 		
 		// Superset.
 		print(setD > setC) // false
@@ -274,7 +274,7 @@ class SortedSetTests: XCTestCase {
 		print(setE.contains(setA.first!)) // true
 		
 		// Probability.
-        print(setE.probability(of: setA.first!, setA.last!)) // 0.333333333333333
+		print(setE.probability(of: setA.first!, setA.last!)) // 0.333333333333333
 	}
 	
 	func testPerformance() {

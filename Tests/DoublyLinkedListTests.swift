@@ -59,19 +59,19 @@ class DoublyLinkedListTests: XCTestCase {
 		
 		l.cursorToFront()
 		while !l.isCursorAtBack {
-            l.next()
-        }
-
+			l.next()
+		}
+		
 		l.cursorToBack()
 		while !l.isCursorAtFront {
-            l.previous()
-        }
-
+			l.previous()
+		}
+		
 		XCTAssert(6 == l.count, "Count incorrect, got \(l.count).")
 		
 		XCTAssert(3 == l.front, "Front incorrect, got \(String(describing: l.front))")
 		XCTAssert(7 == l.back, "Back incorrect, got \(String(describing: l.back))")
-
+		
 		l.cursorToFront()
 		XCTAssert(3 == l.front && l.front == l.cursor, "Current incorrect, got \(String(describing: l.cursor))")
 		XCTAssert(2 == l.next(), "Test failed, got \(String(describing: l.cursor))")
@@ -79,7 +79,7 @@ class DoublyLinkedListTests: XCTestCase {
 		XCTAssert(5 == l.next(), "Test failed, got \(String(describing: l.cursor))")
 		XCTAssert(6 == l.next(), "Test failed, got \(String(describing: l.cursor))")
 		XCTAssert(7 == l.next(), "Test failed, got \(String(describing: l.cursor))")
-
+		
 		l.cursorToBack()
 		XCTAssert(7 == l.back && l.back == l.cursor, "Current incorrect, got \(String(describing: l.cursor))")
 		XCTAssert(6 == l.previous(), "Test failed, got \(String(describing: l.cursor))")
@@ -87,7 +87,7 @@ class DoublyLinkedListTests: XCTestCase {
 		XCTAssert(1 == l.previous(), "Test failed, got \(String(describing: l.cursor))")
 		XCTAssert(2 == l.previous(), "Test failed, got \(String(describing: l.cursor))")
 		XCTAssert(3 == l.previous(), "Test failed, got \(String(describing: l.cursor))")
-
+		
 		l.cursorToFront()
 		XCTAssert(3 == l.removeAtFront() && 5 == l.count, "Test failed.")
 		XCTAssert(2 == l.removeAtFront() && 4 == l.count, "Test failed.")
@@ -101,7 +101,7 @@ class DoublyLinkedListTests: XCTestCase {
 		l.removeAll()
 		l.cursorToFront()
 		XCTAssert(nil == l.cursor && 0 == l.count, "Test failed, got \(String(describing: l.cursor))")
-        l.insert(beforeCursor: 1)
+		l.insert(beforeCursor: 1)
 		XCTAssert(1 == l.cursor && 1 == l.count, "Test failed, got \(String(describing: l.cursor))")
 		
 		l.removeAll()
@@ -116,15 +116,15 @@ class DoublyLinkedListTests: XCTestCase {
 		l.insert(afterCursor: 2)
 		l.insert(afterCursor: 6)
 		l.next()
-        XCTAssert(6 == l.cursor && 3 == l.count, "Test failed, got \(String(describing: l.cursor))")
+		XCTAssert(6 == l.cursor && 3 == l.count, "Test failed, got \(String(describing: l.cursor))")
 		l.insert(beforeCursor: 3)
 		l.insert(beforeCursor: 5)
 		l.previous()
-        XCTAssert(5 == l.cursor && 5 == l.count, "Test failed, got \(String(describing: l.cursor))")
+		XCTAssert(5 == l.cursor && 5 == l.count, "Test failed, got \(String(describing: l.cursor))")
 		l.insert(atBack: 4)
 		l.previous()
 		l.removeAtCursor()
-        XCTAssert(5 == l.cursor && 5 == l.count, "Test failed, got \(String(describing: l.cursor))")
+		XCTAssert(5 == l.cursor && 5 == l.count, "Test failed, got \(String(describing: l.cursor))")
 		l.removeAtCursor()
 		XCTAssert(6 == l.cursor && 4 == l.count, "Test failed, got \(String(describing: l.cursor))")
 		l.removeAtCursor()

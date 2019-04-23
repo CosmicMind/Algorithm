@@ -67,7 +67,7 @@ class SortedMultiDictionaryTests: XCTestCase {
 		
 		s.insert((2, 10))
 		XCTAssert(1 == s.count, "Test failed.")
-        XCTAssert(10 == s.findValue(for: 2), "Test failed.")
+		XCTAssert(10 == s.findValue(for: 2), "Test failed.")
 		XCTAssert(10 == s[0].value!, "Test failed.")
 		
 		s.removeValue(for: 2)
@@ -77,9 +77,9 @@ class SortedMultiDictionaryTests: XCTestCase {
 		s.insert((2, 2))
 		s.insert((3, 3))
 		s.insert((3, 3))
-        s.update(value: 5, for: 3)
+		s.update(value: 5, for: 3)
 		
-        let subs = s.search(for: 3)
+		let subs = s.search(for: 3)
 		XCTAssert(2 == subs.count, "Test failed.")
 		
 		let generator = subs.makeIterator()
@@ -98,13 +98,13 @@ class SortedMultiDictionaryTests: XCTestCase {
 	
 	func testIndexOf() {
 		var d1 = SortedMultiDictionary<Int, Int>()
-        d1.insert(value: 1, for: 1)
-        d1.insert(value: 2, for: 2)
-        d1.insert(value: 3, for: 3)
-        d1.insert(value: 4, for: 4)
-        d1.insert(value: 5, for: 5)
-        d1.insert(value: 5, for: 5)
-        d1.insert(value: 6, for: 6)
+		d1.insert(value: 1, for: 1)
+		d1.insert(value: 2, for: 2)
+		d1.insert(value: 3, for: 3)
+		d1.insert(value: 4, for: 4)
+		d1.insert(value: 5, for: 5)
+		d1.insert(value: 5, for: 5)
+		d1.insert(value: 6, for: 6)
 		
 		XCTAssert(0 == d1.index(of: 1), "Test failed.")
 		XCTAssert(6 == d1.index(of: 6), "Test failed.")

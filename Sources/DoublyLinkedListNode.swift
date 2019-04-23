@@ -30,38 +30,38 @@
 
 internal class DoublyLinkedListNode<Element>: CustomStringConvertible {
 	/**
-		:name:	next
-		:description:	Points to the successor element in the DoublyLinkedList.
-		- returns:	DoublyLinkedListNode<Element>?
+	:name:	next
+	:description:	Points to the successor element in the DoublyLinkedList.
+	- returns:	DoublyLinkedListNode<Element>?
 	*/
 	internal var next: DoublyLinkedListNode<Element>?
-
+	
 	/**
-		:name:	previous
-		:description:	points to the predacessor element in the DoublyLinkedList.
-		- returns:	DoublyLinkedListNode<Element>?
+	:name:	previous
+	:description:	points to the predacessor element in the DoublyLinkedList.
+	- returns:	DoublyLinkedListNode<Element>?
 	*/
 	internal var previous: DoublyLinkedListNode<Element>?
-
+	
 	/**
-		:name:	data
-		:description:	Satellite data.
-		- returns:	Element?
+	:name:	data
+	:description:	Satellite data.
+	- returns:	Element?
 	*/
 	internal var element: Element?
-
+	
 	/**
-		:name:	description
-		:description:	Conforms to the Printable Protocol.
-		- returns:	String
+	:name:	description
+	:description:	Conforms to the Printable Protocol.
+	- returns:	String
 	*/
 	internal var description: String {
 		return "\(String(describing: element))"
 	}
-
+	
 	/**
-		:name:	init
-		:description:	Constructor.
+	:name:	init
+	:description:	Constructor.
 	*/
 	internal init(next: DoublyLinkedListNode<Element>?, previous: DoublyLinkedListNode<Element>?, element: Element?) {
 		self.next = next

@@ -29,17 +29,17 @@
 */
 
 public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, CustomStringConvertible where T: Hashable {
-    public typealias Element = T
-    
-    /// Returns the position immediately after the given index.
-    ///
-    /// - Parameter i: A valid index of the collection. `i` must be less than
-    ///   `endIndex`.
-    /// - Returns: The index value immediately after `i`.
-    public func index(after i: Int) -> Int {
-        return i < endIndex ? i + 1 : 0
-    }
-
+	public typealias Element = T
+	
+	/// Returns the position immediately after the given index.
+	///
+	/// - Parameter i: A valid index of the collection. `i` must be less than
+	///   `endIndex`.
+	/// - Returns: The index value immediately after `i`.
+	public func index(after i: Int) -> Int {
+		return i < endIndex ? i + 1 : 0
+	}
+	
 	public typealias Iterator = AnyIterator<Element>
 	
 	/**
@@ -48,14 +48,14 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 	public internal(set) var count = 0
 	
 	/**
-		:name:	tree
-		:description:	Internal storage of elements.
-		- returns:	RedBlackTree<Element, Element>
+	:name:	tree
+	:description:	Internal storage of elements.
+	- returns:	RedBlackTree<Element, Element>
 	*/
 	internal var tree: RedBlackTree<Element, Element>
-
+	
 	/**
-		:name:	asArray
+	:name:	asArray
 	*/
 	public var asArray: [Element] {
 		var a = [Element]()
@@ -66,89 +66,89 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 	}
 	
 	/**
-		:name:	description
-		:description:	Conforms to the Printable Protocol. Outputs the
-		data in the SortedMultiSet in a readable format.
-		- returns:	String
+	:name:	description
+	:description:	Conforms to the Printable Protocol. Outputs the
+	data in the SortedMultiSet in a readable format.
+	- returns:	String
 	*/
 	public var description: String {
-    return "[" + map { "\($0)" }.joined(separator: ", ") + "]"
+		return "[" + map { "\($0)" }.joined(separator: ", ") + "]"
 	}
-
+	
 	/**
-		:name:	first
-		:description:	Get the first node value in the tree, this is
-		the first node based on the order of keys where
-		k1 <= k2 <= K3 ... <= Kn
-		- returns:	Element?
+	:name:	first
+	:description:	Get the first node value in the tree, this is
+	the first node based on the order of keys where
+	k1 <= k2 <= K3 ... <= Kn
+	- returns:	Element?
 	*/
 	public var first: Element? {
 		return tree.first?.value
 	}
-
+	
 	/**
-		:name:	last
-		:description:	Get the last node value in the tree, this is
-		the last node based on the order of keys where
-		k1 <= k2 <= K3 ... <= Kn
-		- returns:	Element?
+	:name:	last
+	:description:	Get the last node value in the tree, this is
+	the last node based on the order of keys where
+	k1 <= k2 <= K3 ... <= Kn
+	- returns:	Element?
 	*/
 	public var last: Element? {
 		return tree.last?.value
 	}
-
+	
 	/**
-		:name:	isEmpty
-		:description:	A boolean of whether the RedBlackTree is empty.
-		- returns:	Bool
+	:name:	isEmpty
+	:description:	A boolean of whether the RedBlackTree is empty.
+	- returns:	Bool
 	*/
 	public var isEmpty: Bool {
 		return 0 == count
 	}
-
+	
 	/**
-		:name:	startIndex
-		:description:	Conforms to the Collection Protocol.
-		- returns:	Int
+	:name:	startIndex
+	:description:	Conforms to the Collection Protocol.
+	- returns:	Int
 	*/
 	public var startIndex: Int {
 		return 0
 	}
-
+	
 	/**
-		:name:	endIndex
-		:description:	Conforms to the Collection Protocol.
-		- returns:	Int
+	:name:	endIndex
+	:description:	Conforms to the Collection Protocol.
+	- returns:	Int
 	*/
 	public var endIndex: Int {
 		return count
 	}
-
+	
 	/**
-		:name:	init
-		:description:	Constructor
+	:name:	init
+	:description:	Constructor
 	*/
 	public init() {
 		tree = RedBlackTree<Element, Element>(uniqueKeys: false)
 	}
-
+	
 	/**
-		:name:	init
-		:description:	Constructor
+	:name:	init
+	:description:	Constructor
 	*/
 	public init(elements: Element...) {
 		self.init(elements: elements)
 	}
-
+	
 	/**
-		:name:	init
-		:description:	Constructor
+	:name:	init
+	:description:	Constructor
 	*/
 	public init(elements: [Element]) {
 		self.init()
 		insert(elements)
 	}
-
+	
 	//
 	//	:name:	generate
 	//	:description:	Conforms to the SequenceType Protocol. Returns
@@ -157,105 +157,105 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 	//	:returns:	SortedMultiSet.Generator
 	//	
 	public func makeIterator() -> SortedMultiSet.Iterator {
-        var i = indices.makeIterator()
-        return AnyIterator { i.next().map { self[$0] } }
+		var i = indices.makeIterator()
+		return AnyIterator { i.next().map { self[$0] } }
 	}
-
-    /**
-     Conforms to Probable protocol.
-     */
-    public func count(of elements: T...) -> Int {
-        return count(of: elements)
-    }
-    
-    /**
-     Conforms to Probable protocol.
-     */
-    public func count(of elements: [T]) -> Int {
-        return tree.count(of: elements)
-    }
-    
-    /**
-     The probability of elements.
-     */
-    public func probability(of elements: T...) -> Double {
-        return probability(of: elements)
-    }
-    
-    /**
-     The probability of elements.
-     */
-    public func probability(of elements: [T]) -> Double {
-        return tree.probability(of: elements)
-    }
-    
-    /**
-     The probability of elements.
-     */
-    public func probability(execute block: (Element) -> Bool) -> Double {
-        return tree.probability { (k, _) -> Bool in
-            return block(k)
-        }
-    }
-    
-    /**
-     The expected value of elements.
-     */
-    public func expectedValue(trials: Int, for elements: T...) -> Double {
-        return expectedValue(trials: trials, for: elements)
-    }
-    
-    /**
-     The expected value of elements.
-     */
-    public func expectedValue(trials: Int, for elements: [T]) -> Double {
-        return tree.expectedValue(trials: trials, for: elements)
-    }
-    
-    /**
-     :name:	operator [0...count - 1]
-     :description:	Allows array like access of the index.
-     Items are kept in order, so when iterating
-     through the items, they are returned in their
-     ordered form.
-     - returns:	Element
-     */
-    public subscript(index: Int) -> Element {
-        return tree[index].key
-    }
-
-
-    /**
-     :name:	indexOf
-     :description:	Returns the Index of a given member, or -1 if the member is not present in the set.
-     - returns:	Int
-     */
-    public func index(of element: Element) -> Int {
-        return tree.index(of: element)
-    }
-    
-    /**
-     :name:	contains
-     :description:	A boolean check if values exists
-     in the set.
-     - returns:	Bool
-     */
-    public func contains(_ elements: Element...) -> Bool {
-        return contains(elements)
-    }
 	
 	/**
-		:name:	contains
-		:description:	A boolean check if an array of values exist
-		in the set.
-		- returns:	Bool
+	Conforms to Probable protocol.
+	*/
+	public func count(of elements: T...) -> Int {
+		return count(of: elements)
+	}
+	
+	/**
+	Conforms to Probable protocol.
+	*/
+	public func count(of elements: [T]) -> Int {
+		return tree.count(of: elements)
+	}
+	
+	/**
+	The probability of elements.
+	*/
+	public func probability(of elements: T...) -> Double {
+		return probability(of: elements)
+	}
+	
+	/**
+	The probability of elements.
+	*/
+	public func probability(of elements: [T]) -> Double {
+		return tree.probability(of: elements)
+	}
+	
+	/**
+	The probability of elements.
+	*/
+	public func probability(execute block: (Element) -> Bool) -> Double {
+		return tree.probability { (k, _) -> Bool in
+			return block(k)
+		}
+	}
+	
+	/**
+	The expected value of elements.
+	*/
+	public func expectedValue(trials: Int, for elements: T...) -> Double {
+		return expectedValue(trials: trials, for: elements)
+	}
+	
+	/**
+	The expected value of elements.
+	*/
+	public func expectedValue(trials: Int, for elements: [T]) -> Double {
+		return tree.expectedValue(trials: trials, for: elements)
+	}
+	
+	/**
+	:name:	operator [0...count - 1]
+	:description:	Allows array like access of the index.
+	Items are kept in order, so when iterating
+	through the items, they are returned in their
+	ordered form.
+	- returns:	Element
+	*/
+	public subscript(index: Int) -> Element {
+		return tree[index].key
+	}
+	
+	
+	/**
+	:name:	indexOf
+	:description:	Returns the Index of a given member, or -1 if the member is not present in the set.
+	- returns:	Int
+	*/
+	public func index(of element: Element) -> Int {
+		return tree.index(of: element)
+	}
+	
+	/**
+	:name:	contains
+	:description:	A boolean check if values exists
+	in the set.
+	- returns:	Bool
+	*/
+	public func contains(_ elements: Element...) -> Bool {
+		return contains(elements)
+	}
+	
+	/**
+	:name:	contains
+	:description:	A boolean check if an array of values exist
+	in the set.
+	- returns:	Bool
 	*/
 	public func contains(_ elements: [Element]) -> Bool {
 		if 0 == elements.count {
 			return false
 		}
 		for x in elements {
-            if nil == tree.findValue(for: x) {
+			if nil == tree.findValue(for: x) {
 				return false
 			}
 		}
@@ -263,54 +263,54 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 	}
 	
 	/**
-		:name:	insert
-		:description:	Inserts new elements into the SortedMultiSet.
+	:name:	insert
+	:description:	Inserts new elements into the SortedMultiSet.
 	*/
 	mutating public func insert(_ elements: Element...) {
 		insert(elements)
 	}
-
-    /**
-     :name:	insert
-     :description:	Inserts new elements into the SortedSet.
-     */
-    mutating public func insert(_ elements: [Element]) {
-        for x in elements {
-            tree.insert(value: x, for: x)
-        }
-        count = tree.count
-    }
-
-    /**
-     :name:	remove
-     :description:	Removes elements from the SortedSet.
-     */
-    mutating public func remove(_ elements: Element...) {
-        remove(elements)
-    }
-    
-    /**
-     :name:	remove
-     :description:	Removes elements from the SortedSet.
-     */
-    mutating public func remove(_ elements: [Element]) {
-        tree.removeValue(for: elements)
-        count = tree.count
-    }
-    
-    /**
-     :name:	removeAll
-     :description:	Remove all nodes from the tree.
-     */
-    mutating public func removeAll() {
-        tree.removeAll()
-        count = tree.count
-    }
-
+	
 	/**
-		:name:	intersect
-		:description:	Return a new set with elements common to this set and a finite sequence of Sets.
-		- returns:	SortedMultiSet<Element>
+	:name:	insert
+	:description:	Inserts new elements into the SortedSet.
+	*/
+	mutating public func insert(_ elements: [Element]) {
+		for x in elements {
+			tree.insert(value: x, for: x)
+		}
+		count = tree.count
+	}
+	
+	/**
+	:name:	remove
+	:description:	Removes elements from the SortedSet.
+	*/
+	mutating public func remove(_ elements: Element...) {
+		remove(elements)
+	}
+	
+	/**
+	:name:	remove
+	:description:	Removes elements from the SortedSet.
+	*/
+	mutating public func remove(_ elements: [Element]) {
+		tree.removeValue(for: elements)
+		count = tree.count
+	}
+	
+	/**
+	:name:	removeAll
+	:description:	Remove all nodes from the tree.
+	*/
+	mutating public func removeAll() {
+		tree.removeAll()
+		count = tree.count
+	}
+	
+	/**
+	:name:	intersect
+	:description:	Return a new set with elements common to this set and a finite sequence of Sets.
+	- returns:	SortedMultiSet<Element>
 	*/
 	public func intersection(_ other: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
 		var s = SortedMultiSet<Element>()
@@ -335,8 +335,8 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 	}
 	
 	/**
-		:name:	formIntersection
-		:description:	Insert elements of a finite sequence of Sets.
+	:name:	formIntersection
+	:description:	Insert elements of a finite sequence of Sets.
 	*/
 	mutating public func formIntersection(_ other: SortedMultiSet<Element>) {
 		let l = other.count
@@ -362,9 +362,9 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 	}
 	
 	/**
-		:name:	union
-		:description:	Return a new Set with items in both this set and a finite sequence of Sets.
-		- returns:	SortedMultiSet<Element>
+	:name:	union
+	:description:	Return a new Set with items in both this set and a finite sequence of Sets.
+	- returns:	SortedMultiSet<Element>
 	*/
 	public func union(_ other: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
 		var s = SortedMultiSet<Element>()
@@ -399,8 +399,8 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 	}
 	
 	/**
-		:name:	unionInPlace
-		:description:	Return a new Set with items in both this set and a finite sequence of Sets.
+	:name:	unionInPlace
+	:description:	Return a new Set with items in both this set and a finite sequence of Sets.
 	*/
 	mutating public func formUnion(_ other: SortedMultiSet<Element>) {
 		var i = 0
@@ -426,9 +426,9 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 	}
 	
 	/**
-		:name:	subtract
-		:description:	Return a new set with elements in this set that do not occur in a finite sequence of Sets.
-		- returns:	SortedMultiSet<Element>
+	:name:	subtract
+	:description:	Return a new set with elements in this set that do not occur in a finite sequence of Sets.
+	- returns:	SortedMultiSet<Element>
 	*/
 	public func subtracting(_ other: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
 		var s = SortedMultiSet<Element>()
@@ -457,8 +457,8 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 	}
 	
 	/**
-		:name:	subtract
-		:description:	Remove all elements in the set that occur in a finite sequence of Sets.
+	:name:	subtract
+	:description:	Remove all elements in the set that occur in a finite sequence of Sets.
 	*/
 	mutating public func subtract(_ other: SortedMultiSet<Element>) {
 		var i = 0
@@ -480,9 +480,9 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 	}
 	
 	/**
-		:name:	exclusiveOr
-		:description:	Return a new set with elements that are either in the set or a finite sequence but do not occur in both.
-		- returns:	SortedMultiSet<Element>
+	:name:	exclusiveOr
+	:description:	Return a new set with elements that are either in the set or a finite sequence but do not occur in both.
+	- returns:	SortedMultiSet<Element>
 	*/
 	public func symmetricDifference(_ other: SortedMultiSet<Element>) -> SortedMultiSet<Element> {
 		var s = SortedMultiSet<Element>()
@@ -500,8 +500,8 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 				s.insert(y)
 				j += 1
 			} else {
-                i += count(of: x)
-                j += other.count(of: y)
+				i += count(of: x)
+				j += other.count(of: y)
 			}
 		}
 		while k > i {
@@ -516,10 +516,10 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 	}
 	
 	/**
-		:name:	exclusiveOrInPlace
-		:description:	For each element of a finite sequence, remove it from the set if it is a
-		common element, otherwise add it to the set. Repeated elements of the sequence will be
-		ignored.
+	:name:	exclusiveOrInPlace
+	:description:	For each element of a finite sequence, remove it from the set if it is a
+	common element, otherwise add it to the set. Repeated elements of the sequence will be
+	ignored.
 	*/
 	mutating public func formSymmetricDifference(_ other: SortedMultiSet<Element>) {
 		var i = 0
@@ -545,9 +545,9 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 	}
 	
 	/**
-		:name:	isDisjointWith
-		:description:	Returns true if no elements in the set are in a finite sequence of Sets.
-		- returns:	Bool
+	:name:	isDisjointWith
+	:description:	Returns true if no elements in the set are in a finite sequence of Sets.
+	- returns:	Bool
 	*/
 	public func isDisjoint(with other: SortedMultiSet<Element>) -> Bool {
 		var i: Int = count - 1
@@ -567,9 +567,9 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 	}
 	
 	/**
-		:name:	isSubsetOf
-		:description:	Returns true if the set is a subset of a finite sequence as a Set.
-		- returns:	Bool
+	:name:	isSubsetOf
+	:description:	Returns true if the set is a subset of a finite sequence as a Set.
+	- returns:	Bool
 	*/
 	public func isSubset(of other: SortedMultiSet<Element>) -> Bool {
 		if count > other.count {
@@ -584,18 +584,18 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 	}
 	
 	/**
-		:name:	isStrictSubsetOf
-		:description:	Returns true if the set is a subset of a finite sequence as a Set but not equal.
-		- returns:	Bool
+	:name:	isStrictSubsetOf
+	:description:	Returns true if the set is a subset of a finite sequence as a Set but not equal.
+	- returns:	Bool
 	*/
 	public func isStrictSubset(of other: SortedMultiSet<Element>) -> Bool {
-        return count < other.count && isSubset(of: other)
+		return count < other.count && isSubset(of: other)
 	}
 	
 	/**
-		:name:	isSupersetOf
-		:description:	Returns true if the set is a superset of a finite sequence as a Set.
-		- returns:	Bool
+	:name:	isSupersetOf
+	:description:	Returns true if the set is a superset of a finite sequence as a Set.
+	- returns:	Bool
 	*/
 	public func isSuperset(of other: SortedMultiSet<Element>) -> Bool {
 		if count < other.count {
@@ -610,17 +610,17 @@ public struct SortedMultiSet<T: Comparable>: Probable, Collection, Equatable, Cu
 	}
 	
 	/**
-		:name:	isStrictSupersetOf
-		:description:	Returns true if the set is a superset of a finite sequence as a Set but not equal.
-		- returns:	Bool
+	:name:	isStrictSupersetOf
+	:description:	Returns true if the set is a superset of a finite sequence as a Set but not equal.
+	- returns:	Bool
 	*/
-    public func isStrictSuperset(of other: SortedMultiSet<Element>) -> Bool {
-        return count > other.count && isSuperset(of: other)
+	public func isStrictSuperset(of other: SortedMultiSet<Element>) -> Bool {
+		return count > other.count && isSuperset(of: other)
 	}
 }
 
 public func ==<Element>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
-    if lhs.count != rhs.count {
+	if lhs.count != rhs.count {
 		return false
 	}
 	for i in 0..<lhs.count {
@@ -652,17 +652,17 @@ public func -=<Element>(lhs: inout SortedMultiSet<Element>, rhs: SortedMultiSet<
 }
 
 public func <=<Element>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
-    return lhs.isSubset(of: rhs)
+	return lhs.isSubset(of: rhs)
 }
 
 public func >=<Element>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
-    return lhs.isSuperset(of: rhs)
+	return lhs.isSuperset(of: rhs)
 }
 
 public func ><Element>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
-    return lhs.isStrictSuperset(of: rhs)
+	return lhs.isStrictSuperset(of: rhs)
 }
 
 public func <<Element>(lhs: SortedMultiSet<Element>, rhs: SortedMultiSet<Element>) -> Bool {
-    return lhs.isStrictSubset(of: rhs)
+	return lhs.isStrictSubset(of: rhs)
 }

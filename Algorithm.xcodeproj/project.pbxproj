@@ -89,8 +89,6 @@
 		65744D421C554F410011C977 /* SortedMultiSet.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CE91C554EDA0011C977 /* SortedMultiSet.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		65744D431C554F410011C977 /* SortedSet.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CEA1C554EDA0011C977 /* SortedSet.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		65744D441C554F410011C977 /* Stack.swift in Headers */ = {isa = PBXBuildFile; fileRef = 65744CEB1C554EDA0011C977 /* Stack.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		961E6C3D1DDF9E64004E6C93 /* SampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961E6C3C1DDF9E64004E6C93 /* SampleTests.swift */; };
-		961E6C3E1DDF9E64004E6C93 /* SampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961E6C3C1DDF9E64004E6C93 /* SampleTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,7 +141,6 @@
 		65744D111C554F0E0011C977 /* SortedMultiSetTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedMultiSetTests.swift; sourceTree = "<group>"; };
 		65744D121C554F0E0011C977 /* SortedSetTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortedSetTest.swift; sourceTree = "<group>"; };
 		65744D131C554F0E0011C977 /* StackTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackTests.swift; sourceTree = "<group>"; };
-		961E6C3C1DDF9E64004E6C93 /* SampleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,7 +235,6 @@
 				65744D111C554F0E0011C977 /* SortedMultiSetTests.swift */,
 				65744D121C554F0E0011C977 /* SortedSetTest.swift */,
 				65744D131C554F0E0011C977 /* StackTests.swift */,
-				961E6C3C1DDF9E64004E6C93 /* SampleTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -396,6 +392,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 65744C921C554BA50011C977;
@@ -478,7 +475,6 @@
 				65744D161C554F0E0011C977 /* DoublyLinkedListTests.swift in Sources */,
 				65744D1A1C554F0E0011C977 /* QueueTests.swift in Sources */,
 				65744D1C1C554F0E0011C977 /* RedBlackTreeTests.swift in Sources */,
-				961E6C3D1DDF9E64004E6C93 /* SampleTests.swift in Sources */,
 				65744D201C554F0E0011C977 /* SortedMultiDictionaryTests.swift in Sources */,
 				65744D221C554F0E0011C977 /* SortedMultiSetTests.swift in Sources */,
 			);
@@ -517,7 +513,6 @@
 				65744D171C554F0E0011C977 /* DoublyLinkedListTests.swift in Sources */,
 				65744D1B1C554F0E0011C977 /* QueueTests.swift in Sources */,
 				65744D1D1C554F0E0011C977 /* RedBlackTreeTests.swift in Sources */,
-				961E6C3E1DDF9E64004E6C93 /* SampleTests.swift in Sources */,
 				65744D211C554F0E0011C977 /* SortedMultiDictionaryTests.swift in Sources */,
 				65744D231C554F0E0011C977 /* SortedMultiSetTests.swift in Sources */,
 			);

@@ -83,7 +83,7 @@ class SortedMultiSetTests: XCTestCase {
 	}
 	
 	func testRemove() {
-        var s1 = SortedMultiSet<Int>(elements: 1, 2, 3, 3, 4, 5, 5, 6, 7, 8, 9)
+		var s1 = SortedMultiSet<Int>(elements: 1, 2, 3, 3, 4, 5, 5, 6, 7, 8, 9)
 		s1.remove(1, 2, 3, 5)
 		XCTAssert(5 == s1.count, "Test failed.")
 	}
@@ -145,7 +145,7 @@ class SortedMultiSetTests: XCTestCase {
 	func testUnion() {
 		let s1 = SortedMultiSet<Int>(elements: 0, 0, 1, 2, 3, 4, 7, 7, 5)
 		let s2 = SortedMultiSet<Int>(elements: 5, -1, 6, 8, 7, 9, 9)
-
+		
 		XCTAssert(SortedMultiSet<Int>(elements: -1, 0, 0, 1, 2, 3, 4, 5, 6, 7, 7, 8, 9, 9) == s1.union(s2), "Test failed. \(s1.union(s2))")
 	}
 	
@@ -214,7 +214,7 @@ class SortedMultiSetTests: XCTestCase {
 	func testExclusiveOrInPlace() {
 		var s1 = SortedMultiSet<Int>(elements: 1, 2, 2, 3, 4, 5, 6, 7)
 		var s2 = SortedMultiSet<Int>(elements: 1, 2, 3, 4, 5)
-        let s3 = SortedMultiSet<Int>(elements: 5, 6, 7, 8)
+		let s3 = SortedMultiSet<Int>(elements: 5, 6, 7, 8)
 		
 		s1.formSymmetricDifference(s2)
 		XCTAssert(SortedMultiSet<Int>(elements: 6, 7) == s1, "Test failed.")

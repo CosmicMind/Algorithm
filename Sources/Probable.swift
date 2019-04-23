@@ -29,49 +29,49 @@
 */
 
 internal protocol Probable {
-    associatedtype ProbableElement: Equatable
-    
+	associatedtype ProbableElement: Equatable
+	
 	/**
-     The instance count of elements.
-     - Parameter of elements: A list of ProbableElements
-     - Returns:	An Int.
-     */
+	The instance count of elements.
+	- Parameter of elements: A list of ProbableElements
+	- Returns:	An Int.
+	*/
 	func count(of elements: ProbableElement...) -> Int
 	
-    /**
-     The instance count of elements.
-     - Parameter of elements: An Array of ProbableElements.
-     - Returns:	An Int.
-     */
-    func count(of elements: [ProbableElement]) -> Int
+	/**
+	The instance count of elements.
+	- Parameter of elements: An Array of ProbableElements.
+	- Returns:	An Int.
+	*/
+	func count(of elements: [ProbableElement]) -> Int
 	
 	/**
-     The probability of given elements.
-     - Parameter of elements: A list of ProbableElements.
-     - Returns:	A Double.
-     */
+	The probability of given elements.
+	- Parameter of elements: A list of ProbableElements.
+	- Returns:	A Double.
+	*/
 	func probability(of elements: ProbableElement...) -> Double
 	
-    /**
-     The probability of given elements.
-     - Parameter of elements: An Array of ProbableElements.
-     - Returns:	A Double.
-     */
-    func probability(of elements: [ProbableElement]) -> Double
+	/**
+	The probability of given elements.
+	- Parameter of elements: An Array of ProbableElements.
+	- Returns:	A Double.
+	*/
+	func probability(of elements: [ProbableElement]) -> Double
 	
 	/**
-     The expected value of given elements based on a number of trials.
-     - Parameter trials: An Int.
-     - Parameter for elements: A list of ProbableElements.
-     - Returns: A Double.
-     */
+	The expected value of given elements based on a number of trials.
+	- Parameter trials: An Int.
+	- Parameter for elements: A list of ProbableElements.
+	- Returns: A Double.
+	*/
 	func expectedValue(trials: Int, for elements: ProbableElement...) -> Double
 	
-    /**
-     The expected value of given elements based on a number of trials.
-     - Parameter trials: An Int.
-     - Parameter for elements: An Array of ProbableElements.
-     - Returns: A Double.
-     */
-    func expectedValue(trials: Int, for elements: [ProbableElement]) -> Double
+	/**
+	The expected value of given elements based on a number of trials.
+	- Parameter trials: An Int.
+	- Parameter for elements: An Array of ProbableElements.
+	- Returns: A Double.
+	*/
+	func expectedValue(trials: Int, for elements: [ProbableElement]) -> Double
 }

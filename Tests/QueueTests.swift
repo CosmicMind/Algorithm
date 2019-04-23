@@ -104,7 +104,7 @@ class QueueTests: XCTestCase {
 			XCTAssert(x == q4.dequeue(), "Concat incorrect.")
 		}
 	}
-
+	
 	func testPerformance() {
 		self.measure() {}
 	}

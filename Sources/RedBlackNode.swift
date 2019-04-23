@@ -30,77 +30,77 @@
 
 internal class RedBlackNode<Key: Comparable, Value>: Comparable, Equatable, CustomStringConvertible {
 	/**
-		:name:	parent
-		:description:	A reference to the parent node of a given node.
-		- returns:	RedBlackNode!
+	:name:	parent
+	:description:	A reference to the parent node of a given node.
+	- returns:	RedBlackNode!
 	*/
 	internal var parent: RedBlackNode!
-
+	
 	/**
-		:name:	left
-		:description:	A reference to the left child node of a given node.
-		- returns:	RedBlackNode!
+	:name:	left
+	:description:	A reference to the left child node of a given node.
+	- returns:	RedBlackNode!
 	*/
 	internal var left: RedBlackNode!
-
+	
 	/**
-		:name:	right
-		:description:	A reference to the right child node of a given node.
-		- returns:	RedBlackNode!
+	:name:	right
+	:description:	A reference to the right child node of a given node.
+	- returns:	RedBlackNode!
 	*/
 	internal var right: RedBlackNode!
-
+	
 	/**
-		:name:	isRed
-		:description:	A boolean indicating whether te node is marked isRed or black.
-		- returns:	Bool
+	:name:	isRed
+	:description:	A boolean indicating whether te node is marked isRed or black.
+	- returns:	Bool
 	*/
 	internal var isRed: Bool
-
+	
 	/**
-		:name:	order
-		:description:	Used to track the order statistic of a node, which maintains
-		key order in the tree.
-		- returns:	Int
+	:name:	order
+	:description:	Used to track the order statistic of a node, which maintains
+	key order in the tree.
+	- returns:	Int
 	*/
 	internal var order: Int
-
+	
 	/**
-		:name:	key
-		:description:	A reference to the key value of the node, which is what organizes
-		a node in a given tree.
-		- returns:	Key!
+	:name:	key
+	:description:	A reference to the key value of the node, which is what organizes
+	a node in a given tree.
+	- returns:	Key!
 	*/
 	internal var key: Key!
-
+	
 	/**
-		:name:	value
-		:description:	Satellite data stoisRed in the node.
-		- returns:	Value?
+	:name:	value
+	:description:	Satellite data stoisRed in the node.
+	- returns:	Value?
 	*/
 	internal var value: Value?
-
+	
 	/**
-		:name:	description
-		:description:	Conforms to the Printable Protocol.
-		- returns:	String
+	:name:	description
+	:description:	Conforms to the Printable Protocol.
+	- returns:	String
 	*/
 	internal var description: String {
-    return "(\(String(describing: key)), \(String(describing: value)))"
+		return "(\(String(describing: key)), \(String(describing: value)))"
 	}
-
+	
 	/**
-		:name:	init
-		:description:	Constructor used for sentinel nodes.
+	:name:	init
+	:description:	Constructor used for sentinel nodes.
 	*/
 	internal init() {
 		isRed = false
 		order = 0
 	}
-
+	
 	/**
-		:name:	init
-		:description:	Constructor used for nodes that store data.
+	:name:	init
+	:description:	Constructor used for nodes that store data.
 	*/
 	internal init(parent: RedBlackNode, sentinel: RedBlackNode, key: Key, value: Value?) {
 		self.key = key
@@ -111,14 +111,14 @@ internal class RedBlackNode<Key: Comparable, Value>: Comparable, Equatable, Cust
 		isRed = true
 		order = 1
 	}
-    
-    static func ==(lhs: RedBlackNode, rhs: RedBlackNode) -> Bool {
-        return lhs.key == rhs.key
-    }
-    
-    static func <(lhs: RedBlackNode, rhs: RedBlackNode) -> Bool {
-        return lhs.key < rhs.key
-    }
+	
+	static func ==(lhs: RedBlackNode, rhs: RedBlackNode) -> Bool {
+		return lhs.key == rhs.key
+	}
+	
+	static func <(lhs: RedBlackNode, rhs: RedBlackNode) -> Bool {
+		return lhs.key < rhs.key
+	}
 }
 
 
