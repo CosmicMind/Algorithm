@@ -185,6 +185,7 @@
 				65744C9D1C554BA50011C977 /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		65744C9D1C554BA50011C977 /* Products */ = {
 			isa = PBXGroup;
