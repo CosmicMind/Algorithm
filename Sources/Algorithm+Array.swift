@@ -32,7 +32,7 @@ extension Array where Element: Equatable {
    */
   @discardableResult
   mutating func remove(object: Element) -> Element? {
-    return index(of: object).map { self.remove(at: $0) }
+    return firstIndex(of: object).map { self.remove(at: $0) }
   }
   
   /**
