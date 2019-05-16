@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
     s.name = 'Algorithm'
-    s.version = '2.1.1'
-    s.swift_version = '4.0'
+    s.version = '3.0'
+    s.swift_version = '4.2'
     s.license = 'BSD-3-Clause'
     s.summary = 'A toolset for writing algorithms in Swift.'
     s.homepage = 'http://algorithmswift.io'

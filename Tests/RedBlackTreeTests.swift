@@ -1,4 +1,4 @@
-/*/*
+/*
  * The MIT License (MIT)
  *
  * Copyright (C) 2019, CosmicMind, Inc. <http://cosmicmind.com>.
