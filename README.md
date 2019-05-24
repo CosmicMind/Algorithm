@@ -39,10 +39,50 @@ Algorithm is a library of tools that is used to create intelligent applications.
 
 ## Installation
 
-> **Embedded frameworks require a minimum deployment target of iOS 8 or OS X Mavericks (10.9).**
+> **Embedded frameworks require a minimum deployment target of iOS 8.**
 > - [Download Algorithm](https://github.com/CosmicMind/Algorithm/archive/master.zip)
 
-Visit the [Installation](https://github.com/CosmicMind/Algorithm/wiki/Installation) page to learn how to install Algorithm using [CocoaPods](http://cocoapods.org) and [Carthage](https://github.com/Carthage/Carthage).
+## CocoaPods
+
+[CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
+
+```bash
+$ gem install cocoapods
+```
+
+To integrate Algorithm's core features into your Xcode project using CocoaPods, specify it in your `Podfile`:
+
+```ruby
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.0'
+use_frameworks!
+
+pod 'Algorithm', '~> 3.1.0'
+```
+
+Then, run the following command:
+
+```bash
+$ pod install
+```
+
+## Carthage
+
+Carthage is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
+
+You can install Carthage with Homebrew using the following command:
+
+```bash
+$ brew update
+$ brew install carthage
+```
+To integrate Algorithm into your Xcode project using Carthage, specify it in your Cartfile:
+
+```bash
+github "CosmicMind/Algorithm"
+```
+
+Run `carthage update` to build the framework and drag the built `Algorithm.framework` into your Xcode project.
 
 ## Changelog
 
