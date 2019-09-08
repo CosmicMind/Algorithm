@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
     s.swift_version = '5.0'
     s.license = 'BSD-3-Clause'
     s.summary = 'A toolset for writing algorithms in Swift.'
-    s.homepage = 'http://algorithmswift.io'
+    s.homepage = 'http://cosmicmind.com'
     s.social_media_url = 'https://www.facebook.com/cosmicmindcom'
     s.authors = { 'CosmicMind, Inc.' => 'support@cosmicmind.com' }
     s.source = { :git => 'https://github.com/CosmicMind/Algorithm.git', :tag => s.version }
