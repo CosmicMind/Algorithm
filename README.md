@@ -33,7 +33,7 @@ Algorithm is a library of tools that is used to create intelligent applications.
 
 - If you **need help**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/cosmicmind). (Tag 'cosmicmind')
 - If you'd like to **ask a general question**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/cosmicmind).
-- If you **found a bug**, _and can provide steps to reliably reproduce it_, open an issue.
+- If you **found a bug** _and can provide steps to reliably reproduce it_, open an issue.
 - If you **have a feature request**, open an issue.
 - If you **want to contribute**, submit a pull request.
 
@@ -68,7 +68,7 @@ $ pod install
 
 ## Carthage
 
-Carthage is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
+Carthage is a decentralized dependency manager that builds dependencies and provides binary frameworks.
 
 You can install Carthage with Homebrew using the following command:
 
@@ -86,7 +86,7 @@ Run `carthage update` to build the framework and drag the built `Algorithm.frame
 
 ## Changelog
 
-Algorithm is a growing project and will encounter changes throughout its development. It is recommended that the [Changelog](https://github.com/CosmicMind/Algorithm/wiki/Changelog) be reviewed prior to updating versions.
+Algorithm is a growing project and will encounter changes throughout its development. It is recommended that the [Changelog](https://github.com/CosmicMind/Algorithm/wiki/Changelog) is reviewed prior to updating versions.
 
 # Samples
 
@@ -146,7 +146,7 @@ if 0.33 < pOfX {
 <a name="expectedvalue"></a>
 ## Expected Value
 
-The expected value of rolling a 3 or 6 with 100 trials using a die of 6 numbers.
+The expected value of rolling a 3 or 6 with 100 trials using a die of 6 numbers is:
 
 ```swift
 let die = [Int](arrayLiteral: 1, 2, 3, 4, 5, 6)
@@ -190,7 +190,7 @@ while nil != value {
 <a name="stack"></a>
 ## Stack
 
-The Stack data structure is a container of objects that are inserted and removed according to the last-in-first-out (LIFO) principle. Below is an example of its usage.
+The Stack data structure is a container of objects inserted and removed according to the last-in-first-out (LIFO) principle. Below is an example of its usage.
 
 ```swift
 var stack = Stack<Int>()
@@ -209,7 +209,7 @@ while !stack.isEmpty {
 <a name="queue"></a>
 ## Queue
 
-The Queue data structure is a container of objects that are inserted and removed according to the first-in-first-out (FIFO) principle. Below is an example of its usage.
+The Queue data structure is a container of objects inserted and removed according to the first-in-first-out (FIFO) principle. Below is an example of its usage.
 
 ```swift
 var queue = Queue<Int>()
@@ -257,7 +257,7 @@ while !dequeB.isEmpty {
 <a name="redblacktree"></a>
 ## RedBlackTree
 
-A RedBlackTree is a Balanced Binary Search Tree that maintains insert, remove, update, and search operations in a complexity of O(logn). The following implementation of a RedBlackTree also includes an order-statistic, which allows the data structure to be accessed using subscripts like an array or dictionary. RedBlackTrees may store unique keys or non-unique key values. Below is an example of its usage.
+A RedBlackTree is a Balanced Binary Search Tree that maintains insert, remove, update, and search operations in a complexity of O(logn). The following implementation of a RedBlackTree also includes an order-statistic which allows the data structure to be accessed using subscripts like an array or dictionary. RedBlackTrees may store unique keys or non-unique key values. Below is an example of its usage.
 
 ```swift
 var ages = RedBlackTree<String, Int>(uniqueKeys: true)
@@ -276,7 +276,7 @@ if "Peter" == node.key {
 <a name="sortedset"></a>
 ## SortedSet
 
-SortedSets are a powerful data structure for algorithm and analysis design. Elements within a SortedSet are unique and insert, remove, and search operations have a complexity of O(logn). The following implementation of a SortedSet also includes an order-statistic, which allows the data structure to be accessed using an index subscript like an array. Below are examples of its usage.
+SortedSets are data structures for algorithms and analysis design. Elements within a SortedSet are unique. Insert, remove, and search operations have a complexity of O(logn). The following implementation of a SortedSet includes an order-statistic which allows the data structure to be accessed using an index subscript like an array. Below are examples of its usage.
 
 ```swift
 let setA = SortedSet<Int>(elements: 1, 2, 3)
@@ -310,17 +310,17 @@ setE.probability(of: setA.first!, setA.last!)
 <a name="sortedmultiset"></a>
 ## SortedMultiSet
 
-A SortedMultiSet is identical to a SortedSet, except that a SortedMultiSet allows non-unique elements. Look at [SortedSet](#sortedset) for examples of its usage.
+A SortedMultiSet is a SortedSet that allows non-unique elements. Look at [SortedSet](#sortedset) for examples of its usage.
 
 <a name="sorteddictionary"></a>
 ## SortedDictionary
 
-A SortedDictionary is a powerful data structure that maintains a sorted set of keys with value pairs. Keys within a SortedDictionary are unique and insert, remove, update, and search operations have a complexity of O(logn).
+A SortedDictionary is a data structure that maintains a sorted set of keys with value pairs. Keys within a SortedDictionary are unique and insert, remove, update, and search operations have a complexity of O(logn).
 
 <a name="sortedmultidictionary"></a>
 ## SortedMultiDictionary
 
-A SortedMultiDictionary is identical to a SortedDictionary, except that a SortedMultiDictionary allows non-unique keys. Below is an example of its usage.
+A SortedMultiDictionary is a SortedDictionary that allows non-unique keys. Below is an example of its usage.
 
 ```swift
 struct Student {
