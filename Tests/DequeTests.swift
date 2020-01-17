@@ -23,75 +23,74 @@
  * THE SOFTWARE.
  */
 
-import XCTest
 @testable import Algorithm
+import XCTest
 
 class DequeTests: XCTestCase {
-  
-  override func setUp() {
-    super.setUp()
-  }
-  
-  override func tearDown() {
-    super.tearDown()
-  }
-  
-  func testInt() {
-    var d = Deque<Int>()
-    
-    d.insert(atFront: 1)
-    d.insert(atFront: 2)
-    d.insert(atFront: 3)
-    
-    XCTAssert(3 == d.count, "Count incorrect, got \(d.count).")
-    
-    XCTAssert(3 == d.front, "Front incorrect, got \(String(describing: d.front))")
-    XCTAssert(1 == d.back, "Back incorrect, got \(String(describing: d.back))")
-    
-    d.insert(atBack: 5)
-    d.insert(atBack: 6)
-    d.insert(atBack: 7)
-    
-    XCTAssert(6 == d.count, "Count incorrect, got \(d.count).")
-    
-    XCTAssert(3 == d.front, "Front incorrect, got \(String(describing: d.front))")
-    XCTAssert(7 == d.back, "Back incorrect, got \(String(describing: d.back))")
-    
-    XCTAssert(3 == d.removeAtFront() && 5 == d.count && 2 == d.front, "RemoveAtFront incorrect")
-    XCTAssert(2 == d.removeAtFront() && 4 == d.count && 1 == d.front, "RemoveAtFront incorrect")
-    XCTAssert(1 == d.removeAtFront() && 3 == d.count && 5 == d.front, "RemoveAtFront incorrect")
-    
-    XCTAssert(7 == d.removeAtBack() && 2 == d.count && 6 == d.back, "RemoveAtBack incorrect")
-    XCTAssert(6 == d.removeAtBack() && 1 == d.count && 5 == d.back, "RemoveAtBack incorrect")
-    XCTAssert(5 == d.removeAtBack() && 0 == d.count && nil == d.back, "RemoveAtBack incorrect")
-    
-    d.insert(atFront: 1)
-    d.insert(atFront: 2)
-    d.insert(atFront: 3)
-    d.removeAll()
-    
-    XCTAssert(0 == d.count, "Count incorrect, got \(d.count).")
-  }
-  
-  func testConcat() {
-    var d1 = Deque<Int>()
-    d1.insert(atBack: 1)
-    d1.insert(atBack: 2)
-    d1.insert(atBack: 3)
-    
-    var d2 = Deque<Int>()
-    d2.insert(atBack: 5)
-    d2.insert(atBack: 6)
-    d2.insert(atBack: 7)
-    
-    var d3 = d1 + d2
-    
-    for x in d1 {
-      XCTAssertEqual(x, d3.removeAtFront(), "Concat incorrect.")
+    override func setUp() {
+        super.setUp()
     }
-    
-    for x in d2 {
-      XCTAssertEqual(x, d3.removeAtFront(), "Concat incorrect.")
+
+    override func tearDown() {
+        super.tearDown()
     }
-  }
+
+    func testInt() {
+        var d = Deque<Int>()
+
+        d.insert(atFront: 1)
+        d.insert(atFront: 2)
+        d.insert(atFront: 3)
+
+        XCTAssert(d.count == 3, "Count incorrect, got \(d.count).")
+
+        XCTAssert(d.front == 3, "Front incorrect, got \(String(describing: d.front))")
+        XCTAssert(d.back == 1, "Back incorrect, got \(String(describing: d.back))")
+
+        d.insert(atBack: 5)
+        d.insert(atBack: 6)
+        d.insert(atBack: 7)
+
+        XCTAssert(d.count == 6, "Count incorrect, got \(d.count).")
+
+        XCTAssert(d.front == 3, "Front incorrect, got \(String(describing: d.front))")
+        XCTAssert(d.back == 7, "Back incorrect, got \(String(describing: d.back))")
+
+        XCTAssert(d.removeAtFront() == 3 && d.count == 5 && d.front == 2, "RemoveAtFront incorrect")
+        XCTAssert(d.removeAtFront() == 2 && d.count == 4 && d.front == 1, "RemoveAtFront incorrect")
+        XCTAssert(d.removeAtFront() == 1 && d.count == 3 && d.front == 5, "RemoveAtFront incorrect")
+
+        XCTAssert(d.removeAtBack() == 7 && d.count == 2 && d.back == 6, "RemoveAtBack incorrect")
+        XCTAssert(d.removeAtBack() == 6 && d.count == 1 && d.back == 5, "RemoveAtBack incorrect")
+        XCTAssert(d.removeAtBack() == 5 && d.count == 0 && d.back == nil, "RemoveAtBack incorrect")
+
+        d.insert(atFront: 1)
+        d.insert(atFront: 2)
+        d.insert(atFront: 3)
+        d.removeAll()
+
+        XCTAssert(d.count == 0, "Count incorrect, got \(d.count).")
+    }
+
+    func testConcat() {
+        var d1 = Deque<Int>()
+        d1.insert(atBack: 1)
+        d1.insert(atBack: 2)
+        d1.insert(atBack: 3)
+
+        var d2 = Deque<Int>()
+        d2.insert(atBack: 5)
+        d2.insert(atBack: 6)
+        d2.insert(atBack: 7)
+
+        var d3 = d1 + d2
+
+        for x in d1 {
+            XCTAssertEqual(x, d3.removeAtFront(), "Concat incorrect.")
+        }
+
+        for x in d2 {
+            XCTAssertEqual(x, d3.removeAtFront(), "Concat incorrect.")
+        }
+    }
 }

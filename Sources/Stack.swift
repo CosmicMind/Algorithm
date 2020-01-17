@@ -24,81 +24,81 @@
  */
 
 public struct Stack<Element>: CustomStringConvertible, Sequence {
-  public typealias Iterator = AnyIterator<Element>
-  
-  /// Underlying data structure.
-  private var list: DoublyLinkedList<Element>
-  
-  /// Total number of items in the Stack.
-  public var count: Int {
-    return list.count
-  }
-  
-  /// Get the latest element at the top of the Stack and do not remove it.
-  public var top: Element? {
-    return list.front
-  }
-  
-  /// A boolean of whether the Stack is empty.
-  public var isEmpty: Bool {
-    return list.isEmpty
-  }
-  
-  /// Conforms to the Printable Protocol.
-  public var description: String {
-    return list.description
-  }
-  
-  /// Initializer.
-  public init() {
-    list = DoublyLinkedList<Element>()
-  }
-  
-  /**
-   Conforms to the SequenceType Protocol. Returns the next value in the
-   sequence of nodes.
-   - Returns:	Stack.Generator
-   */
-  public func makeIterator() -> Stack.Iterator {
-    return list.makeIterator()
-  }
-  
-  /**
-   Insert a new element at the top of the Stack.
-   - Parameter _ element: An Element type.
-   */
-  mutating public func push(_ element: Element) {
-    list.insert(atFront: element)
-  }
-  
-  /**
-   Get the latest element at the top of the Stack and remove it from
-   the Stack.
-   - Returns:	Element?
-   */
-  mutating public func pop() -> Element? {
-    return list.removeAtFront()
-  }
-  
-  /// Remove all elements from the Stack.
-  mutating public func removeAll() {
-    list.removeAll()
-  }
+    public typealias Iterator = AnyIterator<Element>
+
+    /// Underlying data structure.
+    private var list: DoublyLinkedList<Element>
+
+    /// Total number of items in the Stack.
+    public var count: Int {
+        return list.count
+    }
+
+    /// Get the latest element at the top of the Stack and do not remove it.
+    public var top: Element? {
+        return list.front
+    }
+
+    /// A boolean of whether the Stack is empty.
+    public var isEmpty: Bool {
+        return list.isEmpty
+    }
+
+    /// Conforms to the Printable Protocol.
+    public var description: String {
+        return list.description
+    }
+
+    /// Initializer.
+    public init() {
+        list = DoublyLinkedList<Element>()
+    }
+
+    /**
+     Conforms to the SequenceType Protocol. Returns the next value in the
+     sequence of nodes.
+     - Returns:	Stack.Generator
+     */
+    public func makeIterator() -> Stack.Iterator {
+        return list.makeIterator()
+    }
+
+    /**
+     Insert a new element at the top of the Stack.
+     - Parameter _ element: An Element type.
+     */
+    public mutating func push(_ element: Element) {
+        list.insert(atFront: element)
+    }
+
+    /**
+     Get the latest element at the top of the Stack and remove it from
+     the Stack.
+     - Returns:	Element?
+     */
+    public mutating func pop() -> Element? {
+        return list.removeAtFront()
+    }
+
+    /// Remove all elements from the Stack.
+    public mutating func removeAll() {
+        list.removeAll()
+    }
 }
 
-public func +<Element>(lhs: Stack<Element>, rhs: Stack<Element>) -> Stack<Element> {
-  var s = Stack<Element>()
-  for x in lhs {
-    s.push(x)
-  }
-  for x in rhs {
-    s.push(x)
-  }
-  return s
+public func + <Element>(lhs: Stack<Element>, rhs: Stack<Element>) -> Stack<Element> {
+    var s = Stack<Element>()
+    for x in lhs {
+        s.push(x)
+    }
+    for x in rhs {
+        s.push(x)
+    }
+    return s
 }
 
-public func +=<Element>(lhs: inout Stack<Element>, rhs: Stack<Element>) {
-  for x in rhs {
-    lhs.push(x)
-  }
+public func += <Element>(lhs: inout Stack<Element>, rhs: Stack<Element>) {
+    for x in rhs {
+        lhs.push(x)
+    }
 }
