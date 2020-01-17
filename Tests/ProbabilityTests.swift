@@ -23,167 +23,167 @@
  * THE SOFTWARE.
  */
 
-import XCTest
 @testable import Algorithm
+import XCTest
 
 class ProbabilityTests: XCTestCase {
-  var saveExpectation: XCTestExpectation?
-  
-  override func setUp() {
-    super.setUp()
-  }
-  
-  override func tearDown() {
-    super.tearDown()
-  }
-  
-  func testSortedSet() {
-    var s = SortedSet<Int>()
-    XCTAssertEqual(0, s.probability { _ -> Bool in return true})
-    
-    s.insert(1, 2, 3, 3)
-    
-    let ev1: Double = 16 * s.probability(of: 2, 3)
-    
-    XCTAssertEqual(ev1, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
-    
-    let ev2: Double = 16 * s.probability { (element: Int) -> Bool in
-      return 2 == element || 3 == element
+    var saveExpectation: XCTestExpectation?
+
+    override func setUp() {
+        super.setUp()
     }
-    
-    XCTAssertEqual(ev2, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
-    
-    s.removeAll()
-    XCTAssert(0 == s.count, "Test failed.")
-  }
-  
-  func testSortedMultiSet() {
-    var s = SortedSet<Int>()
-    XCTAssertEqual(0, s.probability { _ -> Bool in return true})
-    
-    s.insert(1, 2, 3, 3)
-    
-    let ev1: Double = 16 * s.probability(of: 2, 3)
-    
-    XCTAssertEqual(ev1, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
-    
-    let ev2: Double = 16 * s.probability { (element: Int) -> Bool in
-      return 2 == element || 3 == element
+
+    override func tearDown() {
+        super.tearDown()
     }
-    
-    XCTAssertEqual(ev2, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
-    
-    s.removeAll()
-    XCTAssert(0 == s.count, "Test failed.")
-  }
-  
-  func testSortedDictionary() {
-    var s = SortedDictionary<Int, Int>()
-    XCTAssertEqual(0, s.probability { _, _ -> Bool in return true})
-    
-    s.insert((1, 1))
-    s.insert((2, 2))
-    s.insert((3, 3))
-    s.insert((3, 3))
-    
-    let ev1: Double = 16 * s.probability(of: 2, 3)
-    
-    XCTAssertEqual(ev1, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
-    
-    let ev2: Double = 16 * s.probability { (key: Int, value: Int?) -> Bool in
-      return 2 == value || 3 == value
+
+    func testSortedSet() {
+        var s = SortedSet<Int>()
+        XCTAssertEqual(0, s.probability { _ -> Bool in true })
+
+        s.insert(1, 2, 3, 3)
+
+        let ev1: Double = 16 * s.probability(of: 2, 3)
+
+        XCTAssertEqual(ev1, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
+
+        let ev2: Double = 16 * s.probability { (element: Int) -> Bool in
+            element == 2 || element == 3
+        }
+
+        XCTAssertEqual(ev2, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
+
+        s.removeAll()
+        XCTAssert(s.count == 0, "Test failed.")
     }
-    
-    XCTAssertEqual(ev2, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
-    
-    s.removeAll()
-    XCTAssert(0 == s.count, "Test failed.")
-  }
-  
-  func testSortedMultiDictionary() {
-    var s = SortedMultiDictionary<Int, Int>()
-    XCTAssertEqual(0, s.probability { _, _ -> Bool in return true})
-    
-    s.insert((1, 1))
-    s.insert((2, 2))
-    s.insert((3, 3))
-    s.insert((3, 3))
-    
-    let ev1: Double = 16 * s.probability(of: 2, 3)
-    
-    XCTAssertEqual(ev1, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
-    
-    let ev2: Double = 16 * s.probability { (key: Int, value: Int?) -> Bool in
-      return 2 == value || 3 == value
+
+    func testSortedMultiSet() {
+        var s = SortedSet<Int>()
+        XCTAssertEqual(0, s.probability { _ -> Bool in true })
+
+        s.insert(1, 2, 3, 3)
+
+        let ev1: Double = 16 * s.probability(of: 2, 3)
+
+        XCTAssertEqual(ev1, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
+
+        let ev2: Double = 16 * s.probability { (element: Int) -> Bool in
+            element == 2 || element == 3
+        }
+
+        XCTAssertEqual(ev2, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
+
+        s.removeAll()
+        XCTAssert(s.count == 0, "Test failed.")
     }
-    
-    XCTAssertEqual(ev2, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
-    
-    s.removeAll()
-    XCTAssert(0 == s.count, "Test failed.")
-  }
-  
-  func testArray() {
-    var s: Array<Int> = Array<Int>()
-    XCTAssertEqual(0, s.probability { _ -> Bool in return true})
-    
-    s.append(1)
-    s.append(2)
-    s.append(3)
-    s.append(4)
-    
-    let ev1: Double = 16 * s.probability(of: 2, 3)
-    
-    XCTAssertEqual(ev1, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
-    
-    let ev2: Double = 16 * s.probability { (element: Int) -> Bool in
-      return 2 == element || 3 == element
+
+    func testSortedDictionary() {
+        var s = SortedDictionary<Int, Int>()
+        XCTAssertEqual(0, s.probability { _, _ -> Bool in true })
+
+        s.insert((1, 1))
+        s.insert((2, 2))
+        s.insert((3, 3))
+        s.insert((3, 3))
+
+        let ev1: Double = 16 * s.probability(of: 2, 3)
+
+        XCTAssertEqual(ev1, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
+
+        let ev2: Double = 16 * s.probability { (_: Int, value: Int?) -> Bool in
+            value == 2 || value == 3
+        }
+
+        XCTAssertEqual(ev2, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
+
+        s.removeAll()
+        XCTAssert(s.count == 0, "Test failed.")
     }
-    
-    XCTAssertEqual(ev2, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
-    
-    s.removeAll()
-    XCTAssert(0 == s.count, "Test failed.")
-  }
-  
-  func testSet() {
-    var s: Set<Int> = Set<Int>()
-    XCTAssertEqual(0, s.probability { _ -> Bool in return true})
-    
-    s.insert(1)
-    s.insert(2)
-    s.insert(3)
-    s.insert(4)
-    
-    let ev1: Double = 16 * s.probability(of: 2, 3)
-    
-    XCTAssertEqual(ev1, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
-    
-    let ev2: Double = 16 * s.probability { (element: Int) -> Bool in
-      return 2 == element || 3 == element
+
+    func testSortedMultiDictionary() {
+        var s = SortedMultiDictionary<Int, Int>()
+        XCTAssertEqual(0, s.probability { _, _ -> Bool in true })
+
+        s.insert((1, 1))
+        s.insert((2, 2))
+        s.insert((3, 3))
+        s.insert((3, 3))
+
+        let ev1: Double = 16 * s.probability(of: 2, 3)
+
+        XCTAssertEqual(ev1, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
+
+        let ev2: Double = 16 * s.probability { (_: Int, value: Int?) -> Bool in
+            value == 2 || value == 3
+        }
+
+        XCTAssertEqual(ev2, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
+
+        s.removeAll()
+        XCTAssert(s.count == 0, "Test failed.")
     }
-    
-    XCTAssertEqual(ev2, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
-    
-    s.removeAll()
-    XCTAssertEqual(0, s.count)
-  }
-  
-  func testBlock() {
-    let die: Array<Int> = Array<Int>(arrayLiteral: 1, 2, 3, 4, 5, 6)
-    
-    let probabilityOfX: Double = die.probability { (number: Int) in
-      if 5 < number || 0 == number % 3 {
-        // Do more.
-        return true
-      }
-      return false
+
+    func testArray() {
+        var s: [Int] = [Int]()
+        XCTAssertEqual(0, s.probability { _ -> Bool in true })
+
+        s.append(1)
+        s.append(2)
+        s.append(3)
+        s.append(4)
+
+        let ev1: Double = 16 * s.probability(of: 2, 3)
+
+        XCTAssertEqual(ev1, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
+
+        let ev2: Double = 16 * s.probability { (element: Int) -> Bool in
+            element == 2 || element == 3
+        }
+
+        XCTAssertEqual(ev2, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
+
+        s.removeAll()
+        XCTAssert(s.count == 0, "Test failed.")
     }
-    
-    XCTAssertTrue(0.33 < probabilityOfX, "Test failed.")
-  }
-  
-  func testPerformance() {
-    self.measure() {}
-  }
+
+    func testSet() {
+        var s: Set<Int> = Set<Int>()
+        XCTAssertEqual(0, s.probability { _ -> Bool in true })
+
+        s.insert(1)
+        s.insert(2)
+        s.insert(3)
+        s.insert(4)
+
+        let ev1: Double = 16 * s.probability(of: 2, 3)
+
+        XCTAssertEqual(ev1, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
+
+        let ev2: Double = 16 * s.probability { (element: Int) -> Bool in
+            element == 2 || element == 3
+        }
+
+        XCTAssertEqual(ev2, s.expectedValue(trials: 16, for: 2, 3), "Test failed.")
+
+        s.removeAll()
+        XCTAssertEqual(0, s.count)
+    }
+
+    func testBlock() {
+        let die: [Int] = [Int](arrayLiteral: 1, 2, 3, 4, 5, 6)
+
+        let probabilityOfX: Double = die.probability { (number: Int) in
+            if number > 5 || number % 3 == 0 {
+                // Do more.
+                return true
+            }
+            return false
+        }
+
+        XCTAssertTrue(probabilityOfX > 0.33, "Test failed.")
+    }
+
+    func testPerformance() {
+        measure {}
+    }
 }

@@ -24,137 +24,137 @@
  */
 
 public struct Deque<Element>: CustomStringConvertible, Sequence {
-  public typealias Iterator = AnyIterator<Element>
-  
-  /**
-   :name:	list
-   :description:	Underlying element structure.
-   - returns:	DoublyLinkedList<Element>
-   */
-  private var list: DoublyLinkedList<Element>
-  
-  /**
-   :name:	count
-   :description:	Total number of items in the Deque.
-   - returns:	Int
-   */
-  public var count: Int {
-    return list.count
-  }
-  
-  /**
-   :name:	front
-   :description:	Get the element at the front of the Deque
-   and do not remove it.
-   - returns:	Element?
-   */
-  public var front: Element? {
-    return list.front
-  }
-  
-  /**
-   :name:	back
-   :description:	Get the element at the back of the Deque
-   and do not remove it.
-   - returns:	Element?
-   */
-  public var back: Element? {
-    return list.back
-  }
-  
-  /**
-   :name:	isEmpty
-   :description:	A boolean of whether the Deque is empty.
-   - returns:	Bool
-   */
-  public var isEmpty: Bool {
-    return list.isEmpty
-  }
-  
-  /**
-   :name:	description
-   :description:	Conforms to the Printable Protocol.
-   - returns:	String
-   */
-  public var description: String {
-    return list.description
-  }
-  
-  /**
-   :name:	init
-   :description:	Constructor.
-   */
-  public init() {
-    list = DoublyLinkedList<Element>()
-  }
-  
-  /**
-   Conforms to the SequenceType Protocol. Returns the next value 
-   in the sequence of nodes.
-   - Returns: A Deque.Iterator.
-   */
-  public func makeIterator() -> Deque.Iterator {
-    return list.makeIterator()
-  }
-  
-  /**
-   :name:	insertAtFront
-   :description:	Insert a new element at the front of the Deque.
-   */
-  mutating public func insert(atFront element: Element) {
-    list.insert(atFront: element)
-  }
-  
-  /**
-   :name:	removeAtFront
-   :description:	Get the element at the front of the Deque
-   and remove it.
-   - returns:	Element?
-   */
-  mutating public func removeAtFront() -> Element? {
-    return list.removeAtFront()
-  }
-  
-  /**
-   :name:	insertAtBack
-   :description:	Insert a new element at the back of the Deque.
-   */
-  mutating public func insert(atBack element: Element) {
-    list.insert(atBack: element)
-  }
-  
-  /**
-   :name:	removeAtBack
-   :description:	Get the element at the back of the Deque
-   and remove it.
-   - returns:	Element?
-   */
-  mutating public func removeAtBack() -> Element? {
-    return list.removeAtBack()
-  }
-  
-  /**
-   :name:	removeAll
-   :description:	Remove all elements from the Deque.
-   */
-  mutating public func removeAll() {
-    list.removeAll()
-  }
+    public typealias Iterator = AnyIterator<Element>
+
+    /**
+     :name:	list
+     :description:	Underlying element structure.
+     - returns:	DoublyLinkedList<Element>
+     */
+    private var list: DoublyLinkedList<Element>
+
+    /**
+     :name:	count
+     :description:	Total number of items in the Deque.
+     - returns:	Int
+     */
+    public var count: Int {
+        return list.count
+    }
+
+    /**
+     :name:	front
+     :description:	Get the element at the front of the Deque
+     and do not remove it.
+     - returns:	Element?
+     */
+    public var front: Element? {
+        return list.front
+    }
+
+    /**
+     :name:	back
+     :description:	Get the element at the back of the Deque
+     and do not remove it.
+     - returns:	Element?
+     */
+    public var back: Element? {
+        return list.back
+    }
+
+    /**
+     :name:	isEmpty
+     :description:	A boolean of whether the Deque is empty.
+     - returns:	Bool
+     */
+    public var isEmpty: Bool {
+        return list.isEmpty
+    }
+
+    /**
+     :name:	description
+     :description:	Conforms to the Printable Protocol.
+     - returns:	String
+     */
+    public var description: String {
+        return list.description
+    }
+
+    /**
+     :name:	init
+     :description:	Constructor.
+     */
+    public init() {
+        list = DoublyLinkedList<Element>()
+    }
+
+    /**
+     Conforms to the SequenceType Protocol. Returns the next value
+     in the sequence of nodes.
+     - Returns: A Deque.Iterator.
+     */
+    public func makeIterator() -> Deque.Iterator {
+        return list.makeIterator()
+    }
+
+    /**
+     :name:	insertAtFront
+     :description:	Insert a new element at the front of the Deque.
+     */
+    public mutating func insert(atFront element: Element) {
+        list.insert(atFront: element)
+    }
+
+    /**
+     :name:	removeAtFront
+     :description:	Get the element at the front of the Deque
+     and remove it.
+     - returns:	Element?
+     */
+    public mutating func removeAtFront() -> Element? {
+        return list.removeAtFront()
+    }
+
+    /**
+     :name:	insertAtBack
+     :description:	Insert a new element at the back of the Deque.
+     */
+    public mutating func insert(atBack element: Element) {
+        list.insert(atBack: element)
+    }
+
+    /**
+     :name:	removeAtBack
+     :description:	Get the element at the back of the Deque
+     and remove it.
+     - returns:	Element?
+     */
+    public mutating func removeAtBack() -> Element? {
+        return list.removeAtBack()
+    }
+
+    /**
+     :name:	removeAll
+     :description:	Remove all elements from the Deque.
+     */
+    public mutating func removeAll() {
+        list.removeAll()
+    }
 }
 
-public func +<Element>(lhs: Deque<Element>, rhs: Deque<Element>) -> Deque<Element> {
-  var d = Deque<Element>()
-  for x in lhs {
-    d.insert(atBack: x)
-  }
-  for x in rhs {
-    d.insert(atBack: x)
-  }
-  return d
+public func + <Element>(lhs: Deque<Element>, rhs: Deque<Element>) -> Deque<Element> {
+    var d = Deque<Element>()
+    for x in lhs {
+        d.insert(atBack: x)
+    }
+    for x in rhs {
+        d.insert(atBack: x)
+    }
+    return d
 }
 
-public func +=<Element>(lhs: inout Deque<Element>, rhs: Deque<Element>) {
-  for x in rhs {
-    lhs.insert(atBack: x)
-  }
+public func += <Element>(lhs: inout Deque<Element>, rhs: Deque<Element>) {
+    for x in rhs {
+        lhs.insert(atBack: x)
+    }
 }

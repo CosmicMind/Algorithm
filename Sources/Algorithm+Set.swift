@@ -24,87 +24,87 @@
  */
 
 extension Set: Probable {
-  /**
-   The total count for the given Elements.
-   - Parameter of elements: A list of Elements.
-   - Returns: An Int.
-   */
-  public func count(of elements: Element...) -> Int {
-    return count(of: elements)
-  }
-  
-  /**
-   The total count for the given Elements.
-   - Parameter of elements: An Array of Elements.
-   - Returns: An Int.
-   */
-  public func count(of elements: [Element]) -> Int {
-    var c = 0
-    for e in elements {
-      for x in self {
-        if e == x {
-          c += 1
+    /**
+     The total count for the given Elements.
+     - Parameter of elements: A list of Elements.
+     - Returns: An Int.
+     */
+    public func count(of elements: Element...) -> Int {
+        return count(of: elements)
+    }
+
+    /**
+     The total count for the given Elements.
+     - Parameter of elements: An Array of Elements.
+     - Returns: An Int.
+     */
+    public func count(of elements: [Element]) -> Int {
+        var c = 0
+        for e in elements {
+            for x in self {
+                if e == x {
+                    c += 1
+                }
+            }
         }
-      }
+        return c
     }
-    return c
-  }
-  
-  /**
-   The probability of getting the given Elements.
-   - Parameter of elements: A list of Elements.
-   - Returns: A Double.
-   */
-  public func probability(of elements: Element...) -> Double {
-    return probability(of: elements)
-  }
-  
-  /**
-   The probability of getting the given Elements.
-   - Parameter of elements: An Array of Elements.
-   - Returns: A Double.
-   */
-  public func probability(of elements: [Element]) -> Double {
-    return 0 < count ? Double(count(of: elements)) / Double(count) : 0
-  }
-  
-  /**
-   A probability method that uses a block to determine the member state of a condition.
-   - Parameter of elements: A list of Elements.
-   - Returns: A Double.
-   */
-  public func probability(of block: @escaping (Element) -> Bool) -> Double {
-    guard 0 < count else {
-      return 0
+
+    /**
+     The probability of getting the given Elements.
+     - Parameter of elements: A list of Elements.
+     - Returns: A Double.
+     */
+    public func probability(of elements: Element...) -> Double {
+        return probability(of: elements)
     }
-    
-    var c = 0
-    for e in self {
-      if block(e) {
-        c += 1
-      }
+
+    /**
+     The probability of getting the given Elements.
+     - Parameter of elements: An Array of Elements.
+     - Returns: A Double.
+     */
+    public func probability(of elements: [Element]) -> Double {
+        return count > 0 ? Double(count(of: elements)) / Double(count) : 0
     }
-    
-    return Double(c) / Double(count)
-  }
-  
-  /**
-   Calculates the expected value of elements based on a given number of trials.
-   - Parameter trials: Number of trials.
-   - Parameter elements: A list of Elements.
-   - Returns: A Double.
-   */
-  public func expectedValue(trials: Int, for elements: Element...) -> Double {
-    return expectedValue(trials: trials, for: elements)
-  }
-  
-  /**
-   Calculates the expected value of elements based on a given number of trials.
-   - Parameter trials: Number of trials.
-   - Parameter elements: An Array of Elements.
-   - Returns: A Double.
-   */
-  public func expectedValue(trials: Int, for elements: [Element]) -> Double {
-    return Double(trials) * probability(of: elements)
-  }
+
+    /**
+     A probability method that uses a block to determine the member state of a condition.
+     - Parameter of elements: A list of Elements.
+     - Returns: A Double.
+     */
+    public func probability(of block: @escaping (Element) -> Bool) -> Double {
+        guard count > 0 else {
+            return 0
+        }
+
+        var c = 0
+        for e in self {
+            if block(e) {
+                c += 1
+            }
+        }
+
+        return Double(c) / Double(count)
+    }
+
+    /**
+     Calculates the expected value of elements based on a given number of trials.
+     - Parameter trials: Number of trials.
+     - Parameter elements: A list of Elements.
+     - Returns: A Double.
+     */
+    public func expectedValue(trials: Int, for elements: Element...) -> Double {
+        return expectedValue(trials: trials, for: elements)
+    }
+
+    /**
+     Calculates the expected value of elements based on a given number of trials.
+     - Parameter trials: Number of trials.
+     - Parameter elements: An Array of Elements.
+     - Returns: A Double.
+     */
+    public func expectedValue(trials: Int, for elements: [Element]) -> Double {
+        return Double(trials) * probability(of: elements)
+    }
 }
